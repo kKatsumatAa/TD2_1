@@ -16,7 +16,7 @@ void GameScene::Initialize() {
 void GameScene::Update() {}
 
 void GameScene::Draw() {
-
+	//すぎたきもい
 	// コマンドリストの取得
 	ID3D12GraphicsCommandList* commandList = dxCommon_->GetCommandList();
 
