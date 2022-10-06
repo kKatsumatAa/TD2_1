@@ -10,6 +10,7 @@
 *.slo
 *.lo
 *.o
+x64/
 *.obj
 
 # Precompiled Headers
