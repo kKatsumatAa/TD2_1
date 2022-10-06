@@ -1,15 +1,11 @@
 ﻿#pragma once
 
-#include "Vector2.h"
 #include "Vector3.h"
 #include "Matrix4.h"
 
 namespace MathUtility {
 
 const float PI = 3.141592654f;
-
-// ノルム(長さ)を求める
-float Vector2Length(const Vector2& v);
 
 // 零ベクトルを返す
 const Vector3 Vector3Zero();
@@ -35,8 +31,6 @@ const Vector3 operator/(const Vector3& v, float s);
 Matrix4 Matrix4Identity();
 // 転置行列を求める
 Matrix4 Matrix4Transpose(const Matrix4& m);
-// 逆行列を求める
-Matrix4 Matrix4Inverse(const Matrix4& m, float* det = nullptr);
 
 // 拡大縮小行列の作成
 Matrix4 Matrix4Scaling(float sx, float sy, float sz);
@@ -67,8 +61,5 @@ Vector3 Vector3TransformNormal(const Vector3& v, const Matrix4& m);
 // 2項演算子オーバーロード
 Matrix4 operator*(const Matrix4& m1, const Matrix4& m2);
 Vector3 operator*(const Vector3& v, const Matrix4& m);
-
-// 線形補間
-float Lerp(float a, float b, float t);
 
 } // namespace MathUtility
