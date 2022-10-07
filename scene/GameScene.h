@@ -10,6 +10,8 @@
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 
+#include "Util.h"
+
 /// <summary>
 /// ゲームシーン
 /// </summary>
@@ -46,6 +48,25 @@ class GameScene {
 	Input* input_ = nullptr;
 	Audio* audio_ = nullptr;
 	DebugText* debugText_ = nullptr;
+
+	//プレイヤー
+	Model* player_ = nullptr;
+	WorldTransform playerTrans_;
+	uint32_t playerTexture_;
+
+	//壁
+	Model* wall_[4];
+	WorldTransform wallTrans_[4];
+
+	//入力ガイド
+	Model* guide_;
+	WorldTransform guideTrans_;
+	
+	//ビュープロジェクション
+	ViewProjection viewProjection_;
+
+	//ロケットパンチ
+	uint32_t punch;
 
 	/// <summary>
 	/// ゲームシーン用
