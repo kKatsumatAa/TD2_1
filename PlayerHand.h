@@ -51,5 +51,6 @@ public:
 	void    SetWorldPos(const Vector3& pos) { worldTransform_.translation_ = pos; }
 	void SetAngle(const float& angle) { this->angle = angle; }
 	bool GetIsUse() { return IsUse; }
+	void SetEndPos()
 };
 
