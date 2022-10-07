@@ -127,42 +127,6 @@ void SetTranslationMatrix(Matrix4& m4, const Vector3& v3)
 	};
 }
 
-void UpdateWorldMatrix4(WorldTransform& world)
-{
-	//子
-	 //変換行列
-	 //スケール
-	Matrix4 matScale;
-	SetScaleMatrix(matScale, world.scale_);
-
-	 //回転
-	 //回転行列
-	Matrix4 matRot, matRotX, matRotY, matRotZ;
-	SetRotationMatrix(matRotX, world.rotation_.x, 'x');
-	SetRotationMatrix(matRotY, world.rotation_.y, 'y');
-	SetRotationMatrix(matRotZ, world.rotation_.z, 'z');
-	matRot = matRotZ * matRotX * matRotY;
-
-	 //平行移動
-	Matrix4 matTrans = MathUtility::Matrix4Identity();
-	SetTranslationMatrix(matTrans, world.translation_);
-	world.matWorld_ = normal;
-
-	if (world.parent_ == nullptr)//world自体が親だったら（親がいない）
-	{
-		Matrix4xMatrix4(world.matWorld_,
-			matScale * matRot * matTrans);
-	}
-	else//world自体が子だったら（親がいる）
-	{
-		//matworldに入れる
-		Matrix4xMatrix4(world.matWorld_,
-			matScale * matRot * matTrans * world.parent_->matWorld_);
-	}
-
-	world.TransferMatrix();
-}
-
 //-------------------------------------------------
 
 float AngletoRadi(const float& angle)
@@ -206,4 +170,14 @@ bool CollisionCircleCircle(const Vector3& pos1, const float& r1, const Vector3& 
 	}
 
 	return false;
+}
+
+float EaseIn(float t)
+{
+	return 1 - cos((t * 3.14f) / 2.0f);
+}
+
+float EaseOut(float t)
+{
+	return sin((t * 3.14f) / 2.0f);
 }

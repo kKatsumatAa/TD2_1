@@ -2,7 +2,6 @@
 #include "Vector3.h"
 #include "Vector4.h"
 #include "Matrix4.h"
-#include "WorldTransform.h"
 
 
 //行列セット系
@@ -16,12 +15,6 @@ void TransposeMatrix4(Matrix4& m4);
 void SetScaleMatrix(Matrix4& m4, const Vector3& v3);
 void SetRotationMatrix(Matrix4& m4, const float& angle, const char& axis);
 void SetTranslationMatrix(Matrix4& m4, const Vector3& v3);
-/// <summary>
-/// 第一引数が親自身でも処理できる
-/// </summary>
-/// <param name="world"></param>
-/// <param name="worldParent"></param>
-void UpdateWorldMatrix4(WorldTransform& world);
 
 //ラジアン系
 const float pi = 3.141592f;
@@ -36,3 +29,7 @@ Vector3 SlerpVector3(const Vector3& v1, const Vector3& v2, float t);
 //衝突
 bool CollisionCircleCircle(const Vector3& pos1, const float& r1,
 	const Vector3& pos2, const float& r2);
+
+//イージング
+float EaseIn(float t);
+float EaseOut(float t);
