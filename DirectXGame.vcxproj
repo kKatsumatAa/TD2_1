@@ -96,6 +96,7 @@
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="3d\WorldTransform.cpp" />
     <ClCompile Include="base\DirectXCommon.cpp" />
     <ClCompile Include="base\TextureManager.cpp" />
     <ClCompile Include="base\WinApp.cpp" />
@@ -103,6 +104,8 @@
     <ClCompile Include="math\Matrix4.cpp" />
     <ClCompile Include="math\Vector2.cpp" />
     <ClCompile Include="math\Vector3.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerHand.cpp" />
     <ClCompile Include="scene\GameScene.cpp" />
     <ClCompile Include="Util.cpp" />
   </ItemGroup>
@@ -135,6 +138,8 @@
     <ClInclude Include="math\Vector2.h" />
     <ClInclude Include="math\Vector3.h" />
     <ClInclude Include="math\Vector4.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerHand.h" />
     <ClInclude Include="scene\GameScene.h" />
     <ClInclude Include="Util.h" />
   </ItemGroup>

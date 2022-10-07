@@ -11,12 +11,31 @@ void GameScene::Initialize() {
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
 	debugText_ = DebugText::GetInstance();
+
+	//ファイル名を指定してテクスチャを読み込む
+	textureHandle_ = TextureManager::Load("kamata.ico");
+
+	//3Dモデルの生成
+	model_ = Model::Create();
+
+	player_ = new Player();
+	player_->Initialize(model_, textureHandle_);
+
+	//ワールドトランスフォームの初期化
+	worldTransform_.Initialize();
+
+	//ビュープロジェクションの初期化
+	viewProjection_.Initialize();
+	//viewProjection_.eye = { 0,0,-100.0f };
+	viewProjection_.UpdateMatrix();
 }
 
-void GameScene::Update() {}
+void GameScene::Update() 
+{
+	player_->Update();
+}
 
 void GameScene::Draw() {
-	//すぎたきもい
 	// コマンドリストの取得
 	ID3D12GraphicsCommandList* commandList = dxCommon_->GetCommandList();
 
@@ -41,6 +60,7 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
+	player_->Draw(viewProjection_);
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
