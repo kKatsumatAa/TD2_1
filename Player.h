@@ -26,23 +26,23 @@ private:
 	Model* modelHand_ = nullptr;
 	//テクスチャハンドル
 	uint32_t textureHandle_ = 0u;
-	Input* input_ = nullptr;
 	DebugText* debugText_ = nullptr;
 
-	//手の最大の長さ
-	const float handLengthMax = 10.0f;
 	//角度
 	float angle = 0.0f;
 
 	//手の状態
 	PlayerHandState* state = nullptr;
-	Vector2 handVecR;
-	Vector2 handVecL;
-	
-	
-
+	PlayerHand handR;
+	PlayerHand handL;
+	//使用中の手を順に入れる用
+	PlayerHand* useHands[2];
 
 public:
+	int useHandCount = 0;
+	Input* input_ = nullptr;
+
+
 	void ChangeState(PlayerHandState* state);
 
 	void Initialize(Model* model, const uint32_t textureHandle);
@@ -52,9 +52,24 @@ public:
 	void ReachOut();
 
 	Vector3 GetWorldPos();
+	void SetWorldPos(const Vector3& pos) { worldTransform_.translation_ = pos; };
+	PlayerHand* GetHandR() { return &handR; }
+	PlayerHand* GetHandL() { return &handL; }
+	PlayerHand** GetUseHands() { return useHands; }
+	float GetAngle() { return worldTransform_.rotation_.z; }
 };
 
-//片手で１つをつかんでいる状態
+
+//何もしていない
+class NoGrab : public PlayerHandState
+{
+private:
+
+public:
+	void Update() override;
+};
+
+//片手で１つをつかんでいる状態（小さい範囲こうげき）
 class OneHandOneGrab : public PlayerHandState
 {
 private:
@@ -64,7 +79,16 @@ public:
 	void Update() override;
 };
 
-//両手で１つをつかんでいる状態
+//両手を使っている
+class TwoHand : public PlayerHandState
+{
+private:
+
+public:
+	void Update() override;
+};
+
+//両手で１つをつかんでいる状態（突進の直線状の範囲こうげき）
 class TwoHandOneGrab : public PlayerHandState
 {
 private:
@@ -74,7 +98,7 @@ public:
 	void Update() override;
 };
 
-//両手で２つをつかんでいる状態
+//両手で２つをつかんでいる状態（先に延ばしてたやつを倒したら次のやつに突進）
 class TwoHandTwoGrab : public PlayerHandState
 {
 private:
