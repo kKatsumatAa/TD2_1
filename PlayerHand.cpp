@@ -146,22 +146,15 @@ void HandReachOut::Update()
 		hand->SetIsUse(false);
 		hand->ChangeState(new HandNormal);
 	}
-
-	
 }
 
 //------------------------------------
 void HandGrab::Update()
 {
-	//‚Â‚©‚ñ‚Å‚¢‚é‚ÉŒü‚©‚Á‚Ä“®‚©‚·
-	//hand->velocity_ = hand->GetWorldPos() - hand->GetplayerPos();
-	/*hand->velocity_.Normalized();
-	hand->SetplayerPos({ hand->GetplayerPos() + hand->velocity_ });*/
-
 	//Žè‚ÌˆÊ’u‚É’…‚¢‚½‚ç
 	if (CollisionCircleCircle(hand->GetplayerPos(), 0.5f, hand->GetWorldPos(), 0.5f))
 	{
-		hand->SetIsGrab(false);
+ 		hand->SetIsGrab(false);
 		hand->SetIsUse(false);
 		hand->ChangeState(new HandNormal);
 	}

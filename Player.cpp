@@ -82,10 +82,17 @@ void NoGrab::Update()
 		if (!player->GetHandR()->GetIsUse())
 		{
 			player->GetHandR()->ReachOut(player->GetWorldPos(), player->GetAngle() + pi / 2.0f);
-			//Žg‚Á‚Ä‚¢‚éŽè‚Ìlist‚É“o˜^
+			//Žg‚Á‚Ä‚¢‚éŽè‚Ì”z—ñ‚É“o˜^
 			player->GetUseHands()[0] = (player->GetHandR());
 			player->ChangeState(new OneHandOneGrab);
 		}
+		//else if (!player->GetHandL()->GetIsUse())
+		//{
+		//	//Žg‚Á‚Ä‚éŽè‚ð“ü‚ê‚Ä‚¨‚­”z—ñ‚Ì‚Q”Ô–Ú‚É“ü‚ê‚é
+		//	player->GetUseHands()[0] = player->GetHandL();
+		//	player->GetHandL()->ReachOut(player->GetWorldPos(), player->GetAngle() + pi / 2.0f);
+		//	player->ChangeState(new OneHandOneGrab);
+		//}
 	}
 }
 
@@ -127,8 +134,6 @@ void OneHandOneGrab::Update()
 	//“Ëi‚µI‚í‚Á‚½‚ç
 	else if (!player->GetUseHands()[0]->GetIsUse())
 	{
-		//Žg‚Á‚Ä‚¢‚½Žè‚ðlist‚©‚çíœ
-		//player->GetUseHands()[0] = nullptr;
 		player->ChangeState(new NoGrab);
 	}
 }
@@ -150,9 +155,7 @@ void TwoHand::Update()
 		player->SetWorldPos(player->GetWorldPos() + vec);
 	}
 	//“Ëi‚µI‚í‚Á‚½‚ç
-	else if (!player->GetUseHands()[0]->GetIsGrab() &&
-		!player->GetUseHands()[0]->GetIsGo() &&
-		!player->GetUseHands()[0]->GetIsBack())
+	else if (!player->GetUseHands()[0]->GetIsUse())
 	{
 		//‚Q‚Â–Ú‚ÌŽè‚ª‚È‚¯‚ê‚Î
 		if (player->GetUseHands()[1] == nullptr)
@@ -164,6 +167,7 @@ void TwoHand::Update()
 			//‚Q‚Â–Ú‚ÌŽè‚ð‚P‚Â–Ú‚É•ÏX‚µ‚ÄA‚Q‚Â–Ú‚ð–³‚­‚·
 			player->GetUseHands()[0] = player->GetUseHands()[1];
 			player->GetUseHands()[1] = nullptr;
+			player->ChangeState(new OneHandOneGrab);
 		}
 	}
 }
