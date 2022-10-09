@@ -15,17 +15,15 @@ public:
 };
 
 
-class Player
+class Player : public Collider
 {
 private:
-	//ワールド変換データ
-	WorldTransform worldTransform_;
 	WorldTransform worldTransformHand_;
 	//モデル
 	Model* model_ = nullptr;
 	Model* modelHand_ = nullptr;
 	//テクスチャハンドル
-	uint32_t textureHandle_ = 0u;
+	uint32_t* textureHandle_;
 	DebugText* debugText_ = nullptr;
 
 	//角度
@@ -45,18 +43,22 @@ public:
 
 	void ChangeState(PlayerHandState* state);
 
-	void Initialize(Model* model, const uint32_t textureHandle);
+	void Initialize(Model* model, uint32_t* textureHandle);
 	void Update();
 	void Draw(const ViewProjection& view);
 	//手を伸ばす
 	void ReachOut();
 
-	Vector3 GetWorldPos();
+	Vector3 GetWorldPos() override;
 	void SetWorldPos(const Vector3& pos) { worldTransform_.translation_ = pos; };
 	PlayerHand* GetHandR() { return &handR; }
 	PlayerHand* GetHandL() { return &handL; }
 	PlayerHand** GetUseHands() { return useHands; }
 	float GetAngle() { return worldTransform_.rotation_.z; }
+
+	//衝突を検出したら呼び出す（コールバック関数）
+	void OnCollision()override;
+	void OnCollision2(Collider& collider)override;
 };
 
 

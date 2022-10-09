@@ -1,5 +1,4 @@
 #pragma once
-#include"Vector2.h"
 #include"WorldTransform.h"
 #include"Model.h"
 #include"Input.h"
@@ -7,10 +6,11 @@
 #include"Util.h"
 #include "Assert.h"
 #include "WinApp.h"
+#include "Collider.h"
 
 
 //手の最大の長さ
-static const float handLengthMax = 15.0f;
+static const float handLengthMax = 30.0f;
 
 class PlayerHand;
 
@@ -24,12 +24,11 @@ public:
 	virtual void Update() = 0;
 };
 
-class PlayerHand
+class PlayerHand : public Collider
 {
 private:
-	WorldTransform worldTransform_;
 	Model* model_ = nullptr;
-	uint32_t textureHandle_ = 0u;
+	uint32_t* textureHandle_;
 	DebugText* debugText_ = nullptr;
 
 	//手の終着点
@@ -59,11 +58,11 @@ public:
 public:
 	void ChangeState(HandState* state);
 
-	void Initialize(Model* model, const uint32_t textureHandle);
+	void Initialize(Model* model, uint32_t* textureHandle);
 	void Update(const float& angle,const Vector3& playerPos);
 	void Draw(const ViewProjection& viewProjection);
 
-	Vector3 GetWorldPos();
+	Vector3 GetWorldPos() override;
 	void    SetWorldPos(const Vector3& pos) { worldTransform_.translation_ = pos; }
 	void SetAngle(const float& angle) { this->angle = angle; }
 
@@ -80,6 +79,10 @@ public:
 	void SetplayerPos(const Vector3& playerPos) { this->playerPos = playerPos; }
 	void SetEndPos(const Vector3& pos) { endPos = pos; }
 	void ReachOut(const Vector3& pos, const float& angle);
+
+	//衝突を検出したら呼び出す（コールバック関数）
+	void OnCollision()override;
+	void OnCollision2(Collider& collider)override;
 };
 
 

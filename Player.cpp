@@ -8,7 +8,7 @@ void Player::ChangeState(PlayerHandState* state)
 }
 
 //----------------------------------------------------------------------
-void Player::Initialize(Model* model, const uint32_t textureHandle)
+void Player::Initialize(Model* model, uint32_t* textureHandle)
 {
 	assert(model);
 
@@ -29,6 +29,10 @@ void Player::Initialize(Model* model, const uint32_t textureHandle)
 
 	state = new NoGrab;
 	state->SetPlayer(this);
+
+	//衝突属性
+	SetCollisionAttribute(kCollisionAttributePlayer);
+	SetCollisionMask(kCollisionAttributeEnemy);
 }
 
 void Player::Update()
@@ -42,12 +46,16 @@ void Player::Update()
 	worldTransformHand_.translation_.y = sinf(worldTransform_.rotation_.z) * handLengthMax;
 	worldTransformHand_.UpdateMatrix();
 
+	//使ってないときプレイヤーと一緒に移動
+	if (!handR.GetIsUse()) handR.Update(worldTransform_.rotation_.z,worldTransform_.translation_);
+	if (!handL.GetIsUse()) handL.Update(worldTransform_.rotation_.z,worldTransform_.translation_);
+
 	state->Update();
 }
 
 void Player::Draw(const ViewProjection& view)
 {
-	model_->Draw(worldTransform_, view, textureHandle_);
+	model_->Draw(worldTransform_, view, textureHandle_[0]);
 	//modelHand_->Draw(worldTransformHand_, view, textureHandle_);
 
 	handR.Draw(view);
@@ -61,6 +69,14 @@ void Player::ReachOut()
 Vector3 Player::GetWorldPos()
 {
 	return worldTransform_.translation_;
+}
+
+void Player::OnCollision()
+{
+}
+
+void Player::OnCollision2(Collider& collider)
+{
 }
 
 
@@ -86,13 +102,6 @@ void NoGrab::Update()
 			player->GetUseHands()[0] = (player->GetHandR());
 			player->ChangeState(new OneHandOneGrab);
 		}
-		//else if (!player->GetHandL()->GetIsUse())
-		//{
-		//	//使ってる手を入れておく配列の２番目に入れる
-		//	player->GetUseHands()[0] = player->GetHandL();
-		//	player->GetHandL()->ReachOut(player->GetWorldPos(), player->GetAngle() + pi / 2.0f);
-		//	player->ChangeState(new OneHandOneGrab);
-		//}
 	}
 }
 
@@ -143,7 +152,7 @@ void TwoHand::Update()
 {
 	//先に伸ばした手の更新処理
 	player->GetUseHands()[0]->Update(player->GetAngle(), player->GetWorldPos());
-	if (player->GetUseHands()[1] != nullptr && player->GetUseHands()[1]->GetIsGo() )
+	if (player->GetUseHands()[1] != nullptr && !player->GetUseHands()[1]->GetIsGrab() && player->GetUseHands()[1]->GetIsUse())
 		player->GetUseHands()[1]->Update(player->GetAngle(), player->GetWorldPos());
 
 	//つかんだら

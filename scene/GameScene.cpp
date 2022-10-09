@@ -13,13 +13,17 @@ void GameScene::Initialize() {
 	debugText_ = DebugText::GetInstance();
 
 	//ファイル名を指定してテクスチャを読み込む
-	textureHandle_ = TextureManager::Load("kamata.ico");
+	textureHandle_[0] = TextureManager::Load("kamata.ico");
+	textureHandle_[1] = TextureManager::Load("uvChecker.png");
+	textureHandle_[2] = TextureManager::Load("cube/cube.jpg");
 
 	//3Dモデルの生成
 	model_ = Model::Create();
 
 	player_ = new Player();
 	player_->Initialize(model_, textureHandle_);
+
+	enemyManager.Initialize(player_, model_, textureHandle_);
 
 	//ワールドトランスフォームの初期化
 	worldTransform_.Initialize();
@@ -33,6 +37,37 @@ void GameScene::Initialize() {
 void GameScene::Update() 
 {
 	player_->Update();
+	enemyManager.Update();
+
+	//colliderManager
+	{
+		colliderManager->ClearList();
+		colliderManager->SetListCollider(player_);
+		const std::list<std::unique_ptr<Enemy>>& enemies = enemyManager.GetEnemies();
+
+		for (const std::unique_ptr<Enemy>& enemy : enemies)
+		{
+			colliderManager->SetListCollider(enemy.get());
+		}
+
+		colliderManager->CheckAllCollisions();
+
+		//手との判定
+		{
+			colliderManager->ClearList();
+			colliderManager->SetListCollider(player_->GetHandL());
+			colliderManager->SetListCollider(player_->GetHandR());
+			const std::list<std::unique_ptr<Enemy>>& enemies = enemyManager.GetEnemies();
+
+			for (const std::unique_ptr<Enemy>& enemy : enemies)
+			{
+				colliderManager->SetListCollider(enemy.get());
+			}
+
+			colliderManager->CheckAllCollisions2();
+		}
+
+	}
 }
 
 void GameScene::Draw() {
@@ -61,6 +96,7 @@ void GameScene::Draw() {
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
 	player_->Draw(viewProjection_);
+	enemyManager.Draw(viewProjection_);
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
