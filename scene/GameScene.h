@@ -9,7 +9,8 @@
 #include "Sprite.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
-#include "Player.h"
+#include"EnemyManager.h"
+#include"ColliderManager.h"
 
 
 /// <summary>
@@ -45,7 +46,7 @@ class GameScene {
 
   private: // メンバ変数
 	  //テクスチャハンドル
-	  uint32_t textureHandle_ = 0;
+	  uint32_t textureHandle_[10];
 
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
@@ -53,6 +54,10 @@ class GameScene {
 	DebugText* debugText_ = nullptr;
 
 	Player* player_ = nullptr;
+	EnemyManager enemyManager;
+
+	//衝突
+	std::unique_ptr<ColliderManager> colliderManager = std::make_unique<ColliderManager>();
 
 	//3Dモデル
 	Model* model_ = nullptr;
