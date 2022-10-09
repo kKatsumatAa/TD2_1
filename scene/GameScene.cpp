@@ -6,6 +6,7 @@ GameScene::GameScene() {}
 
 GameScene::~GameScene() {
 	delete wall_;
+	delete set_;
 }
 
 void GameScene::Initialize() {
@@ -29,6 +30,8 @@ void GameScene::Initialize() {
 
 	wall_ = new Wall();
 	wall_->Initialize();
+
+	set_ = new Setting();
 
 	//ワールドトランスフォームの初期化
 	worldTransform_.Initialize();
@@ -74,6 +77,8 @@ void GameScene::Update()
 		}
 
 	}
+
+	set_->FPS(60.0f);
 }
 
 void GameScene::Draw() {

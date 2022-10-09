@@ -9,9 +9,10 @@
 #include "Sprite.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
-#include"EnemyManager.h"
-#include"ColliderManager.h"
-#include"Wall.h"
+#include "EnemyManager.h"
+#include "ColliderManager.h"
+#include "Wall.h"
+#include "Setting.h"
 
 
 /// <summary>
@@ -58,6 +59,8 @@ private: // メンバ変数
 	EnemyManager enemyManager;
 
 	Wall* wall_ = nullptr;
+
+	Setting* set_ = nullptr;
 
 	//衝突
 	std::unique_ptr<ColliderManager> colliderManager = std::make_unique<ColliderManager>();
