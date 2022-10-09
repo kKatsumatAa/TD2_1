@@ -5,6 +5,7 @@
 #include "WinApp.h"
 #include "AxisIndicator.h"
 #include "PrimitiveDrawer.h"
+#include "time.h"
 
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
@@ -55,6 +56,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	primitiveDrawer = PrimitiveDrawer::GetInstance();
 	primitiveDrawer->Initialize();
+	time_t old = time(NULL);
+	time_t now = time(NULL);
+	float FPSCount = 0.0f;
+	float sleepTime = 0.0f;
+	bool isSetFPS = false;
+	bool isStart = false;
 #pragma endregion
 
 	// ゲームシーンの初期化
@@ -67,7 +74,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		if (win->ProcessMessage()) {
 			break;
 		}
-
 		// 入力関連の毎フレーム処理
 		input->Update();
 		// ゲームシーンの毎フレーム処理
@@ -85,8 +91,29 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		primitiveDrawer->Reset();
 		// 描画終了
 		dxCommon->PostDraw();
-	}
+		now = time(NULL);
+		if (old != now && isSetFPS == false) {
+			if (isStart == false) {
+				isStart = true;
+				FPSCount = 0;
+				old = now;
+			}
+			else {
+				old = time(NULL);
+				sleepTime = FPSCount / 60;
+				isSetFPS = true;
+			}
+		}
+		else {
+			FPSCount++;
+		}
 
+		debugText->SetPos(0, 100);
+		debugText->Printf("%f", sleepTime);
+		debugText->SetPos(0, 120);
+		debugText->Printf("%f", FPSCount);
+		Sleep(sleepTime);
+	}
 	// 各種解放
 	SafeDelete(gameScene);
 	audio->Finalize();
