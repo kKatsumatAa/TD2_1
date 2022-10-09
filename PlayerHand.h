@@ -7,10 +7,11 @@
 #include"Util.h"
 #include "Assert.h"
 #include "WinApp.h"
+#include "Wall.h"
 
 
 //手の最大の長さ
-static const float handLengthMax = 15.0f;
+static const float handLengthMax = 20.0f;
 
 class PlayerHand;
 
@@ -51,12 +52,16 @@ private:
 	//ステート
 	HandState* state = nullptr;
 
-
+	//壁取得用
+	Wall* wall = nullptr;
 public:
 	Vector3 velocity_;
 
 
 public:
+	PlayerHand();
+	~PlayerHand();
+
 	void ChangeState(HandState* state);
 
 	void Initialize(Model* model, const uint32_t textureHandle);
@@ -78,6 +83,9 @@ public:
 	
 	Vector3 GetplayerPos() { return playerPos; }
 	void SetplayerPos(const Vector3& playerPos) { this->playerPos = playerPos; }
+	Vector3 GetEndPos() {
+		return endPos;
+	}
 	void SetEndPos(const Vector3& pos) { endPos = pos; }
 	void ReachOut(const Vector3& pos, const float& angle);
 };

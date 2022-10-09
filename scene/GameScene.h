@@ -10,6 +10,7 @@
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 #include "Player.h"
+#include "Wall.h"
 
 
 /// <summary>
@@ -53,6 +54,8 @@ class GameScene {
 	DebugText* debugText_ = nullptr;
 
 	Player* player_ = nullptr;
+
+	Wall* wall_ = nullptr;
 
 	//3Dモデル
 	Model* model_ = nullptr;

@@ -4,7 +4,9 @@
 
 GameScene::GameScene() {}
 
-GameScene::~GameScene() {}
+GameScene::~GameScene() {
+	delete wall_;
+}
 
 void GameScene::Initialize() {
 	dxCommon_ = DirectXCommon::GetInstance();
@@ -21,6 +23,8 @@ void GameScene::Initialize() {
 	player_ = new Player();
 	player_->Initialize(model_, textureHandle_);
 
+	wall_ = new Wall();
+	wall_->Initialize();
 	//ワールドトランスフォームの初期化
 	worldTransform_.Initialize();
 
@@ -32,6 +36,7 @@ void GameScene::Initialize() {
 
 void GameScene::Update() 
 {
+	wall_->Update();
 	player_->Update();
 }
 
@@ -62,6 +67,7 @@ void GameScene::Draw() {
 	/// </summary>
 	player_->Draw(viewProjection_);
 
+	wall_->Draw(viewProjection_);
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 #pragma endregion

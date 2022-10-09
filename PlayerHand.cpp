@@ -13,6 +13,9 @@ void PlayerHand::Initialize(Model* model, const uint32_t textureHandle)
 	//最初は何もしていない
 	state = new HandNormal;
 	state->SetHand(this);
+
+	//壁
+	wall = new Wall;
 }
 
 void PlayerHand::Update(const float& angle, const Vector3& playerPos)
@@ -58,17 +61,26 @@ void PlayerHand::ReachOut(const Vector3& pos, const float& angle)
 	{
 		worldTransform_.rotation_.z = angle;
 		worldTransform_.UpdateMatrix();
+
 		//終着点決める
-		endPos.x = pos.x + cosf(worldTransform_.rotation_.z) * handLengthMax;
-		endPos.y = pos.y + sinf(worldTransform_.rotation_.z) * handLengthMax;
-		
+		endPos.x = pos.x;
+		endPos.y = pos.y;
+		for (float i = 0.0f; i < handLengthMax; i += 0.1f) {
+			endPos.x += cosf(worldTransform_.rotation_.z) * 0.1f;
+			endPos.y += sinf(worldTransform_.rotation_.z) * 0.1f;
+			if (endPos.x > 34 || endPos.x < -34 || endPos.y > 19 || endPos.y < -19) {
+				IsGrab = true;
+				break;
+			}
+		}
+
 		//移動用のベクトル
-		velocity_.x = cosf(worldTransform_.rotation_.z) * handLengthMax;
-		velocity_.y = sinf(worldTransform_.rotation_.z) * handLengthMax;
+		velocity_.x = endPos.x - pos.x;
+		velocity_.y = endPos.y - pos.y;
 
 		//正規化
 		velocity_.Normalized();
-		
+
 		IsUse = true;
 		IsGo = true;
 
@@ -76,6 +88,15 @@ void PlayerHand::ReachOut(const Vector3& pos, const float& angle)
 	}
 }
 
+
+PlayerHand::PlayerHand()
+{
+}
+
+PlayerHand::~PlayerHand()
+{
+	delete wall;
+}
 
 void PlayerHand::ChangeState(HandState* state)
 {
@@ -100,7 +121,7 @@ void HandNormal::Update()
 void HandReachOut::Update()
 {
 	//終着点に向かって動かす
-	hand->SetWorldPos({ hand->GetWorldPos() + hand->velocity_ });
+	//hand->SetWorldPos({ hand->GetWorldPos() + hand->velocity_ });
 
 	//手が限界まで伸びたら
 	Vector3 vec = hand->GetWorldPos() - hand->GetplayerPos();
@@ -123,23 +144,30 @@ void HandReachOut::Update()
 		hand->velocity_.Normalized();
 	}
 	//仮
-	if (vec.GetLength() >= handLengthMax)
-	{
-		hand->SetIsGo(false);
-		hand->SetIsBack(false);
-		hand->SetIsGrab(true);
-		hand->ChangeState(new HandGrab);
-	}
+	//if (vec.GetLength() >= handLengthMax)
+	//{
+	//	hand->SetIsGo(false);
+	//	hand->SetIsBack(false);
+	//	hand->SetIsGrab(true);
+	//	hand->ChangeState(new HandGrab);
+	//}
 	//外部で当たり判定計算して、つかんだ判定になったら(そこでendposは設定されてる前提)
-	else if (hand->GetIsGrab())
+	if (hand->GetIsGrab())
 	{
-		hand->SetIsGo(false);
-		hand->SetIsBack(false);
-		hand->SetIsGrab(true);
-		hand->ChangeState(new HandGrab);
+		if (hand->GetWorldPos().y > hand->GetEndPos().y - 0.5f && hand->GetWorldPos().y < hand->GetEndPos().y + 0.5f) {
+			hand->SetIsGrab(false);
+			hand->ChangeState(new HandGrab);
+
+		}
+		else {
+			hand->SetWorldPos({ hand->GetWorldPos() + hand->velocity_ });
+			hand->SetIsGo(false);
+			hand->SetIsBack(false);
+			hand->SetIsGrab(true);
+		}
 	}
 	//手が戻ってきたら
-	else if (CollisionCircleCircle(hand->GetplayerPos(),1.0f,hand->GetWorldPos(),1.0f) && hand->GetIsBack())
+	else if (CollisionCircleCircle(hand->GetplayerPos(), 1.0f, hand->GetWorldPos(), 1.0f) && hand->GetIsBack())
 	{
 		hand->SetIsGo(false);
 		hand->SetIsBack(false);
@@ -154,7 +182,7 @@ void HandGrab::Update()
 	//手の位置に着いたら
 	if (CollisionCircleCircle(hand->GetplayerPos(), 0.5f, hand->GetWorldPos(), 0.5f))
 	{
- 		hand->SetIsGrab(false);
+		hand->SetIsGrab(false);
 		hand->SetIsUse(false);
 		hand->ChangeState(new HandNormal);
 	}
