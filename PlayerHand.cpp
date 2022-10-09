@@ -125,8 +125,15 @@ void HandReachOut::Update()
 		hand->SetIsGo(false);
 		hand->SetIsBack(true);
 	}
+	//外部で当たり判定計算して、つかんだ判定になったら(そこでendposは設定されてる前提)
+	if (hand->GetIsGrab())
+	{
+		hand->SetIsGo(false);
+		hand->SetIsBack(false);
+		hand->ChangeState(new HandGrab);
+	}
 	//戻しているときはplayerの方向に向かって
-	if (hand->GetIsBack())
+	else if (hand->GetIsBack())
 	{
 		//hand->SetEndPos(hand->GetplayerPos());
 		//移動用のベクトル
@@ -146,13 +153,7 @@ void HandReachOut::Update()
 			hand->ChangeState(new HandNormal);
 		}
 	}
-	//外部で当たり判定計算して、つかんだ判定になったら(そこでendposは設定されてる前提)
-	else if (hand->GetIsGrab())
-	{
-		hand->SetIsGo(false);
-		hand->SetIsBack(false);
-		hand->ChangeState(new HandGrab);
-	}
+	
 }
 
 //------------------------------------

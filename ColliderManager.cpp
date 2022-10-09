@@ -5,8 +5,7 @@ void ColliderManager::CheckCollisionPair(Collider* colliderA, Collider* collider
 {
 	if (!(colliderA->GetCollisionAttribute() & colliderB->GetCollisionMask())
 		|| !(colliderB->GetCollisionAttribute() & colliderA->GetCollisionMask())
-		|| (colliderA->GetIsDead() || colliderB->GetIsDead())
-		|| colliderA->GetCollisionAttribute()==kCollisionAttributeHand || colliderB->GetCollisionAttribute() == kCollisionAttributeHand)
+		|| (colliderA->GetIsDead() || colliderB->GetIsDead()))
 	{
 		return;//”»’èAÕ“Ëˆ—‚¹‚¸”²‚¯‚é
 	}
