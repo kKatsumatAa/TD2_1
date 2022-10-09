@@ -11,6 +11,7 @@
 #include "WorldTransform.h"
 #include"EnemyManager.h"
 #include"ColliderManager.h"
+#include"Wall.h"
 
 
 /// <summary>
@@ -18,7 +19,7 @@
 /// </summary>
 class GameScene {
 
-  public: // メンバ関数
+public: // メンバ関数
 	/// <summary>
 	/// コンストクラタ
 	/// </summary>
@@ -44,9 +45,9 @@ class GameScene {
 	/// </summary>
 	void Draw();
 
-  private: // メンバ変数
-	  //テクスチャハンドル
-	  uint32_t textureHandle_[10];
+private: // メンバ変数
+	//テクスチャハンドル
+	uint32_t textureHandle_[10];
 
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
@@ -55,6 +56,8 @@ class GameScene {
 
 	Player* player_ = nullptr;
 	EnemyManager enemyManager;
+
+	Wall* wall_ = nullptr;
 
 	//衝突
 	std::unique_ptr<ColliderManager> colliderManager = std::make_unique<ColliderManager>();
