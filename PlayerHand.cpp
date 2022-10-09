@@ -23,6 +23,8 @@ void PlayerHand::Initialize(Model* model, uint32_t* textureHandle)
 
 void PlayerHand::Update(const float& angle, const Vector3& playerPos)
 {
+	IsGrabOld = IsGrab;
+
 	//L‚Î‚µ‚Ä‚¢‚È‚¢‚Æ‚«‚É‰ñ“]Aplayer‚ÌˆÊ’u‚É’u‚­
 	if (!IsUse) {
 		worldTransform_.translation_ = playerPos;

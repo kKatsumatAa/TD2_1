@@ -104,6 +104,8 @@
     <ClCompile Include="ColliderManager.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyManager.cpp" />
+    <ClCompile Include="HandSkill.cpp" />
+    <ClCompile Include="HandSkillManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="math\Matrix4.cpp" />
     <ClCompile Include="math\Vector2.cpp" />
@@ -141,6 +143,8 @@
     <ClInclude Include="CollisionConfig.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyManager.h" />
+    <ClInclude Include="HandSkill.h" />
+    <ClInclude Include="HandSkillManager.h" />
     <ClInclude Include="input\Input.h" />
     <ClInclude Include="math\MathUtility.h" />
     <ClInclude Include="math\Matrix4.h" />

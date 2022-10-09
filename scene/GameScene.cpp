@@ -16,14 +16,17 @@ void GameScene::Initialize() {
 	textureHandle_[0] = TextureManager::Load("kamata.ico");
 	textureHandle_[1] = TextureManager::Load("uvChecker.png");
 	textureHandle_[2] = TextureManager::Load("cube/cube.jpg");
+	textureHandle_[3] = TextureManager::Load("axis/axis.jpg");
 
 	//3Dモデルの生成
 	model_ = Model::Create();
 
 	player_ = new Player();
-	player_->Initialize(model_, textureHandle_);
+	player_->Initialize(model_, textureHandle_, &skillManager);
 
 	enemyManager.Initialize(player_, model_, textureHandle_);
+
+	skillManager.Initialize(model_, textureHandle_);
 
 	//ワールドトランスフォームの初期化
 	worldTransform_.Initialize();
@@ -34,20 +37,25 @@ void GameScene::Initialize() {
 	viewProjection_.UpdateMatrix();
 }
 
-void GameScene::Update() 
+void GameScene::Update()
 {
 	player_->Update();
 	enemyManager.Update();
+	skillManager.Update();
 
 	//colliderManager
 	{
 		colliderManager->ClearList();
 		colliderManager->SetListCollider(player_);
 		const std::list<std::unique_ptr<Enemy>>& enemies = enemyManager.GetEnemies();
-
 		for (const std::unique_ptr<Enemy>& enemy : enemies)
 		{
 			colliderManager->SetListCollider(enemy.get());
+		}
+		const std::list<std::unique_ptr<HandSkill>>& skills = skillManager.GetSkills();
+		for (const std::unique_ptr<HandSkill>& skill : skills)
+		{
+			colliderManager->SetListCollider(skill.get());
 		}
 
 		colliderManager->CheckAllCollisions();
@@ -97,6 +105,7 @@ void GameScene::Draw() {
 	/// </summary>
 	player_->Draw(viewProjection_);
 	enemyManager.Draw(viewProjection_);
+	skillManager.Draw(viewProjection_);
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();

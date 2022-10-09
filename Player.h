@@ -1,5 +1,6 @@
 #pragma once
 #include"PlayerHand.h"
+#include"HandSkillManager.h"
 
 
 class Player;
@@ -25,6 +26,7 @@ private:
 	//テクスチャハンドル
 	uint32_t* textureHandle_;
 	DebugText* debugText_ = nullptr;
+	HandSkillManager* skillManager;
 
 	//角度
 	float angle = 0.0f;
@@ -43,7 +45,7 @@ public:
 
 	void ChangeState(PlayerHandState* state);
 
-	void Initialize(Model* model, uint32_t* textureHandle);
+	void Initialize(Model* model, uint32_t* textureHandle, HandSkillManager* skillManager);
 	void Update();
 	void Draw(const ViewProjection& view);
 	//手を伸ばす
@@ -55,6 +57,7 @@ public:
 	PlayerHand* GetHandL() { return &handL; }
 	PlayerHand** GetUseHands() { return useHands; }
 	float GetAngle() { return worldTransform_.rotation_.z; }
+	HandSkillManager* GetSkillManager() { return skillManager; }
 
 	//衝突を検出したら呼び出す（コールバック関数）
 	void OnCollision()override;

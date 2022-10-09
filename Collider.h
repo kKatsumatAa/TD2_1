@@ -3,6 +3,12 @@
 #include"Vector2.h"
 #include"CollisionConfig.h"
 #include"WorldTransform.h"
+#include"Model.h"
+#include"Input.h"
+#include"DebugText.h"
+#include"Util.h"
+#include "Assert.h"
+#include "WinApp.h"
 #include <cstdint>
 
 /// <summary>

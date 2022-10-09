@@ -8,13 +8,15 @@ void Player::ChangeState(PlayerHandState* state)
 }
 
 //----------------------------------------------------------------------
-void Player::Initialize(Model* model, uint32_t* textureHandle)
+void Player::Initialize(Model* model, uint32_t* textureHandle, HandSkillManager* skillManager)
 {
 	assert(model);
 
 	model_ = model;
 	modelHand_ = model;
 	textureHandle_ = textureHandle;
+
+	this->skillManager = skillManager;
 
 	//シングルトンインスタンスを取得
 	input_ = Input::GetInstance();
@@ -42,13 +44,13 @@ void Player::Update()
 	worldTransform_.UpdateMatrix();
 
 	//手の届く範囲用
-	worldTransformHand_.translation_.x = cosf(worldTransform_.rotation_.z) * handLengthMax;
-	worldTransformHand_.translation_.y = sinf(worldTransform_.rotation_.z) * handLengthMax;
+	worldTransformHand_.translation_.x = worldTransform_.translation_.x + cosf(worldTransform_.rotation_.z + pi / 2.0f) * handLengthMax;
+	worldTransformHand_.translation_.y = worldTransform_.translation_.y + sinf(worldTransform_.rotation_.z + pi / 2.0f) * handLengthMax;
 	worldTransformHand_.UpdateMatrix();
 
 	//使ってないときプレイヤーと一緒に移動
-	if (!handR.GetIsUse()) handR.Update(worldTransform_.rotation_.z,worldTransform_.translation_);
-	if (!handL.GetIsUse()) handL.Update(worldTransform_.rotation_.z,worldTransform_.translation_);
+	if (!handR.GetIsUse()) handR.Update(worldTransform_.rotation_.z, worldTransform_.translation_);
+	if (!handL.GetIsUse()) handL.Update(worldTransform_.rotation_.z, worldTransform_.translation_);
 
 	state->Update();
 }
@@ -56,7 +58,7 @@ void Player::Update()
 void Player::Draw(const ViewProjection& view)
 {
 	model_->Draw(worldTransform_, view, textureHandle_[0]);
-	//modelHand_->Draw(worldTransformHand_, view, textureHandle_);
+	modelHand_->Draw(worldTransformHand_, view, textureHandle_[0]);
 
 	handR.Draw(view);
 	handL.Draw(view);
@@ -90,7 +92,7 @@ void PlayerHandState::SetPlayer(Player* player)
 void NoGrab::Update()
 {
 	player->GetHandR()->Update(player->GetAngle() + pi / 2.0f, player->GetWorldPos());
-	player->GetHandL()->Update(player->GetAngle() + pi / 2.0f,player->GetWorldPos());
+	player->GetHandL()->Update(player->GetAngle() + pi / 2.0f, player->GetWorldPos());
 
 	if (player->input_->TriggerKey(DIK_SPACE))
 	{
@@ -109,10 +111,15 @@ void NoGrab::Update()
 void OneHandOneGrab::Update()
 {
 	//使っている手の更新処理
-	
+
 	player->GetUseHands()[0]->Update(player->GetAngle(), player->GetWorldPos());
 
-	
+	//小さい範囲こうげき生成
+	if (player->GetUseHands()[0]->GetTriggerIsGrab())
+	{	
+		player->GetSkillManager()->SkillGenerate(player->GetWorldPos());
+	}
+
 	if (player->input_->TriggerKey(DIK_SPACE))
 	{
 		//二つ目の手も使ったらstateを両手に変える

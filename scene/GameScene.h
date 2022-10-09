@@ -11,6 +11,7 @@
 #include "WorldTransform.h"
 #include"EnemyManager.h"
 #include"ColliderManager.h"
+#include"HandSkillManager.h"
 
 
 /// <summary>
@@ -58,6 +59,8 @@ class GameScene {
 
 	//衝突
 	std::unique_ptr<ColliderManager> colliderManager = std::make_unique<ColliderManager>();
+	//範囲こうげき
+	HandSkillManager skillManager;
 
 	//3Dモデル
 	Model* model_ = nullptr;
