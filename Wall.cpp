@@ -41,8 +41,10 @@ void Wall::Draw(ViewProjection viewProjection)
 
 bool Wall::isCollisionWall(Vector2 pos) {
 	for (WorldTransform wallTrans : wallTrans_) {
-		if (wallTrans.translation_.x - wallTrans.scale_.x / 2) {
-
+		if (wallTrans.translation_.x - wallTrans.scale_.x / 2 < pos.x && wallTrans.translation_.x + wallTrans.scale_.x / 2 > pos.x) {
+			return true;
+		}
+		if (wallTrans.translation_.y - wallTrans.scale_.y / 2 < pos.y && wallTrans.translation_.y + wallTrans.scale_.y / 2 > pos.y) {
 			return true;
 		}
 	}
