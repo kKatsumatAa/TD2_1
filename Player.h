@@ -27,6 +27,7 @@ private:
 	uint32_t* textureHandle_;
 	DebugText* debugText_ = nullptr;
 	HandSkillManager* skillManager;
+	HandStop* handStop;
 
 	//角度
 	float angle = 0.0f;
@@ -45,7 +46,7 @@ public:
 
 	void ChangeState(PlayerHandState* state);
 
-	void Initialize(Model* model, uint32_t* textureHandle, HandSkillManager* skillManager);
+	void Initialize(Model* model, uint32_t* textureHandle, HandSkillManager* skillManager, HandStop* handStop);
 	void Update();
 	void Draw(const ViewProjection& view);
 	//手を伸ばす
@@ -58,6 +59,7 @@ public:
 	PlayerHand** GetUseHands() { return useHands; }
 	float GetAngle() { return worldTransform_.rotation_.z; }
 	HandSkillManager* GetSkillManager() { return skillManager; }
+	HandStop* GetHandStop() { return handStop; }
 
 	//衝突を検出したら呼び出す（コールバック関数）
 	void OnCollision()override;

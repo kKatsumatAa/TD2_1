@@ -4,6 +4,7 @@
 
 //è‚ÌÅ‘å‚Ì’·‚³
 static const float handLengthMax = 30.0f;
+static const float handVelocityExtend = 0.5f;
 
 class PlayerHand;
 

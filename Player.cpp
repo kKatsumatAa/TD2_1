@@ -8,7 +8,7 @@ void Player::ChangeState(PlayerHandState* state)
 }
 
 //----------------------------------------------------------------------
-void Player::Initialize(Model* model, uint32_t* textureHandle, HandSkillManager* skillManager)
+void Player::Initialize(Model* model, uint32_t* textureHandle, HandSkillManager* skillManager, HandStop* handStop)
 {
 	assert(model);
 
@@ -17,6 +17,7 @@ void Player::Initialize(Model* model, uint32_t* textureHandle, HandSkillManager*
 	textureHandle_ = textureHandle;
 
 	this->skillManager = skillManager;
+	this->handStop = handStop;
 
 	//シングルトンインスタンスを取得
 	input_ = Input::GetInstance();
@@ -51,6 +52,11 @@ void Player::Update()
 	//使ってないときプレイヤーと一緒に移動
 	if (!handR.GetIsUse()) handR.Update(worldTransform_.rotation_.z, worldTransform_.translation_);
 	if (!handL.GetIsUse()) handL.Update(worldTransform_.rotation_.z, worldTransform_.translation_);
+
+	if (input_->ReleaseTriggerKey(DIK_SPACE))
+	{
+		GetHandStop()->SetIsStop(false);
+	}
 
 	state->Update();
 }
@@ -94,6 +100,8 @@ void NoGrab::Update()
 	player->GetHandR()->Update(player->GetAngle() + pi / 2.0f, player->GetWorldPos());
 	player->GetHandL()->Update(player->GetAngle() + pi / 2.0f, player->GetWorldPos());
 
+	player->useHandCount = 0;
+
 	if (player->input_->TriggerKey(DIK_SPACE))
 	{
 		//どっちも伸ばしていないときに使うのは絶対右手
@@ -102,6 +110,7 @@ void NoGrab::Update()
 			player->GetHandR()->ReachOut(player->GetWorldPos(), player->GetAngle() + pi / 2.0f);
 			//使っている手の配列に登録
 			player->GetUseHands()[0] = (player->GetHandR());
+			player->useHandCount++;
 			player->ChangeState(new OneHandOneGrab);
 		}
 	}
@@ -110,47 +119,54 @@ void NoGrab::Update()
 //---------------------------------
 void OneHandOneGrab::Update()
 {
-	//使っている手の更新処理
-
-	player->GetUseHands()[0]->Update(player->GetAngle(), player->GetWorldPos());
-
-	//小さい範囲こうげき生成
-	if (player->GetUseHands()[0]->GetTriggerIsGrab())
-	{	
-		player->GetSkillManager()->SkillGenerate(player->GetWorldPos());
-	}
-
-	if (player->input_->TriggerKey(DIK_SPACE))
+	if (!player->GetHandStop()->GetIsStop())
 	{
-		//二つ目の手も使ったらstateを両手に変える
-		if (!player->GetHandR()->GetIsUse())
+		//使っている手の更新処理
+		player->GetUseHands()[0]->Update(player->GetAngle(), player->GetWorldPos());
+
+		//小さい範囲こうげき生成
+		if (player->GetUseHands()[0]->GetTriggerIsGrab())
 		{
-			//使ってる手を入れておく配列の２番目に入れる
-			player->GetUseHands()[1] = player->GetHandR();
-			player->GetHandR()->ReachOut(player->GetWorldPos(), player->GetAngle() + pi / 2.0f);
-			player->ChangeState(new TwoHand);
+			player->GetSkillManager()->SkillGenerate(player->GetWorldPos());
 		}
-		else if (!player->GetHandL()->GetIsUse())
+		//二つ目を伸ばすとき、時間止める
+		if (player->input_->TriggerKey(DIK_SPACE))
 		{
-			//使ってる手を入れておく配列の２番目に入れる
-			player->GetUseHands()[1] = player->GetHandL();
-			player->GetHandL()->ReachOut(player->GetWorldPos(), player->GetAngle() + pi / 2.0f);
-			player->ChangeState(new TwoHand);
+			player->GetHandStop()->SetIsStop(true);
+			player->useHandCount++;
 		}
-	}
-	//changeStateした後に参照するとエラー起きるので else if
-	//つかんだら
-	else if (player->GetUseHands()[0]->GetIsGrab())
-	{
-		Vector3 vec = player->GetUseHands()[0]->GetWorldPos() - player->GetWorldPos();
-		vec.Normalized();
+		else if (player->input_->ReleaseTriggerKey(DIK_SPACE) && player->useHandCount == 2)
+		{
+			//二つ目の手も使ったらstateを両手に変える
+			if (!player->GetHandR()->GetIsUse())
+			{
+				//使ってる手を入れておく配列の２番目に入れる
+				player->GetUseHands()[1] = player->GetHandR();
+				player->GetHandR()->ReachOut(player->GetWorldPos(), player->GetAngle() + pi / 2.0f);
+				player->ChangeState(new TwoHand);
+			}
+			else if (!player->GetHandL()->GetIsUse())
+			{
+				//使ってる手を入れておく配列の２番目に入れる
+				player->GetUseHands()[1] = player->GetHandL();
+				player->GetHandL()->ReachOut(player->GetWorldPos(), player->GetAngle() + pi / 2.0f);
+				player->ChangeState(new TwoHand);
+			}
+		}
+		//changeStateした後に参照するとエラー起きるので else if
+		//つかんだら
+		else if (player->GetUseHands()[0]->GetIsGrab())
+		{
+			Vector3 vec = player->GetUseHands()[0]->GetWorldPos() - player->GetWorldPos();
+			vec.Normalized();
 
-		player->SetWorldPos(player->GetWorldPos() + vec);
-	}
-	//突進し終わったら
-	else if (!player->GetUseHands()[0]->GetIsUse())
-	{
-		player->ChangeState(new NoGrab);
+			player->SetWorldPos(player->GetWorldPos() + vec);
+		}
+		//突進し終わったら
+		else if (!player->GetUseHands()[0]->GetIsUse())
+		{
+			player->ChangeState(new NoGrab);
+		}
 	}
 }
 
@@ -183,6 +199,7 @@ void TwoHand::Update()
 			//２つ目の手を１つ目に変更して、２つ目を無くす
 			player->GetUseHands()[0] = player->GetUseHands()[1];
 			player->GetUseHands()[1] = nullptr;
+			player->useHandCount--;
 			player->ChangeState(new OneHandOneGrab);
 		}
 	}

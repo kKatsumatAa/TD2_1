@@ -22,7 +22,7 @@ void GameScene::Initialize() {
 	model_ = Model::Create();
 
 	player_ = new Player();
-	player_->Initialize(model_, textureHandle_, &skillManager);
+	player_->Initialize(model_, textureHandle_, &skillManager, &handStop);
 
 	enemyManager.Initialize(player_, model_, textureHandle_);
 

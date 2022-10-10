@@ -9,7 +9,9 @@
 #include"Util.h"
 #include "Assert.h"
 #include "WinApp.h"
+#include "HandStop.h"
 #include <cstdint>
+
 
 /// <summary>
 /// 衝突判定オブジェクト

@@ -61,6 +61,8 @@ class GameScene {
 	std::unique_ptr<ColliderManager> colliderManager = std::make_unique<ColliderManager>();
 	//範囲こうげき
 	HandSkillManager skillManager;
+	//
+	HandStop handStop;
 
 	//3Dモデル
 	Model* model_ = nullptr;
