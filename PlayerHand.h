@@ -1,16 +1,10 @@
 #pragma once
-#include"WorldTransform.h"
-#include"Model.h"
-#include"Input.h"
-#include"DebugText.h"
-#include"Util.h"
-#include "Assert.h"
-#include "WinApp.h"
 #include "Collider.h"
 
 
 //Žè‚ÌÅ‘å‚Ì’·‚³
 static const float handLengthMax = 30.0f;
+static const float handVelocityExtend = 0.5f;
 
 class PlayerHand;
 
@@ -39,6 +33,7 @@ private:
 	bool IsUse = false;
 	//‚Â‚©‚ñ‚Å‚¢‚é‚©‚Ç‚¤‚©
 	bool IsGrab = false;
+	bool IsGrabOld = false;
 	//”­ŽË‚µ‚½‚©
 	bool IsGo = false;
 	//‚à‚Ç‚Á‚Ä‚«‚Ä‚¢‚é‚©
@@ -74,6 +69,8 @@ public:
 	void SetIsGo(const bool& isGo) { IsGo = isGo; }
 	bool GetIsBack() { return IsBack; }
 	void SetIsBack(const bool& isBack) { IsBack = isBack; }
+
+	bool GetTriggerIsGrab() { return (!IsGrab && IsGrabOld); }
 	
 	Vector3 GetplayerPos() { return playerPos; }
 	void SetplayerPos(const Vector3& playerPos) { this->playerPos = playerPos; }

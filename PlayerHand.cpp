@@ -23,6 +23,8 @@ void PlayerHand::Initialize(Model* model, uint32_t* textureHandle)
 
 void PlayerHand::Update(const float& angle, const Vector3& playerPos)
 {
+	IsGrabOld = IsGrab;
+
 	//伸ばしていないときに回転、playerの位置に置く
 	if (!IsUse) {
 		worldTransform_.translation_ = playerPos;
@@ -38,7 +40,7 @@ void PlayerHand::Update(const float& angle, const Vector3& playerPos)
 
 void PlayerHand::Draw(const ViewProjection& viewProjection)
 {
-	model_->Draw(worldTransform_, viewProjection,textureHandle_[1]);
+	model_->Draw(worldTransform_, viewProjection, textureHandle_[1]);
 	debugText_->SetPos(0, 0);
 	debugText_->Printf("%f,%f,%f", worldTransform_.translation_.x, worldTransform_.translation_.y, worldTransform_.translation_.z);
 	debugText_->SetPos(0, 10);
@@ -76,14 +78,15 @@ void PlayerHand::ReachOut(const Vector3& pos, const float& angle)
 		//終着点決める
 		endPos.x = pos.x + cosf(worldTransform_.rotation_.z) * handLengthMax;
 		endPos.y = pos.y + sinf(worldTransform_.rotation_.z) * handLengthMax;
-		
+
 		//移動用のベクトル
 		velocity_.x = cosf(worldTransform_.rotation_.z) * handLengthMax;
 		velocity_.y = sinf(worldTransform_.rotation_.z) * handLengthMax;
 
 		//正規化
 		velocity_.Normalized();
-		
+		velocity_ *= handVelocityExtend;
+
 		IsUse = true;
 		IsGo = true;
 
@@ -138,11 +141,8 @@ void HandReachOut::Update()
 		//hand->SetEndPos(hand->GetplayerPos());
 		//移動用のベクトル
 		Vector3 vec = hand->GetplayerPos() - hand->GetWorldPos();
-		hand->velocity_.x = vec.GetNormalized().x;
-		hand->velocity_.y = vec.GetNormalized().y;
-
-		//正規化
-		hand->velocity_.Normalized();
+		hand->velocity_.x = vec.GetNormalized().x * handVelocityExtend;
+		hand->velocity_.y = vec.GetNormalized().y * handVelocityExtend;
 
 		//手が戻ってきたら
 		if (CollisionCircleCircle(hand->GetplayerPos(), hand->GetRadius(), hand->GetWorldPos(), hand->GetRadius()) && hand->GetIsBack())
@@ -153,7 +153,7 @@ void HandReachOut::Update()
 			hand->ChangeState(new HandNormal);
 		}
 	}
-	
+
 }
 
 //------------------------------------
@@ -162,7 +162,7 @@ void HandGrab::Update()
 	//手の位置に着いたら
 	if (CollisionCircleCircle(hand->GetplayerPos(), hand->GetRadius(), hand->GetWorldPos(), hand->GetRadius()))
 	{
- 		hand->SetIsGrab(false);
+		hand->SetIsGrab(false);
 		hand->SetIsUse(false);
 		hand->ChangeState(new HandNormal);
 	}

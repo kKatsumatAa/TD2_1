@@ -9,10 +9,14 @@
 #include "Sprite.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
+
+#include"HandSkillManager.h"
+
 #include "EnemyManager.h"
 #include "ColliderManager.h"
 #include "Wall.h"
 #include "Setting.h"
+
 
 
 /// <summary>
@@ -64,6 +68,10 @@ private: // メンバ変数
 
 	//衝突
 	std::unique_ptr<ColliderManager> colliderManager = std::make_unique<ColliderManager>();
+	//範囲こうげき
+	HandSkillManager skillManager;
+	//
+	HandStop handStop;
 
 	//3Dモデル
 	Model* model_ = nullptr;
