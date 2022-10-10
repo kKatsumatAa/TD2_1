@@ -99,6 +99,7 @@
     <ClCompile Include="ColliderManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+
     <ClCompile Include="HandSkill.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -109,6 +110,12 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="input\Input.cpp">
+
+    <ClCompile Include="Wall.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Setting.cpp">
+
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -224,6 +231,7 @@
     <ClInclude Include="ColliderManager.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+
     <ClInclude Include="HandSkill.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -231,6 +239,12 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="HandStop.h">
+
+    <ClInclude Include="Wall.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Setting.h">
+
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

@@ -4,7 +4,10 @@
 
 GameScene::GameScene() {}
 
-GameScene::~GameScene() {}
+GameScene::~GameScene() {
+	delete wall_;
+	delete set_;
+}
 
 void GameScene::Initialize() {
 	dxCommon_ = DirectXCommon::GetInstance();
@@ -26,7 +29,14 @@ void GameScene::Initialize() {
 
 	enemyManager.Initialize(player_, model_, textureHandle_);
 
+
 	skillManager.Initialize(model_, textureHandle_);
+
+	wall_ = new Wall();
+	wall_->Initialize();
+
+	set_ = new Setting();
+
 
 	//ワールドトランスフォームの初期化
 	worldTransform_.Initialize();
@@ -39,6 +49,7 @@ void GameScene::Initialize() {
 
 void GameScene::Update()
 {
+	wall_->Update();
 	player_->Update();
 	enemyManager.Update();
 	skillManager.Update();
@@ -76,6 +87,8 @@ void GameScene::Update()
 		}
 
 	}
+
+	set_->FPS(60.0f);
 }
 
 void GameScene::Draw() {
@@ -105,7 +118,11 @@ void GameScene::Draw() {
 	/// </summary>
 	player_->Draw(viewProjection_);
 	enemyManager.Draw(viewProjection_);
+
 	skillManager.Draw(viewProjection_);
+
+	wall_->Draw(viewProjection_);
+
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
