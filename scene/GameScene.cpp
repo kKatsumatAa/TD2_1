@@ -36,7 +36,7 @@ void GameScene::Initialize() {
 	wall_->Initialize();
 
 	set_ = new Setting();
-
+	set_->Initialize();
 
 	//ワールドトランスフォームの初期化
 	worldTransform_.Initialize();
@@ -89,6 +89,7 @@ void GameScene::Update()
 	}
 
 	set_->FPS(60.0f);
+	set_->DrawFPS();
 }
 
 void GameScene::Draw() {
