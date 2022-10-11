@@ -65,17 +65,22 @@ void GameScene::Initialize() {
 
 void GameScene::Update()
 {
+	//下の方にシーンごとのプロトタイプ関数があるので\
+	そっちにプログラムを書いてください
 	(this->*sceneUpdateFuncTable[static_cast<size_t>(scene_)])();
 
+	//シーンに関係なく描画するもの
 	set_->FPS(60.0f);
 	set_->DrawFPS();
 }
 
 void GameScene::Draw() {
+	//下の方にシーンごとのプロトタイプ関数があるので\
+	そっちにプログラムを書いてください
 	(this->*sceneDrawFuncTable[static_cast<size_t>(scene_)])();
-
 }
 
+//関数テーブル(プロトタイプ)
 #pragma region タイトルシーン
 /// <summary>
 /// タイトルアップデート
