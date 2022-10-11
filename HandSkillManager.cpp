@@ -9,11 +9,11 @@ void HandSkillManager::Initialize(Model* model, uint32_t* textureHandle)
 	textureHandle_ = textureHandle;
 }
 
-void HandSkillManager::SkillGenerate(const Vector3& pos)
+void HandSkillManager::SkillGenerate(const Vector3& pos, const float& maxRadius)
 {
 	//“G‚ğ¶¬A‰Šú‰»
 	std::unique_ptr<HandSkill> skill = std::make_unique<HandSkill>();
-	skill->Initialize(model_, textureHandle_, pos);
+	skill->Initialize(model_, textureHandle_, pos, maxRadius);
 	//“G‚ğ“o˜^
 	skills.push_back(std::move(skill));
 }

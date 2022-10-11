@@ -77,6 +77,8 @@ public:
 	void SetEndPos(const Vector3& pos) { endPos = pos; }
 	void ReachOut(const Vector3& pos, const float& angle);
 
+	void ResetFlag();
+
 	//衝突を検出したら呼び出す（コールバック関数）
 	void OnCollision()override;
 	void OnCollision2(Collider& collider)override;

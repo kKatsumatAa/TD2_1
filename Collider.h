@@ -36,6 +36,7 @@ protected:
 
 public:
 	int GetHandCount() { return handCount; }
+	void SetHandCount(const int& count) { handCount = count; }
 	bool GetIsDead() { return isDead; }
 	float GetRadius();
 	void SetRadius(const float& radius);

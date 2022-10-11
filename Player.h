@@ -29,6 +29,8 @@ private:
 	HandSkillManager* skillManager;
 	HandStop* handStop;
 
+	Vector3 velocity;
+
 	//角度
 	float angle = 0.0f;
 
@@ -38,6 +40,9 @@ private:
 	PlayerHand handL;
 	//使用中の手を順に入れる用
 	PlayerHand* useHands[2];
+
+	//一体の敵を二つの手でつかんでいるか
+	bool isTwoHandOneGrab = false;
 
 public:
 	int useHandCount = 0;
@@ -60,6 +65,12 @@ public:
 	float GetAngle() { return worldTransform_.rotation_.z; }
 	HandSkillManager* GetSkillManager() { return skillManager; }
 	HandStop* GetHandStop() { return handStop; }
+
+	void SetIsTwoHandOneGrab(const bool& is) { isTwoHandOneGrab = is; }
+	bool GetIsTwoHandOneGrab() { return isTwoHandOneGrab; }
+
+	void SetVelocity(Vector3 vec) { velocity = vec; }
+	Vector3 GetVelocity() { return velocity; }
 
 	//衝突を検出したら呼び出す（コールバック関数）
 	void OnCollision()override;
@@ -100,6 +111,15 @@ class TwoHandOneGrab : public PlayerHandState
 {
 private:
 
+
+public:
+	void Update() override;
+};
+class TwoHandOneGrab2 : public PlayerHandState
+{
+private:
+	int timer = 0;
+	const int maxTimer = 15;
 
 public:
 	void Update() override;

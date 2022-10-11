@@ -52,12 +52,21 @@ void PlayerHand::Draw(const ViewProjection& viewProjection)
 	debugText_->SetPos(0, 55);
 	debugText_->Printf("isGrab:%d", IsGrab);
 	debugText_->SetPos(0, 70);
-	debugText_->Printf("angle:%f", worldTransform_.rotation_.z);
+	debugText_->Printf("handCount%d",handCount);
 }
 
 Vector3 PlayerHand::GetWorldPos()
 {
 	return worldTransform_.translation_;
+}
+
+void PlayerHand::ResetFlag()
+{
+	IsUse = false;
+	IsGrab = false;
+	IsGrabOld = false;
+	IsGo = false;
+	IsBack = false;
 }
 
 void PlayerHand::OnCollision()
@@ -160,7 +169,7 @@ void HandReachOut::Update()
 void HandGrab::Update()
 {
 	//Žè‚ÌˆÊ’u‚É’…‚¢‚½‚ç
-	if (CollisionCircleCircle(hand->GetplayerPos(), hand->GetRadius(), hand->GetWorldPos(), hand->GetRadius()))
+	if (CollisionCircleCircle(hand->GetplayerPos(), hand->GetRadius(), hand->GetWorldPos(), hand->GetRadius()) || !hand->GetIsGrab())
 	{
 		hand->SetIsGrab(false);
 		hand->SetIsUse(false);
