@@ -10,7 +10,7 @@ public:
 	void Initialize();
 
 	void FPS(float FPS);
-	void DrawFPS(Vector2 pos = {1180,0});
+	void DrawFPS(Vector2 pos = {1100,0});
 private:
 	time_t old_ = time(NULL);
 	time_t now_ = time(NULL);
