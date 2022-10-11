@@ -40,5 +40,13 @@ void Enemy::OnCollision()
 
 void Enemy::OnCollision2(Collider& collider)
 {
+	//手の位置を敵の位置にする
 	collider.SetWorldPos(worldTransform_.translation_);
+	//
+	if (collider.GetHandCount() == 0)
+	{
+		//掴まれている数をカウント
+		AddHandCount(1);
+		collider.AddHandCount(1);
+	}
 }

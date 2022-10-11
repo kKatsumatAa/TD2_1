@@ -100,6 +100,7 @@ void NoGrab::Update()
 	player->GetHandR()->Update(player->GetAngle() + pi / 2.0f, player->GetWorldPos());
 	player->GetHandL()->Update(player->GetAngle() + pi / 2.0f, player->GetWorldPos());
 
+	//playerのusehandCountはスローモーション用（addHandCountがhandの二個同時掴み用）
 	player->useHandCount = 0;
 
 	if (player->input_->TriggerKey(DIK_SPACE))
@@ -122,7 +123,7 @@ void OneHandOneGrab::Update()
 	if (!player->GetHandStop()->GetIsStop())
 	{
 		//使っている手の更新処理
-		player->GetUseHands()[0]->Update(player->GetAngle(), player->GetWorldPos());
+ 		player->GetUseHands()[0]->Update(player->GetAngle(), player->GetWorldPos());
 
 		//小さい範囲こうげき生成
 		if (player->GetUseHands()[0]->GetTriggerIsGrab())
@@ -165,6 +166,7 @@ void OneHandOneGrab::Update()
 		//突進し終わったら
 		else if (!player->GetUseHands()[0]->GetIsUse())
 		{
+			player->GetUseHands()[0]->AddHandCount(-1);
 			player->ChangeState(new NoGrab);
 		}
 	}
@@ -178,8 +180,13 @@ void TwoHand::Update()
 	if (player->GetUseHands()[1] != nullptr && !player->GetUseHands()[1]->GetIsGrab() && player->GetUseHands()[1]->GetIsUse())
 		player->GetUseHands()[1]->Update(player->GetAngle(), player->GetWorldPos());
 
+	//外部で一体の敵を二つの手でつかんだ判定が出たら
+	if (player->GetIsTwoHandOneGrab())
+	{
+		player->ChangeState(new TwoHandOneGrab);
+	}
 	//つかんだら
-	if (player->GetUseHands()[0]->GetIsGrab())
+	else if (player->GetUseHands()[0]->GetIsGrab())
 	{
 		Vector3 vec = player->GetUseHands()[0]->GetWorldPos() - player->GetWorldPos();
 		vec.Normalized();
@@ -192,11 +199,13 @@ void TwoHand::Update()
 		//２つ目の手がなければ
 		if (player->GetUseHands()[1] == nullptr)
 		{
+			player->GetUseHands()[0]->AddHandCount(-1);
 			player->ChangeState(new NoGrab);
 		}
 		else
 		{
 			//２つ目の手を１つ目に変更して、２つ目を無くす
+			player->GetUseHands()[0]->AddHandCount(-1);
 			player->GetUseHands()[0] = player->GetUseHands()[1];
 			player->GetUseHands()[1] = nullptr;
 			player->useHandCount--;
@@ -208,9 +217,46 @@ void TwoHand::Update()
 //---------------------------------
 void TwoHandOneGrab::Update()
 {
+	//同じ敵をつかんでいるので更新は片方のみ
+	player->GetUseHands()[0]->Update(player->GetAngle(), player->GetWorldPos());
+	player->GetUseHands()[1]->Update(player->GetAngle(), player->GetWorldPos());
+
+	//つかんだら
+	for (int i = 0; i < 2; i++)
+	{
+		if (player->GetUseHands()[i]->GetIsGrab())
+		{
+			Vector3 vec = player->GetUseHands()[i]->GetWorldPos() - player->GetWorldPos();
+			vec.Normalized();
+
+			player->SetWorldPos(player->GetWorldPos() + vec);
+		}
+	}
+	//突進し終わったら
+	if (!player->GetUseHands()[0]->GetIsUse() && !player->GetUseHands()[1]->GetIsUse())
+	{
+		//貫通突進
+		player->GetUseHands()[0]->AddHandCount(-1);
+		player->GetUseHands()[1]->AddHandCount(-1);
+
+		player->GetUseHands()[0]->ResetFlag();
+		player->GetUseHands()[1]->ResetFlag();
+		
+		player->GetUseHands()[0]->ChangeState(new HandNormal);
+		player->GetUseHands()[1]->ChangeState(new HandNormal);
+		
+		player->GetUseHands()[0] = nullptr;
+		player->GetUseHands()[1] = nullptr;
+
+		player->useHandCount = 0;
+		player->SetIsTwoHandOneGrab(false);
+
+		player->ChangeState(new NoGrab);
+	}
 }
 
 //---------------------------------
 void TwoHandTwoGrab::Update()
 {
+	//追加するかも
 }

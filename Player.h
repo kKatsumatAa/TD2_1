@@ -39,6 +39,9 @@ private:
 	//使用中の手を順に入れる用
 	PlayerHand* useHands[2];
 
+	//一体の敵を二つの手でつかんでいるか
+	bool isTwoHandOneGrab = false;
+
 public:
 	int useHandCount = 0;
 	Input* input_ = nullptr;
@@ -60,6 +63,9 @@ public:
 	float GetAngle() { return worldTransform_.rotation_.z; }
 	HandSkillManager* GetSkillManager() { return skillManager; }
 	HandStop* GetHandStop() { return handStop; }
+
+	void SetIsTwoHandOneGrab(const bool& is) { isTwoHandOneGrab = is; }
+	bool GetIsTwoHandOneGrab() { return isTwoHandOneGrab; }
 
 	//衝突を検出したら呼び出す（コールバック関数）
 	void OnCollision()override;
