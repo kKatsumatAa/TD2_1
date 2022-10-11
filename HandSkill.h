@@ -12,11 +12,11 @@ private:
 	//Žõ–½
 	static const int32_t lifeTime = 30;
 	int32_t deathTimer_ = 0;
-	const float radiusMax = 6.0f;
+	float radiusMax;
 
 public:
 
-	void Initialize(Model* model, uint32_t* textureHandle, const Vector3& pos);
+	void Initialize(Model* model, uint32_t* textureHandle, const Vector3& pos, const float& maxRadius);
 	void Update();
 	void Draw(const ViewProjection& view);
 

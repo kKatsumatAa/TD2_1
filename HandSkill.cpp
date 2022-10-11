@@ -1,11 +1,13 @@
 #include "HandSkill.h"
 
-void HandSkill::Initialize(Model* model, uint32_t* textureHandle, const Vector3& pos)
+void HandSkill::Initialize(Model* model, uint32_t* textureHandle, const Vector3& pos, const float& maxRadius)
 {
 	assert(model);
 
 	model_ = model;
 	textureHandle_ = textureHandle;
+
+	radiusMax = maxRadius;
 
 	worldTransform_.Initialize();
 	worldTransform_.translation_ = pos;

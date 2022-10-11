@@ -46,7 +46,7 @@ void Enemy::OnCollision2(Collider& collider)
 	if (collider.GetHandCount() == 0)
 	{
 		//’Í‚Ü‚ê‚Ä‚¢‚é”‚ğƒJƒEƒ“ƒg
-		AddHandCount(1);
-		collider.AddHandCount(1);
+		SetHandCount(GetHandCount() + 1);
+		collider.SetHandCount(1);
 	}
 }

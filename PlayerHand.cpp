@@ -52,7 +52,7 @@ void PlayerHand::Draw(const ViewProjection& viewProjection)
 	debugText_->SetPos(0, 55);
 	debugText_->Printf("isGrab:%d", IsGrab);
 	debugText_->SetPos(0, 70);
-	debugText_->Printf("angle:%f", worldTransform_.rotation_.z);
+	debugText_->Printf("handCount%d",handCount);
 }
 
 Vector3 PlayerHand::GetWorldPos()

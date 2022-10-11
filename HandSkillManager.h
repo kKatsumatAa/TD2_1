@@ -15,7 +15,7 @@ public:
 	std::list<std::unique_ptr<HandSkill>> skills;
 
 
-	void SkillGenerate(const Vector3& pos);
+	void SkillGenerate(const Vector3& pos, const float& maxRadius);
 	void Initialize(Model* model, uint32_t* textureHandle);
 	void Update();
 	void Draw(const ViewProjection& view);

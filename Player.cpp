@@ -123,12 +123,12 @@ void OneHandOneGrab::Update()
 	if (!player->GetHandStop()->GetIsStop())
 	{
 		//使っている手の更新処理
- 		player->GetUseHands()[0]->Update(player->GetAngle(), player->GetWorldPos());
+		player->GetUseHands()[0]->Update(player->GetAngle(), player->GetWorldPos());
 
 		//小さい範囲こうげき生成
 		if (player->GetUseHands()[0]->GetTriggerIsGrab())
 		{
-			player->GetSkillManager()->SkillGenerate(player->GetWorldPos());
+			player->GetSkillManager()->SkillGenerate(player->GetWorldPos(), 8.0f);
 		}
 		//二つ目を伸ばすとき、時間止める
 		if (player->input_->TriggerKey(DIK_SPACE))
@@ -166,7 +166,8 @@ void OneHandOneGrab::Update()
 		//突進し終わったら
 		else if (!player->GetUseHands()[0]->GetIsUse())
 		{
-			player->GetUseHands()[0]->AddHandCount(-1);
+			//手の掴んでいる数（両手づかみの判定用）
+			player->GetUseHands()[0]->SetHandCount(0);
 			player->ChangeState(new NoGrab);
 		}
 	}
@@ -183,6 +184,11 @@ void TwoHand::Update()
 	//外部で一体の敵を二つの手でつかんだ判定が出たら
 	if (player->GetIsTwoHandOneGrab())
 	{
+		//両手掴みの貫通用のベクトル
+		Vector3 vec = player->GetUseHands()[0]->GetWorldPos() - player->GetWorldPos();
+		vec.Normalized();
+		player->SetVelocity(vec);
+
 		player->ChangeState(new TwoHandOneGrab);
 	}
 	//つかんだら
@@ -199,13 +205,13 @@ void TwoHand::Update()
 		//２つ目の手がなければ
 		if (player->GetUseHands()[1] == nullptr)
 		{
-			player->GetUseHands()[0]->AddHandCount(-1);
+			player->GetUseHands()[0]->SetHandCount(0);
 			player->ChangeState(new NoGrab);
 		}
 		else
 		{
 			//２つ目の手を１つ目に変更して、２つ目を無くす
-			player->GetUseHands()[0]->AddHandCount(-1);
+			player->GetUseHands()[0]->SetHandCount(0);
 			player->GetUseHands()[0] = player->GetUseHands()[1];
 			player->GetUseHands()[1] = nullptr;
 			player->useHandCount--;
@@ -217,6 +223,8 @@ void TwoHand::Update()
 //---------------------------------
 void TwoHandOneGrab::Update()
 {
+	Vector3 vec;
+
 	//同じ敵をつかんでいるので更新は片方のみ
 	player->GetUseHands()[0]->Update(player->GetAngle(), player->GetWorldPos());
 	player->GetUseHands()[1]->Update(player->GetAngle(), player->GetWorldPos());
@@ -226,7 +234,7 @@ void TwoHandOneGrab::Update()
 	{
 		if (player->GetUseHands()[i]->GetIsGrab())
 		{
-			Vector3 vec = player->GetUseHands()[i]->GetWorldPos() - player->GetWorldPos();
+			vec = player->GetUseHands()[i]->GetWorldPos() - player->GetWorldPos();
 			vec.Normalized();
 
 			player->SetWorldPos(player->GetWorldPos() + vec);
@@ -236,21 +244,39 @@ void TwoHandOneGrab::Update()
 	if (!player->GetUseHands()[0]->GetIsUse() && !player->GetUseHands()[1]->GetIsUse())
 	{
 		//貫通突進
-		player->GetUseHands()[0]->AddHandCount(-1);
-		player->GetUseHands()[1]->AddHandCount(-1);
+		player->GetUseHands()[0]->SetHandCount(0);
+		player->GetUseHands()[1]->SetHandCount(0);
 
 		player->GetUseHands()[0]->ResetFlag();
 		player->GetUseHands()[1]->ResetFlag();
-		
+
 		player->GetUseHands()[0]->ChangeState(new HandNormal);
 		player->GetUseHands()[1]->ChangeState(new HandNormal);
-		
+
 		player->GetUseHands()[0] = nullptr;
 		player->GetUseHands()[1] = nullptr;
 
 		player->useHandCount = 0;
 		player->SetIsTwoHandOneGrab(false);
 
+		player->ChangeState(new TwoHandOneGrab2);
+	}
+}
+
+void TwoHandOneGrab2::Update()
+{
+	timer++;
+
+	player->SetWorldPos(player->GetWorldPos() + player->GetVelocity());
+
+	//三回小さい範囲こうげき
+	if (timer % (maxTimer / 3) == 0)
+	{
+		player->GetSkillManager()->SkillGenerate(player->GetWorldPos(), 1.0f);
+	}
+
+	if (timer >= maxTimer)
+	{
 		player->ChangeState(new NoGrab);
 	}
 }
@@ -260,3 +286,5 @@ void TwoHandTwoGrab::Update()
 {
 	//追加するかも
 }
+
+
