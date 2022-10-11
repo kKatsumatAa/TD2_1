@@ -9,6 +9,22 @@ GameScene::~GameScene() {
 	delete set_;
 }
 
+void (GameScene::* GameScene::sceneUpdateFuncTable[])() = {
+	&GameScene::TitleUpdateFunc,
+	&GameScene::TutorialUpdateFunc,
+	&GameScene::MainGameUpdateFunc,
+	&GameScene::GameoverUpdateFunc,
+	&GameScene::GameClearUpdateFunc
+};
+
+void (GameScene::* GameScene::sceneDrawFuncTable[])() = {
+	&GameScene::TitleDrawFunc,
+	&GameScene::TutorialDrawFunc,
+	&GameScene::MainGameDrawFunc,
+	&GameScene::GameoverDrawFunc,
+	&GameScene::GameClearDrawFunc
+};
+
 void GameScene::Initialize() {
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
@@ -49,6 +65,148 @@ void GameScene::Initialize() {
 
 void GameScene::Update()
 {
+	(this->*sceneUpdateFuncTable[static_cast<size_t>(scene_)])();
+
+	set_->FPS(60.0f);
+	set_->DrawFPS();
+}
+
+void GameScene::Draw() {
+	(this->*sceneDrawFuncTable[static_cast<size_t>(scene_)])();
+
+}
+
+#pragma region タイトルシーン
+/// <summary>
+/// タイトルアップデート
+/// </summary>
+void GameScene::TitleUpdateFunc() {
+	if (input_->TriggerKey(DIK_SPACE)) {
+		scene_ = Scene::MainGame;
+	}
+
+	debugText_->SetPos(600, 350);
+	debugText_->Printf("PLESS SPACE");
+	debugText_->SetPos(1100, 20);
+	debugText_->Printf("Scene = Title");
+}
+/// <summary>
+/// タイトル描画
+/// </summary>
+void GameScene::TitleDrawFunc() {
+	// コマンドリストの取得
+	ID3D12GraphicsCommandList* commandList = dxCommon_->GetCommandList();
+#pragma region 背景スプライト描画
+	// 背景スプライト描画前処理
+	Sprite::PreDraw(commandList);
+
+	/// <summary>
+	/// ここに背景スプライトの描画処理を追加できる
+	/// </summary>
+
+	// スプライト描画後処理
+	Sprite::PostDraw();
+	// 深度バッファクリア
+	dxCommon_->ClearDepthBuffer();
+#pragma endregion
+
+#pragma region 3Dオブジェクト描画
+	// 3Dオブジェクト描画前処理
+	Model::PreDraw(commandList);
+
+	/// <summary>
+	/// ここに3Dオブジェクトの描画処理を追加できる
+	/// </summary>
+
+	// 3Dオブジェクト描画後処理
+	Model::PostDraw();
+#pragma endregion
+
+#pragma region 前景スプライト描画
+	// 前景スプライト描画前処理
+	Sprite::PreDraw(commandList);
+
+	/// <summary>
+	/// ここに前景スプライトの描画処理を追加できる
+	/// </summary>
+
+	// デバッグテキストの描画
+	debugText_->DrawAll(commandList);
+	//
+	// スプライト描画後処理
+	Sprite::PostDraw();
+
+#pragma endregion
+}
+#pragma endregion 
+
+#pragma region チュートリアル
+/// <summary>
+/// チュートリアルアップデート
+/// </summary>
+void GameScene::TutorialUpdateFunc() {
+
+
+	debugText_->SetPos(1100, 20);
+	debugText_->Printf("Scene = Tutorial");
+}
+
+/// <summary>
+/// チュートリアル描画
+/// </summary>
+void GameScene::TutorialDrawFunc() {
+	// コマンドリストの取得
+	ID3D12GraphicsCommandList* commandList = dxCommon_->GetCommandList();
+#pragma region 背景スプライト描画
+	// 背景スプライト描画前処理
+	Sprite::PreDraw(commandList);
+
+	/// <summary>
+	/// ここに背景スプライトの描画処理を追加できる
+	/// </summary>
+
+	// スプライト描画後処理
+	Sprite::PostDraw();
+	// 深度バッファクリア
+	dxCommon_->ClearDepthBuffer();
+#pragma endregion
+
+#pragma region 3Dオブジェクト描画
+	// 3Dオブジェクト描画前処理
+	Model::PreDraw(commandList);
+
+	/// <summary>
+	/// ここに3Dオブジェクトの描画処理を追加できる
+	/// </summary>
+
+	// 3Dオブジェクト描画後処理
+	Model::PostDraw();
+#pragma endregion
+
+#pragma region 前景スプライト描画
+	// 前景スプライト描画前処理
+	Sprite::PreDraw(commandList);
+
+	/// <summary>
+	/// ここに前景スプライトの描画処理を追加できる
+	/// </summary>
+
+	// デバッグテキストの描画
+	debugText_->DrawAll(commandList);
+	//
+	// スプライト描画後処理
+	Sprite::PostDraw();
+
+#pragma endregion
+}
+#pragma endregion
+
+#pragma region メインゲーム
+/// <summary>
+/// メインゲームアップデート
+/// </summary>
+void GameScene::MainGameUpdateFunc() {
+
 	wall_->Update();
 	player_->Update();
 	enemyManager.Update();
@@ -88,14 +246,16 @@ void GameScene::Update()
 
 	}
 
-	set_->FPS(60.0f);
-	set_->DrawFPS();
-}
 
-void GameScene::Draw() {
+	debugText_->SetPos(1100, 20);
+	debugText_->Printf("Scene = MainGame");
+}
+/// <summary>
+/// メインゲーム描画
+/// </summary>
+void GameScene::MainGameDrawFunc() {
 	// コマンドリストの取得
 	ID3D12GraphicsCommandList* commandList = dxCommon_->GetCommandList();
-
 #pragma region 背景スプライト描画
 	// 背景スプライト描画前処理
 	Sprite::PreDraw(commandList);
@@ -145,3 +305,124 @@ void GameScene::Draw() {
 
 #pragma endregion
 }
+#pragma endregion
+
+#pragma region ゲームオーバー
+/// <summary>
+/// ゲームオーバーアップデート
+/// </summary>
+void GameScene::GameoverUpdateFunc() {
+
+
+	debugText_->SetPos(1100, 20);
+	debugText_->Printf("Scene = GameOver");
+}
+/// <summary>
+/// ゲームオーバー描画
+/// </summary>
+void GameScene::GameoverDrawFunc() {
+	// コマンドリストの取得
+	ID3D12GraphicsCommandList* commandList = dxCommon_->GetCommandList();
+#pragma region 背景スプライト描画
+	// 背景スプライト描画前処理
+	Sprite::PreDraw(commandList);
+
+	/// <summary>
+	/// ここに背景スプライトの描画処理を追加できる
+	/// </summary>
+
+	// スプライト描画後処理
+	Sprite::PostDraw();
+	// 深度バッファクリア
+	dxCommon_->ClearDepthBuffer();
+#pragma endregion
+
+#pragma region 3Dオブジェクト描画
+	// 3Dオブジェクト描画前処理
+	Model::PreDraw(commandList);
+
+	/// <summary>
+	/// ここに3Dオブジェクトの描画処理を追加できる
+	/// </summary>
+
+	// 3Dオブジェクト描画後処理
+	Model::PostDraw();
+#pragma endregion
+
+#pragma region 前景スプライト描画
+	// 前景スプライト描画前処理
+	Sprite::PreDraw(commandList);
+
+	/// <summary>
+	/// ここに前景スプライトの描画処理を追加できる
+	/// </summary>
+
+	// デバッグテキストの描画
+	debugText_->DrawAll(commandList);
+	//
+	// スプライト描画後処理
+	Sprite::PostDraw();
+
+#pragma endregion
+}
+#pragma endregion
+
+#pragma region ゲームクリア
+/// <summary>
+/// ゲームクリアアップデート
+/// </summary>
+void GameScene::GameClearUpdateFunc() {
+
+
+	debugText_->SetPos(1100, 20);
+	debugText_->Printf("Scene = GameClear");
+}
+/// <summary>
+/// ゲームクリア描画
+/// </summary>
+void GameScene::GameClearDrawFunc() {
+	// コマンドリストの取得
+	ID3D12GraphicsCommandList* commandList = dxCommon_->GetCommandList();
+#pragma region 背景スプライト描画
+	// 背景スプライト描画前処理
+	Sprite::PreDraw(commandList);
+
+	/// <summary>
+	/// ここに背景スプライトの描画処理を追加できる
+	/// </summary>
+
+	// スプライト描画後処理
+	Sprite::PostDraw();
+	// 深度バッファクリア
+	dxCommon_->ClearDepthBuffer();
+#pragma endregion
+
+#pragma region 3Dオブジェクト描画
+	// 3Dオブジェクト描画前処理
+	Model::PreDraw(commandList);
+
+	/// <summary>
+	/// ここに3Dオブジェクトの描画処理を追加できる
+	/// </summary>
+
+	// 3Dオブジェクト描画後処理
+	Model::PostDraw();
+#pragma endregion
+
+#pragma region 前景スプライト描画
+	// 前景スプライト描画前処理
+	Sprite::PreDraw(commandList);
+
+	/// <summary>
+	/// ここに前景スプライトの描画処理を追加できる
+	/// </summary>
+
+	// デバッグテキストの描画
+	debugText_->DrawAll(commandList);
+	//
+	// スプライト描画後処理
+	Sprite::PostDraw();
+
+#pragma endregion
+}
+#pragma endregion

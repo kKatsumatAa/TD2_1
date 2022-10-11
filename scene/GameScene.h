@@ -17,7 +17,13 @@
 #include "Wall.h"
 #include "Setting.h"
 
-
+enum class Scene {
+	Title,
+	Tutorial,
+	MainGame,
+	Gameover,
+	GameClear
+};
 
 /// <summary>
 /// ゲームシーン
@@ -50,6 +56,22 @@ public: // メンバ関数
 	/// </summary>
 	void Draw();
 
+	//シーン関数テーブル
+	void TitleUpdateFunc();
+	void TutorialUpdateFunc();
+	void MainGameUpdateFunc();
+	void GameoverUpdateFunc();
+	void GameClearUpdateFunc();
+
+	void TitleDrawFunc();
+	void TutorialDrawFunc();
+	void MainGameDrawFunc();
+	void GameoverDrawFunc();
+	void GameClearDrawFunc();
+
+	static void(GameScene::* sceneUpdateFuncTable[])();
+	static void(GameScene::* sceneDrawFuncTable[])();
+
 private: // メンバ変数
 	//テクスチャハンドル
 	uint32_t textureHandle_[10];
@@ -80,6 +102,8 @@ private: // メンバ変数
 	//ビュープロジェクション
 	ViewProjection viewProjection_;
 
+	//シーン
+	Scene scene_ = Scene::Title;
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>
