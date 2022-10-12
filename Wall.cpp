@@ -35,6 +35,7 @@ void Wall::Update()
 void Wall::Draw(ViewProjection viewProjection)
 {
 	for (int i = 0; i < 4; i++) {
+		
 		wall_[i]->Draw(wallTrans_[i], viewProjection);
 	}
 }
