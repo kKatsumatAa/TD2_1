@@ -91,7 +91,7 @@ void GameScene::TitleUpdateFunc() {
 	}
 
 
-	
+#ifdef _DEBUG
 	debugText_->SetPos(600, 350);
 	debugText_->Printf("PLESS SPACE");
 	debugText_->SetPos(1100, 20);
@@ -101,6 +101,7 @@ void GameScene::TitleUpdateFunc() {
 	if (input_->TriggerKey(DIK_P)) {
 		scene_ = Scene::Tutorial;
 	}
+#endif
 }
 /// <summary>
 /// タイトル描画
@@ -158,7 +159,7 @@ void GameScene::TitleDrawFunc() {
 /// </summary>
 void GameScene::TutorialUpdateFunc() {
 
-
+#ifdef _DEBUG
 	debugText_->SetPos(1100, 20);
 	debugText_->Printf("Scene = Tutorial");
 	debugText_->SetPos(1100, 40);
@@ -166,6 +167,7 @@ void GameScene::TutorialUpdateFunc() {
 	if (input_->TriggerKey(DIK_P)) {
 		scene_ = Scene::MainGame;
 	}
+#endif
 }
 
 /// <summary>
@@ -263,7 +265,7 @@ void GameScene::MainGameUpdateFunc() {
 
 	}
 
-
+#ifdef _DEBUG
 	debugText_->SetPos(1100, 20);
 	debugText_->Printf("Scene = MainGame");
 	debugText_->SetPos(1100, 40);
@@ -271,6 +273,7 @@ void GameScene::MainGameUpdateFunc() {
 	if (input_->TriggerKey(DIK_P)) {
 		scene_ = Scene::Gameover;
 	}
+#endif
 }
 /// <summary>
 /// メインゲーム描画
@@ -335,7 +338,7 @@ void GameScene::MainGameDrawFunc() {
 /// </summary>
 void GameScene::GameoverUpdateFunc() {
 
-
+#ifdef _DEBUG
 	debugText_->SetPos(1100, 20);
 	debugText_->Printf("Scene = GameOver");
 	debugText_->SetPos(1100, 40);
@@ -343,6 +346,7 @@ void GameScene::GameoverUpdateFunc() {
 	if (input_->TriggerKey(DIK_P)) {
 		scene_ = Scene::GameClear;
 	}
+#endif
 }
 /// <summary>
 /// ゲームオーバー描画
@@ -400,7 +404,7 @@ void GameScene::GameoverDrawFunc() {
 /// </summary>
 void GameScene::GameClearUpdateFunc() {
 
-
+#ifdef _DEBUG
 	debugText_->SetPos(1100, 20);
 	debugText_->Printf("Scene = GameClear");
 	debugText_->SetPos(1100, 40);
@@ -408,6 +412,7 @@ void GameScene::GameClearUpdateFunc() {
 	if (input_->TriggerKey(DIK_P)) {
 		scene_ = Scene::Title;
 	}
+#endif
 }
 /// <summary>
 /// ゲームクリア描画
