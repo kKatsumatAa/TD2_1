@@ -19,7 +19,6 @@
     <ClCompile Include="base\WinApp.cpp" />
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="ColliderManager.cpp" />
-    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyManager.cpp" />
     <ClCompile Include="HandSkill.cpp" />
     <ClCompile Include="HandSkillManager.cpp" />
@@ -35,7 +34,15 @@
     <ClCompile Include="Setting.cpp" />
     <ClCompile Include="Util.cpp" />
     <ClCompile Include="Wall.cpp" />
-    <ClCompile Include="EfectManager.cpp" />
+    <ClCompile Include="EffectManager.cpp">
+      <Filter>Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="EffectBurst.cpp">
+      <Filter>Effect</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="2d\DebugText.h" />
@@ -80,7 +87,10 @@
     <ClInclude Include="Setting.h" />
     <ClInclude Include="Util.h" />
     <ClInclude Include="Wall.h" />
-    <ClInclude Include="EfectManager.h" />
+    <ClInclude Include="EffectManager.h" />
+    <ClInclude Include="EffectBurst.h">
+      <Filter>Effect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\shaders\Obj.hlsli" />
@@ -88,5 +98,10 @@
     <None Include="Resources\shaders\Shape.hlsli" />
     <None Include="Resources\shaders\Terrain.hlsli" />
     <None Include="Resources\shaders\Sprite.hlsli" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Effect">
+      <UniqueIdentifier>{d83fb07c-4645-4ad2-bc75-be9b813e5d88}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

@@ -10,13 +10,13 @@ void Wall::Initialize()
 
 	//各壁の座標指定
 	wallTrans_[0].translation_ = { -35,  0,  0 };
-	wallTrans_[0].scale_ = { 1,20,1 };
+	wallTrans_[0].scale_ = { 1,20,50 };
 	wallTrans_[1].translation_ = { 35,  0,  0 };
-	wallTrans_[1].scale_ = { 1,20,1 };
+	wallTrans_[1].scale_ = { 1,20,50 };
 	wallTrans_[2].translation_ = { 0,  20, 0 };
-	wallTrans_[2].scale_ = { 36,1,1 };
+	wallTrans_[2].scale_ = { 36,1,50 };
 	wallTrans_[3].translation_ = { 0,  -20,0 };
-	wallTrans_[3].scale_ = { 36,1,1 };
+	wallTrans_[3].scale_ = { 36,0,0 };
 
 	//座標をアップデート
 	for (WorldTransform wallTrans : wallTrans_) {
@@ -58,4 +58,8 @@ Vector3 Wall::isCollisionWall(Vector3 pos, const Vector3& velocity,bool* flag) {
 	}
 
 	return pos;
+}
+
+void Wall::Start() {
+	wallTrans_[3].scale_ = { 36,1,50 };
 }
