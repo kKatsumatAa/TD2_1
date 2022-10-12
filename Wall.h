@@ -14,6 +14,7 @@ public:
 	void Draw(ViewProjection viewProjection);
 
 	Vector3 isCollisionWall(Vector3 pos, const Vector3& velocity,bool* flag = nullptr);
+	void Start();
 
 private:
 	//Žl•û‚Ì•Ç
