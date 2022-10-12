@@ -1,6 +1,6 @@
 #pragma once
 #include "Collider.h"
-
+#include"Wall.h"
 
 //Žè‚ÌÅ‘å‚Ì’·‚³
 static const float handLengthMax = 30.0f;
@@ -24,6 +24,7 @@ private:
 	Model* model_ = nullptr;
 	uint32_t* textureHandle_;
 	DebugText* debugText_ = nullptr;
+	Wall* wall = nullptr;
 
 	//Žè‚ÌI’…“_
 	Vector3 endPos;
@@ -53,7 +54,7 @@ public:
 public:
 	void ChangeState(HandState* state);
 
-	void Initialize(Model* model, uint32_t* textureHandle);
+	void Initialize(Model* model, uint32_t* textureHandle, Wall* wall);
 	void Update(const float& angle,const Vector3& playerPos);
 	void Draw(const ViewProjection& viewProjection);
 
@@ -71,6 +72,7 @@ public:
 	void SetIsBack(const bool& isBack) { IsBack = isBack; }
 
 	bool GetTriggerIsGrab() { return (!IsGrab && IsGrabOld); }
+	Wall* GetWall() { return wall; }
 	
 	Vector3 GetplayerPos() { return playerPos; }
 	void SetplayerPos(const Vector3& playerPos) { this->playerPos = playerPos; }

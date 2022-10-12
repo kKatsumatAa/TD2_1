@@ -1,11 +1,12 @@
 #include "PlayerHand.h"
 
-void PlayerHand::Initialize(Model* model, uint32_t* textureHandle)
+void PlayerHand::Initialize(Model* model, uint32_t* textureHandle,Wall* wall)
 {
 	assert(model);
 
 	model_ = model;
 	textureHandle_ = textureHandle;
+	this->wall = wall;
 	debugText_ = DebugText::GetInstance();
 
 	worldTransform_.Initialize();
@@ -126,8 +127,13 @@ void HandNormal::Update()
 //------------------------------------
 void HandReachOut::Update()
 {
+	bool isWallGrab = true;
 	//I’…“_‚ÉŒü‚©‚Á‚Ä“®‚©‚·
-	hand->SetWorldPos({ hand->GetWorldPos() + hand->velocity_ });
+	hand->SetWorldPos( hand->GetWall()->isCollisionWall(hand->GetWorldPos() , hand->velocity_,&isWallGrab ));
+	if (isWallGrab == false) {
+		hand->SetIsGrab(true);
+	}
+
 
 	//Žè‚ªŒÀŠE‚Ü‚ÅL‚Ñ‚½‚ç
 	Vector3 vec = hand->GetWorldPos() - hand->GetplayerPos();

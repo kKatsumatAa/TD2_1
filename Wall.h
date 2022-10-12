@@ -4,7 +4,7 @@
 #include "Util.h"
 #include "ViewProjection.h"
 #include "TextureManager.h"
-#include "Vector2.h"
+#include "Vector3.h"
 
 class Wall
 {
@@ -13,7 +13,7 @@ public:
 	void Update();
 	void Draw(ViewProjection viewProjection);
 
-	bool isCollisionWall(Vector2 pos);
+	Vector3 isCollisionWall(Vector3 pos, const Vector3& velocity,bool* flag = nullptr);
 
 private:
 	//Žl•û‚Ì•Ç

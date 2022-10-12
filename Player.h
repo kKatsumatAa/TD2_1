@@ -3,6 +3,7 @@
 #include"HandSkillManager.h"
 
 
+
 class Player;
 
 class PlayerHandState
@@ -28,6 +29,7 @@ private:
 	DebugText* debugText_ = nullptr;
 	HandSkillManager* skillManager;
 	HandStop* handStop;
+	Wall* wall = nullptr;
 
 	Vector3 velocity;
 
@@ -51,7 +53,7 @@ public:
 
 	void ChangeState(PlayerHandState* state);
 
-	void Initialize(Model* model, uint32_t* textureHandle, HandSkillManager* skillManager, HandStop* handStop);
+	void Initialize(Model* model, uint32_t* textureHandle, HandSkillManager* skillManager, HandStop* handStop, Wall* wall);
 	void Update();
 	void Draw(const ViewProjection& view);
 	//手を伸ばす
@@ -71,7 +73,7 @@ public:
 
 	void SetVelocity(Vector3 vec) { velocity = vec; }
 	Vector3 GetVelocity() { return velocity; }
-
+	Wall* GetWall() {return wall;}
 	//衝突を検出したら呼び出す（コールバック関数）
 	void OnCollision()override;
 	void OnCollision2(Collider& collider)override;

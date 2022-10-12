@@ -39,15 +39,22 @@ void Wall::Draw(ViewProjection viewProjection)
 	}
 }
 
-bool Wall::isCollisionWall(Vector2 pos) {
-	for (WorldTransform wallTrans : wallTrans_) {
-		if (wallTrans.translation_.x - wallTrans.scale_.x / 2 < pos.x && wallTrans.translation_.x + wallTrans.scale_.x / 2 > pos.x) {
-			return true;
+Vector3 Wall::isCollisionWall(Vector3 pos, const Vector3& velocity,bool* flag) {
+	for (int i = 0; i < 100; i++) {
+		
+		for (WorldTransform wallTrans : wallTrans_) {
+			if (wallTrans.translation_.x - wallTrans.scale_.x < pos.x + 1 && wallTrans.translation_.x + wallTrans.scale_.x > pos.x - 1) {
+				if (wallTrans.translation_.y - wallTrans.scale_.y < pos.y + 1 && wallTrans.translation_.y + wallTrans.scale_.y > pos.y - 1) {
+					pos += velocity * -0.01f;
+					if (flag != nullptr) {
+						*flag = false;
+					}
+ 					return pos;
+				}
+			}
 		}
-		if (wallTrans.translation_.y - wallTrans.scale_.y / 2 < pos.y && wallTrans.translation_.y + wallTrans.scale_.y / 2 > pos.y) {
-			return true;
-		}
+		pos += velocity * 0.01f;
 	}
 
-	return false;
+	return pos;
 }

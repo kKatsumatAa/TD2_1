@@ -40,16 +40,16 @@ void GameScene::Initialize() {
 	//3Dモデルの生成
 	model_ = Model::Create();
 
+	wall_ = new Wall();
+	wall_->Initialize();
+
 	player_ = new Player();
-	player_->Initialize(model_, textureHandle_, &skillManager, &handStop);
+	player_->Initialize(model_, textureHandle_, &skillManager, &handStop,wall_);
 
 	enemyManager.Initialize(player_, model_, textureHandle_);
 
 
 	skillManager.Initialize(model_, textureHandle_);
-
-	wall_ = new Wall();
-	wall_->Initialize();
 
 	set_ = new Setting();
 	set_->Initialize();
