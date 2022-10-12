@@ -91,8 +91,10 @@ void GameScene::Draw() {
 /// タイトルアップデート
 /// </summary>
 void GameScene::TitleUpdateFunc() {
-	if (input_->TriggerKey(DIK_SPACE)) {
-		isStart = true;
+	if (set_->WaitFPS() == true) {
+		if (input_->TriggerKey(DIK_SPACE)) {
+			isStart = true;
+		}
 	}
 	if (isStart == true) {
 		if (Start(0.4f) == true) {
@@ -104,8 +106,18 @@ void GameScene::TitleUpdateFunc() {
 
 #ifdef _DEBUG
 	if (isStart == false) {
-		debugText_->SetPos(590, 200);
-		debugText_->Printf("PLESS SPACE");
+		if (set_->WaitFPS() == true) {
+			debugText_->SetPos(540, 200);
+			debugText_->SetScale(2);
+			debugText_->Printf("PLESS SPACE");
+			debugText_->SetScale(1);
+		}
+		else {
+			debugText_->SetPos(540, 200);
+			debugText_->SetScale(2);
+			debugText_->Printf("NOW LOADING");
+			debugText_->SetScale(1);
+		}
 	}
 	debugText_->SetPos(1100, 20);
 	debugText_->Printf("Scene = Title");
@@ -113,6 +125,9 @@ void GameScene::TitleUpdateFunc() {
 	debugText_->Printf("[P] = NextScene");
 	if (input_->TriggerKey(DIK_P)) {
 		scene_ = Scene::Tutorial;
+		wall_->Start();
+		viewProjection_.eye = { 0,0,-50 };
+		viewProjection_.UpdateMatrix();
 	}
 #endif
 }

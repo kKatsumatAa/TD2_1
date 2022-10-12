@@ -7,6 +7,9 @@ void Setting::Initialize() {
 void Setting::FPS(float FPS)
 {
 	now_ = time(NULL);
+	if (isSetFPS_ == false) {
+		isWait_ = false;
+	}
 	if (old_ != now_ && isSetFPS_ == false) {
 		if (isStart_ == false) {
 			isStart_ = true;
@@ -17,6 +20,7 @@ void Setting::FPS(float FPS)
 			old_ = time(NULL);
 			sleepTime_ = (FPSCount_ / FPS) * 2;
 			isSetFPS_ = true;
+			isWait_ = true;
 		}
 	}
 	else {
@@ -37,4 +41,9 @@ void Setting::DrawFPS(Vector2 pos) {
 
 	debugText_->SetPos(pos.x, pos.y);
 	debugText_->Printf("FPS = %03.0f", showFPSCount_);
+}
+
+bool Setting::WaitFPS()
+{
+	return isWait_;
 }
