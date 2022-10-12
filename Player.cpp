@@ -8,13 +8,15 @@ void Player::ChangeState(PlayerHandState* state)
 }
 
 //----------------------------------------------------------------------
-void Player::Initialize(Model* model, uint32_t* textureHandle, HandSkillManager* skillManager, HandStop* handStop)
+void Player::Initialize(Model* model, uint32_t* textureHandle, HandSkillManager* skillManager, HandStop* handStop,
+Wall* wall)
 {
 	assert(model);
 
 	model_ = model;
 	modelHand_ = model;
 	textureHandle_ = textureHandle;
+	this->wall = wall;
 
 	this->skillManager = skillManager;
 	this->handStop = handStop;
@@ -27,8 +29,8 @@ void Player::Initialize(Model* model, uint32_t* textureHandle, HandSkillManager*
 	worldTransformHand_.Initialize();
 	worldTransformHand_.scale_ = { 0.2f,0.2f,0.2f };
 
-	handR.Initialize(modelHand_, textureHandle);
-	handL.Initialize(modelHand_, textureHandle);
+	handR.Initialize(modelHand_, textureHandle,wall);
+	handL.Initialize(modelHand_, textureHandle,wall);
 
 	state = new NoGrab;
 	state->SetPlayer(this);
@@ -161,7 +163,7 @@ void OneHandOneGrab::Update()
 			Vector3 vec = player->GetUseHands()[0]->GetWorldPos() - player->GetWorldPos();
 			vec.Normalized();
 
-			player->SetWorldPos(player->GetWorldPos() + vec);
+			player->SetWorldPos(player->GetWall()->isCollisionWall(player->GetWorldPos(), vec * handVelocityExtend));
 		}
 		//突進し終わったら
 		else if (!player->GetUseHands()[0]->GetIsUse())
@@ -197,7 +199,7 @@ void TwoHand::Update()
 		Vector3 vec = player->GetUseHands()[0]->GetWorldPos() - player->GetWorldPos();
 		vec.Normalized();
 
-		player->SetWorldPos(player->GetWorldPos() + vec);
+		player->SetWorldPos(player->GetWall()->isCollisionWall(player->GetWorldPos(), vec * handVelocityExtend));
 	}
 	//突進し終わったら
 	else if (!player->GetUseHands()[0]->GetIsUse())
@@ -237,7 +239,7 @@ void TwoHandOneGrab::Update()
 			vec = player->GetUseHands()[i]->GetWorldPos() - player->GetWorldPos();
 			vec.Normalized();
 
-			player->SetWorldPos(player->GetWorldPos() + vec);
+			player->SetWorldPos(player->GetWall()->isCollisionWall(player->GetWorldPos(), vec * handVelocityExtend));
 		}
 	}
 	//突進し終わったら
@@ -267,7 +269,7 @@ void TwoHandOneGrab2::Update()
 {
 	timer++;
 
-	player->SetWorldPos(player->GetWorldPos() + player->GetVelocity());
+	player->SetWorldPos(player->GetWall()->isCollisionWall(player->GetWorldPos(), player->GetVelocity()));
 
 	//三回小さい範囲こうげき
 	if (timer % (maxTimer / 3) == 0)
