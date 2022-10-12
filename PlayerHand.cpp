@@ -34,9 +34,9 @@ void PlayerHand::Update(const float& angle, const Vector3& playerPos)
 
 	this->playerPos = playerPos;
 
-	state->Update();
-
 	worldTransform_.UpdateMatrix();
+
+	state->Update();
 }
 
 void PlayerHand::Draw(const ViewProjection& viewProjection)
@@ -129,7 +129,7 @@ void HandReachOut::Update()
 {
 	bool isWallGrab = true;
 	//I’…“_‚ÉŒü‚©‚Á‚Ä“®‚©‚·
-	hand->SetWorldPos( hand->GetWall()->isCollisionWall(hand->GetWorldPos() , hand->velocity_,&isWallGrab ));
+	hand->SetWorldPos( hand->GetWall()->isCollisionWall(hand->GetWorldPos() , hand->velocity_, &isWallGrab ));
 	if (isWallGrab == false) {
 		hand->SetIsGrab(true);
 	}
