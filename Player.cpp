@@ -157,21 +157,24 @@ void OneHandOneGrab::Update()
 			}
 		}
 		//changeStateした後に参照するとエラー起きるので else if
-		//つかんだら
-		else if (player->GetUseHands()[0]->GetIsGrab())
-		{
-			Vector3 vec = player->GetUseHands()[0]->GetWorldPos() - player->GetWorldPos();
-			vec.Normalized();
-
-			player->SetWorldPos(player->GetWall()->isCollisionWall(player->GetWorldPos(), vec * handVelocityExtend));
-		}
-		//突進し終わったら
+		// //突進し終わったら
 		else if (!player->GetUseHands()[0]->GetIsUse())
 		{
 			//手の掴んでいる数（両手づかみの判定用）
 			player->GetUseHands()[0]->SetHandCount(0);
 			player->ChangeState(new NoGrab);
 		}
+		//つかんだら
+		else if (player->GetUseHands()[0]->GetIsGrab() && 
+			(!CollisionCircleCircle(player->GetWorldPos(),player->GetRadius(), 
+				player->GetUseHands()[0]->GetWorldPos(), player->GetUseHands()[0]->GetRadius())))
+		{
+			Vector3 vec = player->GetUseHands()[0]->GetWorldPos() - player->GetWorldPos();
+			vec.Normalized();
+
+			player->SetWorldPos(player->GetWall()->isCollisionWall(player->GetWorldPos(), vec * handVelocityExtend));
+		}
+
 	}
 }
 
