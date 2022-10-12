@@ -9,7 +9,7 @@ void Player::ChangeState(PlayerHandState* state)
 
 //----------------------------------------------------------------------
 void Player::Initialize(Model* model, uint32_t* textureHandle, HandSkillManager* skillManager, HandStop* handStop,
-Wall* wall)
+	Wall* wall)
 {
 	assert(model);
 
@@ -29,8 +29,8 @@ Wall* wall)
 	worldTransformHand_.Initialize();
 	worldTransformHand_.scale_ = { 0.2f,0.2f,0.2f };
 
-	handR.Initialize(modelHand_, textureHandle,wall);
-	handL.Initialize(modelHand_, textureHandle,wall);
+	handR.Initialize(modelHand_, textureHandle, wall);
+	handL.Initialize(modelHand_, textureHandle, wall);
 
 	state = new NoGrab;
 	state->SetPlayer(this);
@@ -124,6 +124,8 @@ void OneHandOneGrab::Update()
 {
 	if (!player->GetHandStop()->GetIsStop())
 	{
+		bool isWallHit = false;
+
 		//使っている手の更新処理
 		player->GetUseHands()[0]->Update(player->GetAngle(), player->GetWorldPos());
 
@@ -157,30 +159,33 @@ void OneHandOneGrab::Update()
 			}
 		}
 		//changeStateした後に参照するとエラー起きるので else if
-		// //突進し終わったら
-		else if (!player->GetUseHands()[0]->GetIsUse())
-		{
-			//手の掴んでいる数（両手づかみの判定用）
-			player->GetUseHands()[0]->SetHandCount(0);
-			player->ChangeState(new NoGrab);
-		}
-		//つかんだら
-		else if (player->GetUseHands()[0]->GetIsGrab() && 
-			(!CollisionCircleCircle(player->GetWorldPos(),player->GetRadius(), 
+		// //つかんだら
+		else if (player->GetUseHands()[0]->GetIsGrab() &&
+			(!CollisionCircleCircle(player->GetWorldPos(), player->GetRadius(),
 				player->GetUseHands()[0]->GetWorldPos(), player->GetUseHands()[0]->GetRadius())))
 		{
 			Vector3 vec = player->GetUseHands()[0]->GetWorldPos() - player->GetWorldPos();
 			vec.Normalized();
 
-			player->SetWorldPos(player->GetWall()->isCollisionWall(player->GetWorldPos(), vec * handVelocityExtend));
+			player->SetWorldPos(player->GetWall()->isCollisionWall(player->GetWorldPos(), vec * handVelocityExtend, &isWallHit));
 		}
-
+		// //突進し終わったら
+		else if (!player->GetUseHands()[0]->GetIsUse()||isWallHit)
+		{
+			//手の掴んでいる数（両手づかみの判定用）
+			player->GetUseHands()[0]->SetHandCount(0);
+			player->GetUseHands()[0]->ResetFlag();
+			player->GetUseHands()[0] = nullptr;
+			player->ChangeState(new NoGrab);
+		}
 	}
 }
 
 //---------------------------------
 void TwoHand::Update()
 {
+	bool isWallHit = false;
+
 	//先に伸ばした手の更新処理
 	player->GetUseHands()[0]->Update(player->GetAngle(), player->GetWorldPos());
 	if (player->GetUseHands()[1] != nullptr && !player->GetUseHands()[1]->GetIsGrab() && player->GetUseHands()[1]->GetIsUse())
@@ -202,21 +207,26 @@ void TwoHand::Update()
 		Vector3 vec = player->GetUseHands()[0]->GetWorldPos() - player->GetWorldPos();
 		vec.Normalized();
 
-		player->SetWorldPos(player->GetWall()->isCollisionWall(player->GetWorldPos(), vec * handVelocityExtend));
+		player->SetWorldPos(player->GetWall()->isCollisionWall(player->GetWorldPos(), vec * handVelocityExtend, &isWallHit));
 	}
 	//突進し終わったら
 	else if (!player->GetUseHands()[0]->GetIsUse())
 	{
 		//２つ目の手がなければ
-		if (player->GetUseHands()[1] == nullptr)
+		if (player->GetUseHands()[1] == nullptr || isWallHit)
 		{
 			player->GetUseHands()[0]->SetHandCount(0);
+			player->GetUseHands()[0]->ResetFlag();
+			player->GetUseHands()[0] = nullptr;
+
+			player->useHandCount = 0;
 			player->ChangeState(new NoGrab);
 		}
 		else
 		{
 			//２つ目の手を１つ目に変更して、２つ目を無くす
 			player->GetUseHands()[0]->SetHandCount(0);
+			player->GetUseHands()[0]->ResetFlag();
 			player->GetUseHands()[0] = player->GetUseHands()[1];
 			player->GetUseHands()[1] = nullptr;
 			player->useHandCount--;
@@ -228,6 +238,8 @@ void TwoHand::Update()
 //---------------------------------
 void TwoHandOneGrab::Update()
 {
+	bool isWallHit = false;
+
 	Vector3 vec;
 
 	//同じ敵をつかんでいるので更新は片方のみ
@@ -242,11 +254,11 @@ void TwoHandOneGrab::Update()
 			vec = player->GetUseHands()[i]->GetWorldPos() - player->GetWorldPos();
 			vec.Normalized();
 
-			player->SetWorldPos(player->GetWall()->isCollisionWall(player->GetWorldPos(), vec * handVelocityExtend));
+			player->SetWorldPos(player->GetWall()->isCollisionWall(player->GetWorldPos(), vec * handVelocityExtend, &isWallHit));
 		}
 	}
-	//突進し終わったら
-	if (!player->GetUseHands()[0]->GetIsUse() && !player->GetUseHands()[1]->GetIsUse())
+	//突進し終わったら(or壁に当たったら)
+	if ((!player->GetUseHands()[0]->GetIsUse() && !player->GetUseHands()[1]->GetIsUse()) || isWallHit)
 	{
 		//貫通突進
 		player->GetUseHands()[0]->SetHandCount(0);
