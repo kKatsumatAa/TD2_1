@@ -11,6 +11,7 @@ public:
 
 	void FPS(float FPS);
 	void DrawFPS(Vector2 pos = {1100,0});
+	bool WaitFPS();
 private:
 	time_t old_ = time(NULL);
 	time_t now_ = time(NULL);
@@ -20,6 +21,7 @@ private:
 	float sleepTime_ = 0.0f;
 	bool isSetFPS_ = false;
 	bool isStart_ = false;
+	bool isWait_ = true;
 
 	DebugText* debugText_ = nullptr;
 };

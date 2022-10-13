@@ -37,6 +37,13 @@
     <ClCompile Include="Wall.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="ItemManager.cpp" />
+    <ClCompile Include="EffectManager.cpp">
+      <Filter>Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="EffectBurst.cpp">
+      <Filter>Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="2d\DebugText.h" />
@@ -83,6 +90,12 @@
     <ClInclude Include="Wall.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="ItemManager.h" />
+    <ClInclude Include="EffectBurst.h">
+      <Filter>Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="EffectManager.h">
+      <Filter>Effect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\shaders\Obj.hlsli" />
@@ -90,5 +103,10 @@
     <None Include="Resources\shaders\Shape.hlsli" />
     <None Include="Resources\shaders\Terrain.hlsli" />
     <None Include="Resources\shaders\Sprite.hlsli" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Effect">
+      <UniqueIdentifier>{d83fb07c-4645-4ad2-bc75-be9b813e5d88}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

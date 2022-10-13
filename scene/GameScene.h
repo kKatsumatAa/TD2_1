@@ -17,6 +17,7 @@
 #include "Wall.h"
 #include "Setting.h"
 #include "ItemManager.h"
+#include "EffectManager.h"
 
 enum class Scene {
 	Title,
@@ -73,6 +74,9 @@ public: // メンバ関数
 	static void(GameScene::* sceneUpdateFuncTable[])();
 	static void(GameScene::* sceneDrawFuncTable[])();
 
+	//スタート演出
+	bool Start(float speed);
+
 private: // メンバ変数
 	//テクスチャハンドル
 	uint32_t textureHandle_[10];
@@ -88,6 +92,8 @@ private: // メンバ変数
 	Wall* wall_ = nullptr;
 
 	Setting* set_ = nullptr;
+
+	EffectManager* effect_ = nullptr;
 
 	//衝突
 	std::unique_ptr<ColliderManager> colliderManager = std::make_unique<ColliderManager>();
@@ -107,6 +113,10 @@ private: // メンバ変数
 
 	//シーン
 	Scene scene_ = Scene::Title;
+
+	//スタート演出
+	bool isStart = false;
+
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>

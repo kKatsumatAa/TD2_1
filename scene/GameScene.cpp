@@ -7,6 +7,7 @@ GameScene::GameScene() {}
 GameScene::~GameScene() {
 	delete wall_;
 	delete set_;
+	delete effect_;
 }
 
 void (GameScene::* GameScene::sceneUpdateFuncTable[])() = {
@@ -45,7 +46,7 @@ void GameScene::Initialize() {
 	wall_->Initialize();
 
 	player_ = new Player();
-	player_->Initialize(model_, textureHandle_, &skillManager, &handStop,wall_);
+	player_->Initialize(model_, textureHandle_, &skillManager, &handStop, wall_);
 
 	enemyManager.Initialize(player_, model_, textureHandle_);
 
@@ -57,13 +58,17 @@ void GameScene::Initialize() {
 	set_ = new Setting();
 	set_->Initialize();
 
+
 	//ワールドトランスフォームの初期化
 	worldTransform_.Initialize();
 
 	//ビュープロジェクションの初期化
 	viewProjection_.Initialize();
-	//viewProjection_.eye = { 0,0,-100.0f };
+	viewProjection_.eye = { 0,-49,-1 };
 	viewProjection_.UpdateMatrix();
+
+	effect_ = new EffectManager();
+	effect_->Initialize(viewProjection_);
 }
 
 void GameScene::Update()
@@ -89,20 +94,43 @@ void GameScene::Draw() {
 /// タイトルアップデート
 /// </summary>
 void GameScene::TitleUpdateFunc() {
-	if (input_->TriggerKey(DIK_SPACE)) {
-		scene_ = Scene::MainGame;
+	if (set_->WaitFPS() == true) {
+		if (input_->TriggerKey(DIK_SPACE)) {
+			isStart = true;
+		}
+	}
+	if (isStart == true) {
+		if (Start(0.4f) == true) {
+			wall_->Start();
+			scene_ = Scene::MainGame;
+		}
 	}
 
 
 #ifdef _DEBUG
-	debugText_->SetPos(600, 350);
-	debugText_->Printf("PLESS SPACE");
+	if (isStart == false) {
+		if (set_->WaitFPS() == true) {
+			debugText_->SetPos(540, 200);
+			debugText_->SetScale(2);
+			debugText_->Printf("PLESS SPACE");
+			debugText_->SetScale(1);
+		}
+		else {
+			debugText_->SetPos(540, 200);
+			debugText_->SetScale(2);
+			debugText_->Printf("NOW LOADING");
+			debugText_->SetScale(1);
+		}
+	}
 	debugText_->SetPos(1100, 20);
 	debugText_->Printf("Scene = Title");
 	debugText_->SetPos(1100, 40);
 	debugText_->Printf("[P] = NextScene");
 	if (input_->TriggerKey(DIK_P)) {
 		scene_ = Scene::Tutorial;
+		wall_->Start();
+		viewProjection_.eye = { 0,0,-50 };
+		viewProjection_.UpdateMatrix();
 	}
 #endif
 }
@@ -133,6 +161,8 @@ void GameScene::TitleDrawFunc() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
+	wall_->Draw(viewProjection_);
+	player_->Draw(viewProjection_);
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
@@ -162,6 +192,11 @@ void GameScene::TitleDrawFunc() {
 /// </summary>
 void GameScene::TutorialUpdateFunc() {
 
+	effect_->Update();
+
+
+
+
 #ifdef _DEBUG
 	debugText_->SetPos(1100, 20);
 	debugText_->Printf("Scene = Tutorial");
@@ -169,6 +204,10 @@ void GameScene::TutorialUpdateFunc() {
 	debugText_->Printf("[P] = NextScene");
 	if (input_->TriggerKey(DIK_P)) {
 		scene_ = Scene::MainGame;
+	}
+
+	if (input_->TriggerKey(DIK_1)) {
+		effect_->BurstGenerate(Vector3(0, 0, 0), 5);
 	}
 #endif
 }
@@ -200,6 +239,7 @@ void GameScene::TutorialDrawFunc() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
+	effect_->Draw();
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
@@ -234,6 +274,7 @@ void GameScene::MainGameUpdateFunc() {
 	enemyManager.Update();
 	skillManager.Update();
 	itemManager.Update();
+	effect_->Update();
 
 	//colliderManager
 	{
@@ -286,6 +327,9 @@ void GameScene::MainGameUpdateFunc() {
 	if (input_->TriggerKey(DIK_P)) {
 		scene_ = Scene::Gameover;
 	}
+	if (input_->TriggerKey(DIK_1)) {
+		effect_->BurstGenerate(Vector3(0, 0, 0), 10,2.5f,2.0f);
+	}
 #endif
 }
 /// <summary>
@@ -322,6 +366,8 @@ void GameScene::MainGameDrawFunc() {
 	itemManager.Draw(viewProjection_);
 
 	wall_->Draw(viewProjection_);
+
+	effect_->Draw();
 
 
 	// 3Dオブジェクト描画後処理
@@ -477,3 +523,17 @@ void GameScene::GameClearDrawFunc() {
 #pragma endregion
 }
 #pragma endregion
+
+//プロトタイプ関数
+bool GameScene::Start(float speed) {
+	if (viewProjection_.eye.y >= 0) {
+		return true;
+	}
+	else {
+		viewProjection_.eye.y += speed;
+		viewProjection_.eye.z -= speed;
+		viewProjection_.UpdateMatrix();
+	}
+
+	return false;
+}
