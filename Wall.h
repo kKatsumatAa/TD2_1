@@ -18,8 +18,8 @@ public:
 
 private:
 	//Žl•û‚Ì•Ç
-	Model* wall_[4];
-	WorldTransform wallTrans_[4];
+	Model* wall_[5];
+	WorldTransform wallTrans_[5];
 
 };
 
