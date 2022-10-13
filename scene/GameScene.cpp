@@ -50,11 +50,11 @@ void GameScene::Initialize() {
 	effectManager = new EffectManager();
 	effectManager->Initialize();
 
+	gravity_ = new Gravity();
 	wall_ = new Wall();
-	wall_->Initialize();
-
+	wall_->Initialize(gravity_);
 	player_ = new Player();
-	player_->Initialize(model_, textureHandle_, &skillManager, &handStop, wall_);
+	player_->Initialize(model_, textureHandle_, &skillManager, &handStop, wall_, gravity_);
 
 	enemyManager.Initialize(player_, model_, textureHandle_, effectManager);
 

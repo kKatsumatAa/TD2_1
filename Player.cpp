@@ -9,17 +9,18 @@ void Player::ChangeState(PlayerHandState* state)
 
 //----------------------------------------------------------------------
 void Player::Initialize(Model* model, uint32_t* textureHandle, HandSkillManager* skillManager, HandStop* handStop,
-	Wall* wall)
+	Wall* wall, Gravity* gravity)
 {
 	assert(model);
 
 	model_ = model;
 	modelHand_ = model;
 	textureHandle_ = textureHandle;
-	this->wall = wall;
 
 	this->skillManager = skillManager;
 	this->handStop = handStop;
+	this->wall = wall;
+	this->gravity = gravity;
 
 	//シングルトンインスタンスを取得
 	input_ = Input::GetInstance();
@@ -101,6 +102,8 @@ void NoGrab::Update()
 {
 	player->GetHandR()->Update(player->GetAngle() + pi / 2.0f, player->GetWorldPos());
 	player->GetHandL()->Update(player->GetAngle() + pi / 2.0f, player->GetWorldPos());
+	//重力を適応
+	player->SetWorldPos(player->gravity->Move(player->GetWorldPos(),0.1f));
 
 	//playerのusehandCountはスローモーション用（addHandCountがhandの二個同時掴み用）
 	player->useHandCount = 0;

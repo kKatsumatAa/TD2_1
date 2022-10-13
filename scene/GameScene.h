@@ -90,7 +90,7 @@ private: // メンバ変数
 	EnemyManager enemyManager;
 
 	Wall* wall_ = nullptr;
-
+	Gravity* gravity_ = nullptr;
 	Setting* set_ = nullptr;
 
 	EffectManager* effectManager = nullptr;

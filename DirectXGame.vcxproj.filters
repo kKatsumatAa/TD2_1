@@ -47,6 +47,7 @@
     <ClCompile Include="EffectParticle.cpp">
       <Filter>Effect</Filter>
     </ClCompile>
+    <ClCompile Include="Gravity.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="2d\DebugText.h" />
@@ -102,6 +103,7 @@
     <ClInclude Include="EffectParticle.h">
       <Filter>Effect</Filter>
     </ClInclude>
+    <ClInclude Include="Gravity.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\shaders\Obj.hlsli" />
