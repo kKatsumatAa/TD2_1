@@ -1,13 +1,5 @@
 #include "EnemyManager.h"
-#include <random>
 
-//仮
-	//乱数シード生成器
-std::random_device seed_gen;
-//メルセンヌツイスター
-std::mt19937_64 engine(seed_gen());
-//乱数範囲
-std::uniform_real_distribution<float> posDist(-17.0f, 17.0f);
 
 void EnemyManager::Initialize(Player* player, Model* model, uint32_t* textureHandle)
 {

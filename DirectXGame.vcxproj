@@ -108,6 +108,8 @@
     <ClCompile Include="HandSkillManager.cpp" />
     <ClCompile Include="HandStop.cpp" />
     <ClCompile Include="input\Input.cpp" />
+    <ClCompile Include="Item.cpp" />
+    <ClCompile Include="ItemManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="math\Matrix4.cpp" />
     <ClCompile Include="math\Vector2.cpp" />
@@ -151,6 +153,8 @@
     <ClInclude Include="HandSkillManager.h" />
     <ClInclude Include="HandStop.h" />
     <ClInclude Include="input\Input.h" />
+    <ClInclude Include="Item.h" />
+    <ClInclude Include="ItemManager.h" />
     <ClInclude Include="math\MathUtility.h" />
     <ClInclude Include="math\Matrix4.h" />
     <ClInclude Include="math\Vector2.h" />
