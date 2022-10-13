@@ -315,7 +315,7 @@ void GameScene::MainGameUpdateFunc() {
 		scene_ = Scene::Gameover;
 	}
 	if (input_->TriggerKey(DIK_1)) {
-		effect_->BurstGenerate(Vector3(0, 0, 0), 10);
+		effect_->BurstGenerate(Vector3(0, 0, 0), 10,2.5f,2.0f);
 	}
 #endif
 }

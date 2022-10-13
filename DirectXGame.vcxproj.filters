@@ -37,12 +37,10 @@
     <ClCompile Include="EffectManager.cpp">
       <Filter>Effect</Filter>
     </ClCompile>
-    <ClCompile Include="Enemy.cpp">
-      <Filter>Effect</Filter>
-    </ClCompile>
     <ClCompile Include="EffectBurst.cpp">
       <Filter>Effect</Filter>
     </ClCompile>
+    <ClCompile Include="Enemy.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="2d\DebugText.h" />
@@ -87,8 +85,10 @@
     <ClInclude Include="Setting.h" />
     <ClInclude Include="Util.h" />
     <ClInclude Include="Wall.h" />
-    <ClInclude Include="EffectManager.h" />
     <ClInclude Include="EffectBurst.h">
+      <Filter>Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="EffectManager.h">
       <Filter>Effect</Filter>
     </ClInclude>
   </ItemGroup>

@@ -15,7 +15,7 @@ public:
 	void Draw();
 
 	//飛び散りエフェクト(座標,数)
-	void BurstGenerate(Vector3 pos, uint32_t num);
+	void BurstGenerate(Vector3 pos, uint32_t num, float range = 0.5f, float pow = 2.0f);
 
 private:
 	ViewProjection viewProjection_;

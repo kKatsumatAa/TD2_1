@@ -7,7 +7,7 @@
 
 class Burst {
 public:
-	void Initialize(Model* model,uint32_t texture, Vector3 pos,float range = 0.5f,float pow = 2.0f);
+	void Initialize(Model* model,uint32_t texture, Vector3 pos,float range,float pow);
 	void Update();
 	void Draw(ViewProjection viewProjection);
 
