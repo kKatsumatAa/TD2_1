@@ -7,7 +7,7 @@ GameScene::GameScene() {}
 GameScene::~GameScene() {
 	delete wall_;
 	delete set_;
-	delete effect_;
+	delete effectManager;
 }
 
 void (GameScene::* GameScene::sceneUpdateFuncTable[])() = {
@@ -47,8 +47,8 @@ void GameScene::Initialize() {
 	//3Dモデルの生成
 	model_ = Model::Create();
 
-	effect_ = new EffectManager();
-	effect_->Initialize();
+	effectManager = new EffectManager();
+	effectManager->Initialize();
 
 	wall_ = new Wall();
 	wall_->Initialize();
@@ -56,12 +56,12 @@ void GameScene::Initialize() {
 	player_ = new Player();
 	player_->Initialize(model_, textureHandle_, &skillManager, &handStop, wall_);
 
-	enemyManager.Initialize(player_, model_, textureHandle_, effect_);
+	enemyManager.Initialize(player_, model_, textureHandle_, effectManager);
 
 
 	skillManager.Initialize(model_, textureHandle_);
 
-	itemManager.Initialize(player_, model_, textureHandle_, &handStop);
+	itemManager.Initialize(player_, model_, textureHandle_, &handStop, effectManager);
 
 	set_ = new Setting();
 	set_->Initialize();
@@ -198,7 +198,7 @@ void GameScene::TitleDrawFunc() {
 /// </summary>
 void GameScene::TutorialUpdateFunc() {
 
-	effect_->Update();
+	effectManager->Update();
 
 
 
@@ -213,7 +213,7 @@ void GameScene::TutorialUpdateFunc() {
 	}
 
 	if (input_->TriggerKey(DIK_1)) {
-		effect_->BurstGenerate(Vector3(0, 0, 0), 5);
+		effectManager->BurstGenerate(Vector3(0, 0, 0), 5);
 	}
 #endif
 }
@@ -245,7 +245,7 @@ void GameScene::TutorialDrawFunc() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
-	effect_->Draw(viewProjection_);
+	effectManager->Draw(viewProjection_);
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
@@ -280,7 +280,7 @@ void GameScene::MainGameUpdateFunc() {
 	enemyManager.Update();
 	skillManager.Update();
 	itemManager.Update();
-	effect_->Update();
+	effectManager->Update();
 
 	//colliderManager
 	{
@@ -334,10 +334,10 @@ void GameScene::MainGameUpdateFunc() {
 		scene_ = Scene::Gameover;
 	}
 	if (input_->TriggerKey(DIK_1)) {
-		effect_->BurstGenerate(Vector3(0, 0, 0), 10, 2.5f, 2.0f);
+		effectManager->BurstGenerate(Vector3(0, 0, 0), 10, 2.5f, 2.0f);
 	}
 	if (input_->TriggerKey(DIK_2)) {
-		effect_->ParticleGenerate(Vector3(0, 0, 0),Vector2(1000,100));
+		effectManager->ParticleGenerate(Vector3(0, 0, 0), Vector2(1000, 100));
 	}
 #endif
 }
@@ -376,7 +376,7 @@ void GameScene::MainGameDrawFunc() {
 
 	wall_->Draw(viewProjection_);
 
-	effect_->Draw(viewProjection_);
+	effectManager->Draw(viewProjection_);
 
 
 	// 3Dオブジェクト描画後処理
@@ -390,7 +390,7 @@ void GameScene::MainGameDrawFunc() {
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
-	effect_->SpriteDraw();
+	effectManager->SpriteDraw();
 	// デバッグテキストの描画
 	debugText_->DrawAll(commandList);
 	//

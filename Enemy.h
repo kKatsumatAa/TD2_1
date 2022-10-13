@@ -1,6 +1,5 @@
 #pragma once
 #include"Player.h"
-#include"EffectManager.h"
 
 
 class Enemy : public Collider

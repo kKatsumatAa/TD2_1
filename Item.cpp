@@ -1,13 +1,14 @@
 #include "Item.h"
 
 
-void Item::Initialize(Model* model, uint32_t* textureHandle, const Vector3& pos, HandStop* handStop)
+void Item::Initialize(Model* model, uint32_t* textureHandle, const Vector3& pos, HandStop* handStop, EffectManager* effectManager)
 {
 	assert(model);
 
 	model_ = model;
 	textureHandle_ = textureHandle;
 
+	this->effectManager = effectManager;
 	debugText_ = DebugText::GetInstance();
 
 	this->handStop = handStop;

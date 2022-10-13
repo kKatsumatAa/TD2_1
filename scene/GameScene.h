@@ -93,7 +93,7 @@ private: // メンバ変数
 
 	Setting* set_ = nullptr;
 
-	EffectManager* effect_ = nullptr;
+	EffectManager* effectManager = nullptr;
 
 	//衝突
 	std::unique_ptr<ColliderManager> colliderManager = std::make_unique<ColliderManager>();

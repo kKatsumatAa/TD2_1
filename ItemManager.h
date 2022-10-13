@@ -13,6 +13,8 @@ private:
 	Input* input_ = nullptr;
 	HandStop* handStop = nullptr;
 
+	EffectManager* effectManager = nullptr;
+
 	////敵発生コマンド
 	//std::stringstream ItemPopCommands;
 	////待機
@@ -37,7 +39,7 @@ public:
 	//bool isBossDead = false;
 
 
-	void Initialize(Player* player, Model* model, uint32_t* textureHandle, HandStop* handStop);
+	void Initialize(Player* player, Model* model, uint32_t* textureHandle, HandStop* handStop, EffectManager* effectManager);
 	void Update();
 	void Draw(const ViewProjection& view);
 

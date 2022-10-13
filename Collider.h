@@ -12,6 +12,7 @@
 #include "HandStop.h"
 #include <cstdint>
 #include <random>
+#include"EffectManager.h"
 
 //‰¼
 	//—”ƒV[ƒh¶¬Ší
