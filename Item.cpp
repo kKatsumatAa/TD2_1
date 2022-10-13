@@ -25,7 +25,7 @@ void Item::Update()
 {
 	timer++;
 
-	if (timer % 60 == 0)
+	if (timer % 180 == 0)
 	{
 		bonusTime++;
 	}
