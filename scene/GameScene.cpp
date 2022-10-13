@@ -116,14 +116,18 @@ void GameScene::TitleUpdateFunc() {
 #ifdef _DEBUG
 	if (isStart == false) {
 		if (set_->WaitFPS() == true) {
-			debugText_->SetPos(540, 200);
 			debugText_->SetScale(2);
+			debugText_->SetPos(540, 100);
+			debugText_->Printf("ARM NOBI-RU");
+			debugText_->SetPos(540, 200);
 			debugText_->Printf("PLESS SPACE");
 			debugText_->SetScale(1);
 		}
 		else {
-			debugText_->SetPos(540, 200);
 			debugText_->SetScale(2);
+			debugText_->SetPos(540, 100);
+			debugText_->Printf("ARM NOBI-RU");
+			debugText_->SetPos(540, 200);
 			debugText_->Printf("NOW LOADING");
 			debugText_->SetScale(1);
 		}
