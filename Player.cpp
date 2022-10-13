@@ -195,7 +195,7 @@ void TwoHand::Update()
 	if (player->GetIsTwoHandOneGrab())
 	{
 		//両手掴みの貫通用のベクトル
-		Vector3 vec = player->GetUseHands()[0]->GetWorldPos() - player->GetWorldPos();
+ 		Vector3 vec = player->GetUseHands()[0]->GetWorldPos() - player->GetWorldPos();
 		vec.Normalized();
 		player->SetVelocity(vec);
 

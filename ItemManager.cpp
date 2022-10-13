@@ -40,25 +40,28 @@ void ItemManager::Update()
 			item->Update();
 		}
 	}
-
 	//“Gˆê‘Ì‚É“ñ‚Â‚Ìè‚ª‚Â‚¢‚Ä‚¢‚½‚ç
 	for (std::unique_ptr<Item>& item : items)
 	{
 		if (item.get()->GetIsDead())effectManager->ParticleGenerate(item.get()->GetWorldPos(), { 1000,10 });
-
-		//state‚ğ•Ï‚¦‚é
-		if (item.get()->GetHandCount() >= 2 && !player->GetIsTwoHandOneGrab())
-		{
-			player->SetIsTwoHandOneGrab(true);
-		}
 	}
-
 	//“GÁ‚·
 	items.remove_if([](std::unique_ptr<Item>& item)
 		{
 			return (item->GetIsDead());
 		}
 	);
+	//“Gˆê‘Ì‚É“ñ‚Â‚Ìè‚ª‚Â‚¢‚Ä‚¢‚½‚ç
+	for (std::unique_ptr<Item>& item : items)
+	{
+		//state‚ğ•Ï‚¦‚é
+		if (item.get()->GetHandCount() == 2 && !player->GetIsTwoHandOneGrab())
+		{
+			player->SetIsTwoHandOneGrab(true);
+		}
+	}
+
+	
 
 	//‰¼
 	if (input_->TriggerKey(DIK_Z) || items.size() <= 0)

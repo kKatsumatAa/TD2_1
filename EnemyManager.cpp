@@ -54,18 +54,14 @@ void EnemyManager::EnemyGenerate(const Vector3& pos)
 
 void EnemyManager::Update()
 {
+	
+
 	//“Gˆê‘Ì‚É“ñ‚Â‚Ìè‚ª‚Â‚¢‚Ä‚¢‚½‚ç
 	for (std::unique_ptr<Enemy>& enemy : enemies)
 	{
 		if (enemy.get()->GetIsDead()) effectManager->BurstGenerate(enemy.get()->GetWorldPos(), 10);
 
-		//state‚ğ•Ï‚¦‚é
-		if (enemy.get()->GetHandCount() >= 2 && !player->GetIsTwoHandOneGrab())
-		{
-			player->SetIsTwoHandOneGrab(true);
-		}
 	}
-
 	//“GÁ‚·
 	enemies.remove_if([](std::unique_ptr<Enemy>& enemy)
 		{
@@ -73,7 +69,15 @@ void EnemyManager::Update()
 		}
 	);
 
-	
+	//“Gˆê‘Ì‚É“ñ‚Â‚Ìè‚ª‚Â‚¢‚Ä‚¢‚½‚ç
+	for (std::unique_ptr<Enemy>& enemy : enemies)
+	{
+		//state‚ğ•Ï‚¦‚é
+		if (enemy.get()->GetHandCount() == 2 && !player->GetIsTwoHandOneGrab())
+		{
+			player->SetIsTwoHandOneGrab(true);
+		}
+	}
 
 	//‰¼
 	if (input_->TriggerKey(DIK_Z) || enemies.size() <= 0)
