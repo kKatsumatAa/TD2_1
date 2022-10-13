@@ -48,7 +48,7 @@ void GameScene::Initialize() {
 	model_ = Model::Create();
 
 	effect_ = new EffectManager();
-	effect_->Initialize(viewProjection_);
+	effect_->Initialize();
 
 	wall_ = new Wall();
 	wall_->Initialize();
@@ -74,9 +74,6 @@ void GameScene::Initialize() {
 	viewProjection_.Initialize();
 	viewProjection_.eye = { 0,-49,-1 };
 	viewProjection_.UpdateMatrix();
-
-	effect_ = new EffectManager();
-	effect_->Initialize();
 
 }
 
