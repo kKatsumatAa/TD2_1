@@ -11,6 +11,15 @@
 #include "WinApp.h"
 #include "HandStop.h"
 #include <cstdint>
+#include <random>
+
+//仮
+	//乱数シード生成器
+static std::random_device seed_gen;
+//メルセンヌツイスター
+static std::mt19937_64 engine(seed_gen());
+//乱数範囲
+static std::uniform_real_distribution<float> posDist(-17.0f, 17.0f);
 
 
 /// <summary>

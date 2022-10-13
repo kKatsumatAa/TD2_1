@@ -1,7 +1,7 @@
 #pragma once
-#include"Enemy.h"
+#include"Item.h"
 
-class EnemyManager
+class ItemManager
 {
 private:
 	Player* player;
@@ -11,12 +11,10 @@ private:
 	uint32_t* textureHandle_;
 	float value;
 	Input* input_ = nullptr;
-
-	EffectManager* effectManager = nullptr;
-
+	HandStop* handStop = nullptr;
 
 	////敵発生コマンド
-	//std::stringstream enemyPopCommands;
+	//std::stringstream ItemPopCommands;
 	////待機
 	//bool isWait = false;
 	//int  waitTimer = 0;
@@ -25,12 +23,12 @@ private:
 	/// <summary>
 	/// 敵発生コマンドの更新
 	/// </summary>
-	//void UpdateEnemyPopCommands();
-	void EnemyGenerate(const Vector3& pos);
+	//void UpdateItemPopCommands();
+	void ItemGenerate(const Vector3& pos);
 
 
 public:
-	std::list<std::unique_ptr<Enemy>> enemies;
+	std::list<std::unique_ptr<Item>> items;
 	//int phase = 0;
 	////phaseが変わるまで待つフラグ
 	//bool isPhase = false;
@@ -39,21 +37,22 @@ public:
 	//bool isBossDead = false;
 
 
-	void Initialize(Player* player, Model* model,  uint32_t* textureHandle, EffectManager* effectManager);
+	void Initialize(Player* player, Model* model, uint32_t* textureHandle, HandStop* handStop);
 	void Update();
 	void Draw(const ViewProjection& view);
 
 	//弾リストを取得(const参照)
-	const std::list<std::unique_ptr<Enemy>>& GetEnemies()
+	const std::list<std::unique_ptr<Item>>& GetItems()
 	{
-		return enemies;
+		return items;
 	}
 
 	/*/// <summary>
 	/// 敵発生データの読み込み
 	/// </summary>
-	void LoadEnemyPopData();*/
+	void LoadItemPopData();*/
 
 	//void InfoEnd(bool& infoEnd);
+
 };
 

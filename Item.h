@@ -1,33 +1,37 @@
 #pragma once
-#include"Player.h"
-#include"EffectManager.h"
+#include "Player.h"
 
-
-class Enemy : public Collider
+class Item : public Collider
 {
-	//変数
 private:
-	//自キャラ
-	Player* player_ = nullptr;
-
 	//モデル
 	Model* model_ = nullptr;
 	//テクスチャハンドル
 	uint32_t* textureHandle_;
 	DebugText* debugText_ = nullptr;
-	EffectManager* effectManager = nullptr;
+	HandStop* handStop = nullptr;
+
+	int bonusTime = 0;
+	int timer = 0;
 
 public:
-	void Initialize(Model* model, uint32_t* textureHandle, const Vector3& pos, EffectManager* effectManager);
+	int useHandCount = 0;
+	Input* input_ = nullptr;
+
+
+	void Initialize(Model* model, uint32_t* textureHandle, const Vector3& pos, HandStop* handStop);
 	void Update();
 	void Draw(const ViewProjection& view);
+
+	int GetBonusTime() { return bonusTime; }
 
 	Vector3 GetWorldPos() override;
 	void SetWorldPos(const Vector3& pos) { worldTransform_.translation_ = pos; };
 
+	float GetAngle() { return worldTransform_.rotation_.z; }
+
 	//衝突を検出したら呼び出す（コールバック関数）
 	void OnCollision()override;
-	//手との当たり判定用
 	void OnCollision2(Collider& collider)override;
 };
 

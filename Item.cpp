@@ -1,6 +1,7 @@
-#include "Enemy.h"
+#include "Item.h"
 
-void Enemy::Initialize(Model* model, uint32_t* textureHandle, const Vector3& pos, EffectManager* effectManager)
+
+void Item::Initialize(Model* model, uint32_t* textureHandle, const Vector3& pos, HandStop* handStop)
 {
 	assert(model);
 
@@ -9,7 +10,7 @@ void Enemy::Initialize(Model* model, uint32_t* textureHandle, const Vector3& pos
 
 	debugText_ = DebugText::GetInstance();
 
-	this->effectManager = effectManager;
+	this->handStop = handStop;
 
 	worldTransform_.Initialize();
 	worldTransform_.translation_ = pos;
@@ -20,27 +21,35 @@ void Enemy::Initialize(Model* model, uint32_t* textureHandle, const Vector3& pos
 	SetCollisionMask(kCollisionAttributePlayer);
 }
 
-void Enemy::Update()
+void Item::Update()
 {
+	timer++;
 
+	if (timer % 180 == 0)
+	{
+		bonusTime++;
+	}
 }
 
-void Enemy::Draw(const ViewProjection& view)
+void Item::Draw(const ViewProjection& view)
 {
-	model_->Draw(worldTransform_, view,textureHandle_[2]);
+	model_->Draw(worldTransform_, view, textureHandle_[4]);
+
+	debugText_->SetPos(10, 100);
+	debugText_->Printf("bonusTime:%d", bonusTime);
 }
 
-Vector3 Enemy::GetWorldPos()
+Vector3 Item::GetWorldPos()
 {
 	return worldTransform_.translation_;
 }
 
-void Enemy::OnCollision()
+void Item::OnCollision()
 {
 	isDead = true;
 }
 
-void Enemy::OnCollision2(Collider& collider)
+void Item::OnCollision2(Collider& collider)
 {
 	//Žè‚ÌˆÊ’u‚ð“G‚ÌˆÊ’u‚É‚·‚é
 	collider.SetWorldPos(worldTransform_.translation_);

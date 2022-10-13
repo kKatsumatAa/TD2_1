@@ -37,9 +37,18 @@ void GameScene::Initialize() {
 	textureHandle_[1] = TextureManager::Load("uvChecker.png");
 	textureHandle_[2] = TextureManager::Load("cube/cube.jpg");
 	textureHandle_[3] = TextureManager::Load("axis/axis.jpg");
+	textureHandle_[4] = TextureManager::Load("sample.png");
+
+	//ビュープロジェクションの初期化
+	viewProjection_.Initialize();
+	viewProjection_.eye = { 0,-49,-1 };
+	viewProjection_.UpdateMatrix();
 
 	//3Dモデルの生成
 	model_ = Model::Create();
+
+	effect_ = new EffectManager();
+	effect_->Initialize(viewProjection_);
 
 	wall_ = new Wall();
 	wall_->Initialize();
@@ -47,10 +56,12 @@ void GameScene::Initialize() {
 	player_ = new Player();
 	player_->Initialize(model_, textureHandle_, &skillManager, &handStop, wall_);
 
-	enemyManager.Initialize(player_, model_, textureHandle_);
+	enemyManager.Initialize(player_, model_, textureHandle_, effect_);
 
 
 	skillManager.Initialize(model_, textureHandle_);
+
+	itemManager.Initialize(player_, model_, textureHandle_, &handStop);
 
 	set_ = new Setting();
 	set_->Initialize();
@@ -66,6 +77,7 @@ void GameScene::Initialize() {
 
 	effect_ = new EffectManager();
 	effect_->Initialize();
+
 }
 
 void GameScene::Update()
@@ -270,6 +282,7 @@ void GameScene::MainGameUpdateFunc() {
 	player_->Update();
 	enemyManager.Update();
 	skillManager.Update();
+	itemManager.Update();
 	effect_->Update();
 
 	//colliderManager
@@ -286,6 +299,11 @@ void GameScene::MainGameUpdateFunc() {
 		{
 			colliderManager->SetListCollider(skill.get());
 		}
+		const std::list<std::unique_ptr<Item>>& items = itemManager.GetItems();
+		for (const std::unique_ptr<Item>& item : items)
+		{
+			colliderManager->SetListCollider(item.get());
+		}
 
 		colliderManager->CheckAllCollisions();
 
@@ -295,10 +313,14 @@ void GameScene::MainGameUpdateFunc() {
 			colliderManager->SetListCollider(player_->GetHandL());
 			colliderManager->SetListCollider(player_->GetHandR());
 			const std::list<std::unique_ptr<Enemy>>& enemies = enemyManager.GetEnemies();
-
 			for (const std::unique_ptr<Enemy>& enemy : enemies)
 			{
 				colliderManager->SetListCollider(enemy.get());
+			}
+			const std::list<std::unique_ptr<Item>>& items = itemManager.GetItems();
+			for (const std::unique_ptr<Item>& item : items)
+			{
+				colliderManager->SetListCollider(item.get());
 			}
 
 			colliderManager->CheckAllCollisions2();
@@ -315,7 +337,7 @@ void GameScene::MainGameUpdateFunc() {
 		scene_ = Scene::Gameover;
 	}
 	if (input_->TriggerKey(DIK_1)) {
-		effect_->BurstGenerate(Vector3(0, 0, 0), 10,2.5f,2.0f);
+		effect_->BurstGenerate(Vector3(0, 0, 0), 10, 2.5f, 2.0f);
 	}
 	if (input_->TriggerKey(DIK_2)) {
 		effect_->ParticleGenerate(Vector3(0, 0, 0),Vector2(1000,100));
@@ -353,6 +375,7 @@ void GameScene::MainGameDrawFunc() {
 	enemyManager.Draw(viewProjection_);
 
 	skillManager.Draw(viewProjection_);
+	itemManager.Draw(viewProjection_);
 
 	wall_->Draw(viewProjection_);
 
