@@ -10,6 +10,7 @@ private:
 	uint32_t* textureHandle_;
 	DebugText* debugText_ = nullptr;
 	HandStop* handStop = nullptr;
+	EffectManager* effectManager = nullptr;
 
 	int bonusTime = 0;
 	int timer = 0;
@@ -19,7 +20,7 @@ public:
 	Input* input_ = nullptr;
 
 
-	void Initialize(Model* model, uint32_t* textureHandle, const Vector3& pos, HandStop* handStop);
+	void Initialize(Model* model, uint32_t* textureHandle, const Vector3& pos, HandStop* handStop, EffectManager* effectManager);
 	void Update();
 	void Draw(const ViewProjection& view);
 
