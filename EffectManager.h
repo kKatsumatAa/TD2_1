@@ -6,22 +6,28 @@
 #include "Model.h"
 
 #include "EffectBurst.h"
+#include "EffectParticle.h"
 
 class EffectManager
 {
 public:
-	void Initialize(ViewProjection viewProjection);
+	void Initialize();
 	void Update();
-	void Draw();
+	void Draw(ViewProjection viewProjection);
+	void SpriteDraw();
 
 	//飛び散りエフェクト(座標,数)
 	void BurstGenerate(Vector3 pos, uint32_t num, float range = 0.5f, float pow = 2.0f);
+	//パーティクルエフェクト(座標,画像の半径,テクスチャハンドル)
+	void ParticleGenerate(Vector3 pos, Vector2 endPos);
 
 private:
 	ViewProjection viewProjection_;
 	Model* model_ = nullptr;
 
-
 	std::list<std::unique_ptr<Burst>> burst_;
+	std::list<std::unique_ptr<Particle>> particle_;
 
+	uint32_t particleR_ = 16;
+	uint32_t particleTexture_ = 0;
 };

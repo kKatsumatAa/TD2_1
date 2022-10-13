@@ -70,7 +70,14 @@ void GameScene::Initialize() {
 	//ワールドトランスフォームの初期化
 	worldTransform_.Initialize();
 
-	
+	//ビュープロジェクションの初期化
+	viewProjection_.Initialize();
+	viewProjection_.eye = { 0,-49,-1 };
+	viewProjection_.UpdateMatrix();
+
+	effect_ = new EffectManager();
+	effect_->Initialize();
+
 }
 
 void GameScene::Update()
@@ -241,7 +248,7 @@ void GameScene::TutorialDrawFunc() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
-	effect_->Draw();
+	effect_->Draw(viewProjection_);
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
@@ -332,6 +339,9 @@ void GameScene::MainGameUpdateFunc() {
 	if (input_->TriggerKey(DIK_1)) {
 		effect_->BurstGenerate(Vector3(0, 0, 0), 10, 2.5f, 2.0f);
 	}
+	if (input_->TriggerKey(DIK_2)) {
+		effect_->ParticleGenerate(Vector3(0, 0, 0),Vector2(1000,100));
+	}
 #endif
 }
 /// <summary>
@@ -369,7 +379,7 @@ void GameScene::MainGameDrawFunc() {
 
 	wall_->Draw(viewProjection_);
 
-	effect_->Draw();
+	effect_->Draw(viewProjection_);
 
 
 	// 3Dオブジェクト描画後処理
@@ -383,7 +393,7 @@ void GameScene::MainGameDrawFunc() {
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
-
+	effect_->SpriteDraw();
 	// デバッグテキストの描画
 	debugText_->DrawAll(commandList);
 	//
