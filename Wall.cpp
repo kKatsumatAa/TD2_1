@@ -1,7 +1,9 @@
 #include "Wall.h"
 
-void Wall::Initialize()
+void Wall::Initialize(Gravity* gravity)
 {
+	gravity_ = gravity;
+
 	//モデルの生成と座標の初期化
 	for (int i = 0; i < 5; i++) {
 		wall_[i] = Model::Create();
@@ -17,8 +19,8 @@ void Wall::Initialize()
 	wallTrans_[2].scale_ = { 35,1,3 };
 	wallTrans_[3].translation_ = { 0,  -20,0 };
 	wallTrans_[3].scale_ = { 35,1,3 };
-	wallTrans_[4].translation_ = { 0,0,100 };
-	wallTrans_[4].scale_ = { 100,100,0 };
+	wallTrans_[4].translation_ = { 0,0,0 };
+	wallTrans_[4].scale_ = { 40,20,0 };
 
 	//座標をアップデート
 	for (WorldTransform wallTrans : wallTrans_) {
@@ -37,14 +39,14 @@ void Wall::Update()
 void Wall::Draw(ViewProjection viewProjection)
 {
 	for (int i = 0; i < 5; i++) {
-		
+
 		wall_[i]->Draw(wallTrans_[i], viewProjection);
 	}
 }
 
-Vector3 Wall::isCollisionWall(Vector3 pos, const Vector3& velocity,bool* flag) {
+Vector3 Wall::isCollisionWall(Vector3 pos, const Vector3& velocity, bool* flag) {
 	for (int i = 0; i < 100; i++) {
-		
+
 		for (int i = 0; i < 4; i++) {
 			if (wallTrans_[i].translation_.x - wallTrans_[i].scale_.x < pos.x + 1 && wallTrans_[i].translation_.x + wallTrans_[i].scale_.x > pos.x - 1) {
 				if (wallTrans_[i].translation_.y - wallTrans_[i].scale_.y < pos.y + 1 && wallTrans_[i].translation_.y + wallTrans_[i].scale_.y > pos.y - 1) {
@@ -52,7 +54,8 @@ Vector3 Wall::isCollisionWall(Vector3 pos, const Vector3& velocity,bool* flag) {
 					if (flag != nullptr) {
 						*flag = false;
 					}
- 					return pos;
+					gravity_->axis = i;
+					return pos;
 				}
 			}
 		}

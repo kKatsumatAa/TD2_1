@@ -5,11 +5,12 @@
 #include "ViewProjection.h"
 #include "TextureManager.h"
 #include "Vector3.h"
+#include "Gravity.h"
 
 class Wall
 {
 public:
-	void Initialize();
+	void Initialize(Gravity* gravity);
 	void Update();
 	void Draw(ViewProjection viewProjection);
 
@@ -20,6 +21,6 @@ private:
 	//Žl•û‚Ì•Ç
 	Model* wall_[5];
 	WorldTransform wallTrans_[5];
-
+	Gravity* gravity_;
 };
 

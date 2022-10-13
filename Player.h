@@ -1,7 +1,7 @@
 #pragma once
 #include"PlayerHand.h"
 #include"HandSkillManager.h"
-
+#include"Gravity.h"
 
 
 class Player;
@@ -30,6 +30,7 @@ private:
 	HandSkillManager* skillManager;
 	HandStop* handStop;
 	Wall* wall = nullptr;
+	
 
 	Vector3 velocity;
 
@@ -49,11 +50,11 @@ private:
 public:
 	int useHandCount = 0;
 	Input* input_ = nullptr;
-
+	Gravity* gravity;
 
 	void ChangeState(PlayerHandState* state);
 
-	void Initialize(Model* model, uint32_t* textureHandle, HandSkillManager* skillManager, HandStop* handStop, Wall* wall);
+	void Initialize(Model* model, uint32_t* textureHandle, HandSkillManager* skillManager, HandStop* handStop, Wall* wall, Gravity* gravity);
 	void Update();
 	void Draw(const ViewProjection& view);
 	//éËÇêLÇŒÇ∑
