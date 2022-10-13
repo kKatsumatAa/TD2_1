@@ -19,6 +19,7 @@
     <ClCompile Include="base\WinApp.cpp" />
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="ColliderManager.cpp" />
+    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyManager.cpp" />
     <ClCompile Include="HandSkill.cpp" />
     <ClCompile Include="HandSkillManager.cpp" />
@@ -34,6 +35,8 @@
     <ClCompile Include="Setting.cpp" />
     <ClCompile Include="Util.cpp" />
     <ClCompile Include="Wall.cpp" />
+    <ClCompile Include="Item.cpp" />
+    <ClCompile Include="ItemManager.cpp" />
     <ClCompile Include="EffectManager.cpp">
       <Filter>Effect</Filter>
     </ClCompile>
@@ -85,6 +88,8 @@
     <ClInclude Include="Setting.h" />
     <ClInclude Include="Util.h" />
     <ClInclude Include="Wall.h" />
+    <ClInclude Include="Item.h" />
+    <ClInclude Include="ItemManager.h" />
     <ClInclude Include="EffectBurst.h">
       <Filter>Effect</Filter>
     </ClInclude>

@@ -16,6 +16,7 @@
 #include "ColliderManager.h"
 #include "Wall.h"
 #include "Setting.h"
+#include "ItemManager.h"
 #include "EffectManager.h"
 
 enum class Scene {
@@ -100,6 +101,8 @@ private: // メンバ変数
 	HandSkillManager skillManager;
 	//
 	HandStop handStop;
+	//
+	ItemManager itemManager;
 
 	//3Dモデル
 	Model* model_ = nullptr;
