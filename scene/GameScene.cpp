@@ -39,8 +39,16 @@ void GameScene::Initialize() {
 	textureHandle_[3] = TextureManager::Load("axis/axis.jpg");
 	textureHandle_[4] = TextureManager::Load("sample.png");
 
+	//ビュープロジェクションの初期化
+	viewProjection_.Initialize();
+	viewProjection_.eye = { 0,-49,-1 };
+	viewProjection_.UpdateMatrix();
+
 	//3Dモデルの生成
 	model_ = Model::Create();
+
+	effect_ = new EffectManager();
+	effect_->Initialize(viewProjection_);
 
 	wall_ = new Wall();
 	wall_->Initialize();
@@ -48,7 +56,7 @@ void GameScene::Initialize() {
 	player_ = new Player();
 	player_->Initialize(model_, textureHandle_, &skillManager, &handStop, wall_);
 
-	enemyManager.Initialize(player_, model_, textureHandle_);
+	enemyManager.Initialize(player_, model_, textureHandle_, effect_);
 
 
 	skillManager.Initialize(model_, textureHandle_);
@@ -62,13 +70,7 @@ void GameScene::Initialize() {
 	//ワールドトランスフォームの初期化
 	worldTransform_.Initialize();
 
-	//ビュープロジェクションの初期化
-	viewProjection_.Initialize();
-	viewProjection_.eye = { 0,-49,-1 };
-	viewProjection_.UpdateMatrix();
-
-	effect_ = new EffectManager();
-	effect_->Initialize(viewProjection_);
+	
 }
 
 void GameScene::Update()
@@ -328,7 +330,7 @@ void GameScene::MainGameUpdateFunc() {
 		scene_ = Scene::Gameover;
 	}
 	if (input_->TriggerKey(DIK_1)) {
-		effect_->BurstGenerate(Vector3(0, 0, 0), 10,2.5f,2.0f);
+		effect_->BurstGenerate(Vector3(0, 0, 0), 10, 2.5f, 2.0f);
 	}
 #endif
 }

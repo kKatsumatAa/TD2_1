@@ -12,6 +12,9 @@ private:
 	float value;
 	Input* input_ = nullptr;
 
+	EffectManager* effectManager = nullptr;
+
+
 	////敵発生コマンド
 	//std::stringstream enemyPopCommands;
 	////待機
@@ -36,7 +39,7 @@ public:
 	//bool isBossDead = false;
 
 
-	void Initialize(Player* player, Model* model,  uint32_t* textureHandle);
+	void Initialize(Player* player, Model* model,  uint32_t* textureHandle, EffectManager* effectManager);
 	void Update();
 	void Draw(const ViewProjection& view);
 

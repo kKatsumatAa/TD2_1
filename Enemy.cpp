@@ -1,6 +1,6 @@
 #include "Enemy.h"
 
-void Enemy::Initialize(Model* model, uint32_t* textureHandle, const Vector3& pos)
+void Enemy::Initialize(Model* model, uint32_t* textureHandle, const Vector3& pos, EffectManager* effectManager)
 {
 	assert(model);
 
@@ -8,6 +8,8 @@ void Enemy::Initialize(Model* model, uint32_t* textureHandle, const Vector3& pos
 	textureHandle_ = textureHandle;
 
 	debugText_ = DebugText::GetInstance();
+
+	this->effectManager = effectManager;
 
 	worldTransform_.Initialize();
 	worldTransform_.translation_ = pos;

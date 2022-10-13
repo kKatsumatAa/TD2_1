@@ -1,5 +1,6 @@
 #pragma once
 #include"Player.h"
+#include"EffectManager.h"
 
 
 class Enemy : public Collider
@@ -14,9 +15,10 @@ private:
 	//テクスチャハンドル
 	uint32_t* textureHandle_;
 	DebugText* debugText_ = nullptr;
+	EffectManager* effectManager = nullptr;
 
 public:
-	void Initialize(Model* model, uint32_t* textureHandle, const Vector3& pos);
+	void Initialize(Model* model, uint32_t* textureHandle, const Vector3& pos, EffectManager* effectManager);
 	void Update();
 	void Draw(const ViewProjection& view);
 

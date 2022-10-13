@@ -1,7 +1,7 @@
 #include "EnemyManager.h"
 
 
-void EnemyManager::Initialize(Player* player, Model* model, uint32_t* textureHandle)
+void EnemyManager::Initialize(Player* player, Model* model, uint32_t* textureHandle, EffectManager* effectManager)
 {
 	//////敵発生コマンド
 	//// バッファをクリアします。
@@ -33,6 +33,7 @@ void EnemyManager::Initialize(Player* player, Model* model, uint32_t* textureHan
 	this->player = player;
 	//シングルトンインスタンスを取得
 	input_ = Input::GetInstance();
+	this->effectManager = effectManager;
 
 	//仮
 	for (int i = 0; i < 10; i++)
@@ -45,7 +46,7 @@ void EnemyManager::EnemyGenerate(const Vector3& pos)
 {
 	//敵を生成、初期化
 	std::unique_ptr<Enemy> enemy = std::make_unique<Enemy>();
-	enemy->Initialize(model_, textureHandle_, pos);
+	enemy->Initialize(model_, textureHandle_, pos, effectManager);
 	/*enemy->SetPlayer(player_);*/
 	//敵を登録
 	enemies.push_back(std::move(enemy));
@@ -53,6 +54,18 @@ void EnemyManager::EnemyGenerate(const Vector3& pos)
 
 void EnemyManager::Update()
 {
+	//敵一体に二つの手がついていたら
+	for (std::unique_ptr<Enemy>& enemy : enemies)
+	{
+		if (enemy.get()->GetIsDead()) effectManager->BurstGenerate(enemy.get()->GetWorldPos(), 10);
+
+		//stateを変える
+		if (enemy.get()->GetHandCount() >= 2 && !player->GetIsTwoHandOneGrab())
+		{
+			player->SetIsTwoHandOneGrab(true);
+		}
+	}
+
 	//敵消す
 	enemies.remove_if([](std::unique_ptr<Enemy>& enemy)
 		{
@@ -60,15 +73,7 @@ void EnemyManager::Update()
 		}
 	);
 
-	//敵一体に二つの手がついていたら
-	for (std::unique_ptr<Enemy>& enemy : enemies)
-	{
-		//stateを変える
-		if (enemy.get()->GetHandCount() >= 2 && !player->GetIsTwoHandOneGrab())
-		{
-			player->SetIsTwoHandOneGrab(true);
-		}
-	}
+	
 
 	//仮
 	if (input_->TriggerKey(DIK_Z) || enemies.size() <= 0)
