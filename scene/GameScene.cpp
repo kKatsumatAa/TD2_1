@@ -69,12 +69,6 @@ void GameScene::Initialize() {
 
 	//ワールドトランスフォームの初期化
 	worldTransform_.Initialize();
-
-	//ビュープロジェクションの初期化
-	viewProjection_.Initialize();
-	viewProjection_.eye = { 0,-49,-1 };
-	viewProjection_.UpdateMatrix();
-
 }
 
 void GameScene::Update()
