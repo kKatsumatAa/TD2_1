@@ -10,13 +10,13 @@ void Wall::Initialize()
 
 	//äeï«ÇÃç¿ïWéwíË
 	wallTrans_[0].translation_ = { -35,  0,  0 };
-	wallTrans_[0].scale_ = { 1,20,50 };
-	wallTrans_[1].translation_ = { 35,  0,  0 };
-	wallTrans_[1].scale_ = { 1,20,50 };
+	wallTrans_[0].scale_ = { 1,20,3 };
+	wallTrans_[1].translation_ = { 20,  0,  0 };
+	wallTrans_[1].scale_ = { 15,20,3 };
 	wallTrans_[2].translation_ = { 0,  20, 0 };
-	wallTrans_[2].scale_ = { 36,1,50 };
+	wallTrans_[2].scale_ = { 35,1,3 };
 	wallTrans_[3].translation_ = { 0,  -20,0 };
-	wallTrans_[3].scale_ = { 36,0,0 };
+	wallTrans_[3].scale_ = { 35,1,3 };
 	wallTrans_[4].translation_ = { 0,0,100 };
 	wallTrans_[4].scale_ = { 100,100,0 };
 
@@ -63,6 +63,6 @@ Vector3 Wall::isCollisionWall(Vector3 pos, const Vector3& velocity,bool* flag) {
 }
 
 void Wall::Start() {
-	wallTrans_[3].scale_ = { 36,1,50 };
+	wallTrans_[3].scale_ = { 36,1,3 };
 	wallTrans_[4].translation_.z = 0;
 }
