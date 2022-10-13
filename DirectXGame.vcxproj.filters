@@ -41,6 +41,9 @@
       <Filter>Effect</Filter>
     </ClCompile>
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="EffectParticle.cpp">
+      <Filter>Effect</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="2d\DebugText.h" />
@@ -89,6 +92,9 @@
       <Filter>Effect</Filter>
     </ClInclude>
     <ClInclude Include="EffectManager.h">
+      <Filter>Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="EffectParticle.h">
       <Filter>Effect</Filter>
     </ClInclude>
   </ItemGroup>

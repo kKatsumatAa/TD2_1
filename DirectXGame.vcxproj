@@ -104,6 +104,7 @@
     <ClCompile Include="ColliderManager.cpp" />
     <ClCompile Include="EffectBurst.cpp" />
     <ClCompile Include="EffectManager.cpp" />
+    <ClCompile Include="EffectParticle.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyManager.cpp" />
     <ClCompile Include="HandSkill.cpp" />
@@ -149,6 +150,7 @@
     <ClInclude Include="CollisionConfig.h" />
     <ClInclude Include="EffectBurst.h" />
     <ClInclude Include="EffectManager.h" />
+    <ClInclude Include="EffectParticle.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyManager.h" />
     <ClInclude Include="HandSkill.h" />

@@ -1,9 +1,9 @@
 #include "EffectManager.h"
 
-void EffectManager::Initialize(ViewProjection viewProjection)
+void EffectManager::Initialize()
 {
-	viewProjection_ = viewProjection;
 	model_ = Model::Create();
+	particleTexture_ = TextureManager::Load("particle.png");
 }
 
 void EffectManager::Update()
@@ -13,12 +13,25 @@ void EffectManager::Update()
 	for (std::unique_ptr<Burst>& burst : burst_) {
 		burst->Update();
 	}
+	//パーティクルエフェクト
+	particle_.remove_if([](std::unique_ptr<Particle>& particle) {return particle->IsDead(); });
+	for (std::unique_ptr<Particle>& particle : particle_) {
+		particle->Update();
+	}
 }
 
-void EffectManager::Draw()
+void EffectManager::Draw(ViewProjection viewProjection)
 {
 	for (std::unique_ptr<Burst>& burst : burst_) {
-		burst->Draw(viewProjection_);
+		burst->Draw(viewProjection);
+	}
+	
+}
+
+void EffectManager::SpriteDraw()
+{
+	for (std::unique_ptr<Particle>& particle : particle_) {
+		particle->Draw();
 	}
 }
 
@@ -30,4 +43,11 @@ void EffectManager::BurstGenerate(Vector3 pos, uint32_t num, float range, float 
 		newBurst->Initialize(model_, NULL, pos, range, pow);
 		burst_.push_back(std::move(newBurst));
 	}
+}
+
+void EffectManager::ParticleGenerate(Vector3 pos,Vector2 endPos)
+{
+	std::unique_ptr<Particle> newParticle = std::make_unique<Particle>();
+	newParticle->Initialize(pos,endPos,particleR_,particleTexture_);
+	particle_.push_back(std::move(newParticle));
 }
