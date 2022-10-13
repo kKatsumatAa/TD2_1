@@ -38,7 +38,7 @@ void EnemyManager::Initialize(Player* player, Model* model, uint32_t* textureHan
 	//‰¼
 	for (int i = 0; i < 10; i++)
 	{
-		EnemyGenerate({ posDist(engine),posDist(engine),0 });
+		EnemyGenerate({ posDist(engine)-12.0f,posDist(engine),0 });
 	}
 }
 
@@ -62,6 +62,31 @@ void EnemyManager::Update()
 		if (enemy.get()->GetIsDead()) effectManager->BurstGenerate(enemy.get()->GetWorldPos(), 10);
 
 	}
+	//ˆê”Ô‹ß‚¢“G‚Ì•û‚ğplayer‚ªŒü‚­‚æ‚¤‚É
+	{
+		float length = NULL;
+		Vector3 vec;
+		Enemy* nearEnemy = nullptr;
+
+		for (std::unique_ptr<Enemy>& enemy : enemies)
+		{
+			vec = (enemy.get()->GetWorldPos() - player->GetWorldPos());
+
+			if (length > vec.GetLength() || length == NULL)
+			{
+				length = vec.GetLength();
+				nearEnemy = enemy.get();
+			}
+		}
+
+		if (nearEnemy != nullptr)
+		{
+			vec = nearEnemy->GetWorldPos() - player->GetWorldPos();
+
+			player->SetAngle((atan2(vec.y, vec.x)) - pi / 2.0f);
+		}
+	}
+
 	//“GÁ‚·
 	enemies.remove_if([](std::unique_ptr<Enemy>& enemy)
 		{
@@ -85,7 +110,7 @@ void EnemyManager::Update()
 		enemies.clear();
 		for (int i = 0; i < 10; i++)
 		{
-			EnemyGenerate({ posDist(engine),posDist(engine),0 });
+			EnemyGenerate({ posDist(engine)-12.0f,posDist(engine),0 });
 		}
 	}
 }
