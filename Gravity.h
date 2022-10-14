@@ -12,12 +12,16 @@ public:
 		UP,
 		DOWN,
 	};
+	enum Way {
+		CLOCK,
+		ANTICLOCK,
+	};
 
-	Vector3 Move(Vector3 pos, float speed);
-	void Change(int axis);
+	Vector3 Move(Vector3 pos, float gravitySpeed,float playerSprrd);
+	
 
 public:
 	int axis = DOWN;
-
+	bool playerWay = CLOCK;
 };
 
