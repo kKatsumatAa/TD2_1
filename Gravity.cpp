@@ -8,14 +8,14 @@ Vector3 Gravity::Move(Vector3 pos,float gavitySpeed, float playerSprrd)
 			pos.y += gavitySpeed;
 			if (playerWay == Way::CLOCK) {
 				pos.x += playerSprrd;
-				if (pos.x > 4) {
+				if (pos.x > 3) {
 					pos.x -= playerSprrd;
 					playerWay = Way::ANTICLOCK;
 				}
 			}
 			else {
 				pos.x -= playerSprrd;
-				if (pos.x < -34) {
+				if (pos.x < -33) {
 					pos.x -= playerSprrd;
 					playerWay = Way::CLOCK;
 				}
@@ -27,16 +27,16 @@ Vector3 Gravity::Move(Vector3 pos,float gavitySpeed, float playerSprrd)
 		if (pos.y > 18) {
 			pos.y -= gavitySpeed;
 			if (playerWay == Way::CLOCK) {
-				pos.x -= playerSprrd;
-				if (pos.x < -34) {
-					pos.x += playerSprrd;
+				pos.x += playerSprrd;
+				if (pos.x > 3) {
+					pos.x -= playerSprrd;
 					playerWay = Way::ANTICLOCK;
 				}
 			}
 			else {
-				pos.x += playerSprrd;
-				if (pos.x > 4) {
-					pos.x -= playerSprrd;
+				pos.x -= playerSprrd;
+				if (pos.x < -33) {
+					pos.x += playerSprrd;
 					playerWay = Way::CLOCK;
 				}
 			}
