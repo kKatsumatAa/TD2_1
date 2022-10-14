@@ -19,7 +19,6 @@ void Player::Initialize(Model* model, uint32_t* textureHandle, HandSkillManager*
 
 	this->skillManager = skillManager;
 
-	this->handStop = handStop;
 	this->wall = wall;
 	this->gravity = gravity;
 
@@ -96,12 +95,9 @@ void NoGrab::Update()
 {
 	player->GetHandR()->Update(player->GetAngle() + pi / 2.0f, player->GetWorldPos());
 
-	player->GetHandL()->Update(player->GetAngle() + pi / 2.0f, player->GetWorldPos());
 	//重力を適応
 	player->SetWorldPos(player->gravity->Move(player->GetWorldPos(),0.1f));
 
-	//playerのusehandCountはスローモーション用（addHandCountがhandの二個同時掴み用）
-	player->useHandCount = 0;
 
 
 	if (player->input_->TriggerKey(DIK_SPACE))
