@@ -28,7 +28,7 @@ private:
 	uint32_t* textureHandle_;
 	DebugText* debugText_ = nullptr;
 	HandSkillManager* skillManager;
-	HandStop* handStop;
+
 	Wall* wall = nullptr;
 	
 
@@ -40,15 +40,11 @@ private:
 	//è‚Ìó‘Ô
 	PlayerHandState* state = nullptr;
 	PlayerHand handR;
-	PlayerHand handL;
-	//g—p’†‚Ìè‚ğ‡‚É“ü‚ê‚é—p
-	PlayerHand* useHands[2];
 
-	//ˆê‘Ì‚Ì“G‚ğ“ñ‚Â‚Ìè‚Å‚Â‚©‚ñ‚Å‚¢‚é‚©
-	bool isTwoHandOneGrab = false;
+	//ŠÑ’ÊUŒ‚‚©‚Ç‚¤‚©
+	bool isRush = false;
 
 public:
-	int useHandCount = 0;
 	Input* input_ = nullptr;
 	Gravity* gravity;
 
@@ -63,14 +59,8 @@ public:
 	Vector3 GetWorldPos() override;
 	void SetWorldPos(const Vector3& pos) { worldTransform_.translation_ = pos; };
 	PlayerHand* GetHandR() { return &handR; }
-	PlayerHand* GetHandL() { return &handL; }
-	PlayerHand** GetUseHands() { return useHands; }
 	float GetAngle() { return worldTransform_.rotation_.z; }
 	HandSkillManager* GetSkillManager() { return skillManager; }
-	HandStop* GetHandStop() { return handStop; }
-
-	void SetIsTwoHandOneGrab(const bool& is) { isTwoHandOneGrab = is; }
-	bool GetIsTwoHandOneGrab() { return isTwoHandOneGrab; }
 
 	void SetVelocity(Vector3 vec) { velocity = vec; }
 	Vector3 GetVelocity() { return velocity; }
@@ -90,7 +80,7 @@ public:
 	void Update() override;
 };
 
-//•Ğè‚Å‚P‚Â‚ğ‚Â‚©‚ñ‚Å‚¢‚éó‘Ôi¬‚³‚¢”ÍˆÍ‚±‚¤‚°‚«j
+//•Ğè‚Å‚P‚Â‚ğ‚Â‚©‚ñ‚Å‚¢‚éó‘Ô
 class OneHandOneGrab : public PlayerHandState
 {
 private:
@@ -100,8 +90,8 @@ public:
 	void Update() override;
 };
 
-//—¼è‚ğg‚Á‚Ä‚¢‚é
-class TwoHand : public PlayerHandState
+//•’Ê‚ÌUŒ‚‚µ‚Ä‚¢‚éó‘Ô
+class OneHandAttack : public PlayerHandState
 {
 private:
 
@@ -109,8 +99,8 @@ public:
 	void Update() override;
 };
 
-//—¼è‚Å‚P‚Â‚ğ‚Â‚©‚ñ‚Å‚¢‚éó‘Ôi“Ëi‚Ì’¼üó‚Ì”ÍˆÍ‚±‚¤‚°‚«j
-class TwoHandOneGrab : public PlayerHandState
+//ŠÑ’ÊUŒ‚‚Ì€”õó‘Ô
+class OneHandRushGrab : public PlayerHandState
 {
 private:
 
@@ -118,21 +108,20 @@ private:
 public:
 	void Update() override;
 };
-class TwoHandOneGrab2 : public PlayerHandState
+//ŠÑ’ÊUŒ‚‚µ‚Ä‚¢‚éó‘Ô
+class OneHandRushAttack : public PlayerHandState
+{
+private:
+
+public:
+	void Update() override;
+};
+//ŠÑ’ÊUŒ‚‚µ‚Ä‚¢‚éó‘Ô2
+class OneHandRushAttack2 : public PlayerHandState
 {
 private:
 	int timer = 0;
 	const int maxTimer = 15;
-
-public:
-	void Update() override;
-};
-
-//—¼è‚Å‚Q‚Â‚ğ‚Â‚©‚ñ‚Å‚¢‚éó‘Ôiæ‚É‰„‚Î‚µ‚Ä‚½‚â‚Â‚ğ“|‚µ‚½‚çŸ‚Ì‚â‚Â‚É“Ëij
-class TwoHandTwoGrab : public PlayerHandState
-{
-private:
-
 
 public:
 	void Update() override;

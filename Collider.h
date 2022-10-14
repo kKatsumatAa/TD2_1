@@ -20,7 +20,7 @@ static std::random_device seed_gen;
 //メルセンヌツイスター
 static std::mt19937_64 engine(seed_gen());
 //乱数範囲
-static std::uniform_real_distribution<float> posDist(-17.0f, 17.0f);
+static std::uniform_real_distribution<float> posDist(-10.0f, 17.0f);
 
 
 /// <summary>
@@ -50,6 +50,7 @@ public:
 	bool GetIsDead() { return isDead; }
 	float GetRadius();
 	void SetRadius(const float& radius);
+	void SetAngle(const float& angle) { worldTransform_.rotation_.z = angle; worldTransform_.UpdateMatrix(); }
 
 	//衝突時に呼ばれる
 	virtual void OnCollision() = 0;

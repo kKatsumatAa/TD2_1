@@ -18,11 +18,13 @@ void Player::Initialize(Model* model, uint32_t* textureHandle, HandSkillManager*
 	textureHandle_ = textureHandle;
 
 	this->skillManager = skillManager;
+
 	this->handStop = handStop;
 	this->wall = wall;
 	this->gravity = gravity;
 
-	//ƒVƒ“ƒOƒ‹ƒgƒ“ƒCƒ“ƒXƒ^ƒ“ƒX‚ðŽæ“¾
+
+	//ã‚·ãƒ³ã‚°ãƒ«ãƒˆãƒ³ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’å–å¾—
 	input_ = Input::GetInstance();
 	debugText_ = DebugText::GetInstance();
 
@@ -31,35 +33,28 @@ void Player::Initialize(Model* model, uint32_t* textureHandle, HandSkillManager*
 	worldTransformHand_.scale_ = { 0.2f,0.2f,0.2f };
 
 	handR.Initialize(modelHand_, textureHandle, wall);
-	handL.Initialize(modelHand_, textureHandle, wall);
 
 	state = new NoGrab;
 	state->SetPlayer(this);
 
-	//Õ“Ë‘®«
+	//è¡çªå±žæ€§
 	SetCollisionAttribute(kCollisionAttributePlayer);
 	SetCollisionMask(kCollisionAttributeEnemy);
 }
 
 void Player::Update()
 {
-	//player‚Ì‰ñ“]
+	//playerã®å›žè»¢
 	worldTransform_.rotation_.z += ((int)input_->PushKey(DIK_LEFTARROW) - (int)input_->PushKey(DIK_RIGHTARROW)) * 0.05f;
 	worldTransform_.UpdateMatrix();
 
-	//Žè‚Ì“Í‚­”ÍˆÍ—p
+	//æ‰‹ã®å±Šãç¯„å›²ç”¨
 	worldTransformHand_.translation_.x = worldTransform_.translation_.x + cosf(worldTransform_.rotation_.z + pi / 2.0f) * handLengthMax;
 	worldTransformHand_.translation_.y = worldTransform_.translation_.y + sinf(worldTransform_.rotation_.z + pi / 2.0f) * handLengthMax;
 	worldTransformHand_.UpdateMatrix();
 
-	//Žg‚Á‚Ä‚È‚¢‚Æ‚«ƒvƒŒƒCƒ„[‚Æˆê‚ÉˆÚ“®
+	//ä½¿ã£ã¦ãªã„ã¨ããƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã¨ä¸€ç·’ã«ç§»å‹•
 	if (!handR.GetIsUse()) handR.Update(worldTransform_.rotation_.z, worldTransform_.translation_);
-	if (!handL.GetIsUse()) handL.Update(worldTransform_.rotation_.z, worldTransform_.translation_);
-
-	if (input_->ReleaseTriggerKey(DIK_SPACE))
-	{
-		GetHandStop()->SetIsStop(false);
-	}
 
 	state->Update();
 }
@@ -70,7 +65,6 @@ void Player::Draw(const ViewProjection& view)
 	modelHand_->Draw(worldTransformHand_, view, textureHandle_[0]);
 
 	handR.Draw(view);
-	handL.Draw(view);
 }
 
 void Player::ReachOut()
@@ -101,22 +95,22 @@ void PlayerHandState::SetPlayer(Player* player)
 void NoGrab::Update()
 {
 	player->GetHandR()->Update(player->GetAngle() + pi / 2.0f, player->GetWorldPos());
+
 	player->GetHandL()->Update(player->GetAngle() + pi / 2.0f, player->GetWorldPos());
-	//d—Í‚ð“K‰ž
+	//é‡åŠ›ã‚’é©å¿œ
 	player->SetWorldPos(player->gravity->Move(player->GetWorldPos(),0.1f));
 
-	//player‚ÌusehandCount‚ÍƒXƒ[ƒ‚[ƒVƒ‡ƒ“—piaddHandCount‚ªhand‚Ì“ñŒÂ“¯Žž’Í‚Ý—pj
+	//playerã®usehandCountã¯ã‚¹ãƒ­ãƒ¼ãƒ¢ãƒ¼ã‚·ãƒ§ãƒ³ç”¨ï¼ˆaddHandCountãŒhandã®äºŒå€‹åŒæ™‚æŽ´ã¿ç”¨ï¼‰
 	player->useHandCount = 0;
+
 
 	if (player->input_->TriggerKey(DIK_SPACE))
 	{
-		//‚Ç‚Á‚¿‚àL‚Î‚µ‚Ä‚¢‚È‚¢‚Æ‚«‚ÉŽg‚¤‚Ì‚Íâ‘Î‰EŽè
+		//ã©ã£ã¡ã‚‚ä¼¸ã°ã—ã¦ã„ãªã„ã¨ãã«ä½¿ã†ã®ã¯çµ¶å¯¾å³æ‰‹
 		if (!player->GetHandR()->GetIsUse())
 		{
 			player->GetHandR()->ReachOut(player->GetWorldPos(), player->GetAngle() + pi / 2.0f);
-			//Žg‚Á‚Ä‚¢‚éŽè‚Ì”z—ñ‚É“o˜^
-			player->GetUseHands()[0] = (player->GetHandR());
-			player->useHandCount++;
+
 			player->ChangeState(new OneHandOneGrab);
 		}
 	}
@@ -125,186 +119,117 @@ void NoGrab::Update()
 //---------------------------------
 void OneHandOneGrab::Update()
 {
-	if (!player->GetHandStop()->GetIsStop())
+	//ä½¿ã£ã¦ã„ã‚‹æ‰‹ã®æ›´æ–°å‡¦ç†
+	player->GetHandR()->Update(player->GetAngle(), player->GetWorldPos());
+
+	//æŽ´ã‚“ã§ã„ã‚‹çŠ¶æ…‹ã§spaceæŠ¼ã—ã¦ã„ãŸã‚‰
+	if (player->GetHandR()->GetIsGrab() && player->input_->PushKey(DIK_SPACE))
 	{
-		bool isWallHit = false;
-
-		//Žg‚Á‚Ä‚¢‚éŽè‚ÌXVˆ—
-		player->GetUseHands()[0]->Update(player->GetAngle(), player->GetWorldPos());
-
-		//¬‚³‚¢”ÍˆÍ‚±‚¤‚°‚«¶¬
-		if (player->GetUseHands()[0]->GetTriggerIsGrab())
-		{
-			player->GetSkillManager()->SkillGenerate(player->GetWorldPos(), 8.0f);
-		}
-		//“ñ‚Â–Ú‚ðL‚Î‚·‚Æ‚«AŽžŠÔŽ~‚ß‚é
-		if (player->input_->TriggerKey(DIK_SPACE))
-		{
-			player->GetHandStop()->SetIsStop(true);
-			player->useHandCount++;
-		}
-		else if (player->input_->ReleaseTriggerKey(DIK_SPACE) && player->useHandCount == 2)
-		{
-			//“ñ‚Â–Ú‚ÌŽè‚àŽg‚Á‚½‚çstate‚ð—¼Žè‚É•Ï‚¦‚é
-			if (!player->GetHandR()->GetIsUse())
-			{
-				//Žg‚Á‚Ä‚éŽè‚ð“ü‚ê‚Ä‚¨‚­”z—ñ‚Ì‚Q”Ô–Ú‚É“ü‚ê‚é
-				player->GetUseHands()[1] = player->GetHandR();
-				player->GetHandR()->ReachOut(player->GetWorldPos(), player->GetAngle() + pi / 2.0f);
-				player->ChangeState(new TwoHand);
-			}
-			else if (!player->GetHandL()->GetIsUse())
-			{
-				//Žg‚Á‚Ä‚éŽè‚ð“ü‚ê‚Ä‚¨‚­”z—ñ‚Ì‚Q”Ô–Ú‚É“ü‚ê‚é
-				player->GetUseHands()[1] = player->GetHandL();
-				player->GetHandL()->ReachOut(player->GetWorldPos(), player->GetAngle() + pi / 2.0f);
-				player->ChangeState(new TwoHand);
-			}
-		}
-		//changeState‚µ‚½Œã‚ÉŽQÆ‚·‚é‚ÆƒGƒ‰[‹N‚«‚é‚Ì‚Å else if
-		// //‚Â‚©‚ñ‚¾‚ç
-		else if (player->GetUseHands()[0]->GetIsGrab() &&
-			(!CollisionCircleCircle(player->GetWorldPos(), player->GetRadius(),
-				player->GetUseHands()[0]->GetWorldPos(), player->GetUseHands()[0]->GetRadius())))
-		{
-			Vector3 vec = player->GetUseHands()[0]->GetWorldPos() - player->GetWorldPos();
-			vec.Normalized();
-
-			player->SetWorldPos(player->GetWall()->isCollisionWall(player->GetWorldPos(), vec * handVelocityExtend, &isWallHit));
-		}
-		// //“Ëi‚µI‚í‚Á‚½‚ç
-		else if (!player->GetUseHands()[0]->GetIsUse()||isWallHit)
-		{
-			//Žè‚Ì’Í‚ñ‚Å‚¢‚é”i—¼Žè‚Ã‚©‚Ý‚Ì”»’è—pj
-			player->GetUseHands()[0]->SetHandCount(0);
-			player->GetUseHands()[0]->ResetFlag();
-			player->GetUseHands()[0] = nullptr;
-			player->ChangeState(new NoGrab);
-		}
+		player->ChangeState(new OneHandRushGrab);
+	}
+	//ãã†ã˜ã‚ƒãªã‹ã£ãŸã‚‰æ™®é€šã®çªé€²
+	else if (player->GetHandR()->GetIsGrab())
+	{
+		player->ChangeState(new OneHandAttack);
 	}
 }
 
 //---------------------------------
-void TwoHand::Update()
+void OneHandAttack::Update()
 {
 	bool isWallHit = false;
 
-	//æ‚ÉL‚Î‚µ‚½Žè‚ÌXVˆ—
-	player->GetUseHands()[0]->Update(player->GetAngle(), player->GetWorldPos());
-	if (player->GetUseHands()[1] != nullptr && !player->GetUseHands()[1]->GetIsGrab() && player->GetUseHands()[1]->GetIsUse())
-		player->GetUseHands()[1]->Update(player->GetAngle(), player->GetWorldPos());
+	//ä½¿ã£ã¦ã„ã‚‹æ‰‹ã®æ›´æ–°å‡¦ç†
+	player->GetHandR()->Update(player->GetAngle(), player->GetWorldPos());
 
-	//ŠO•”‚Åˆê‘Ì‚Ì“G‚ð“ñ‚Â‚ÌŽè‚Å‚Â‚©‚ñ‚¾”»’è‚ªo‚½‚ç
-	if (player->GetIsTwoHandOneGrab())
-	{
-		//—¼Žè’Í‚Ý‚ÌŠÑ’Ê—p‚ÌƒxƒNƒgƒ‹
- 		Vector3 vec = player->GetUseHands()[0]->GetWorldPos() - player->GetWorldPos();
-		vec.Normalized();
-		player->SetVelocity(vec);
-
-		player->ChangeState(new TwoHandOneGrab);
-	}
-	//‚Â‚©‚ñ‚¾‚ç
-	else if (player->GetUseHands()[0]->GetIsGrab())
-	{
-		Vector3 vec = player->GetUseHands()[0]->GetWorldPos() - player->GetWorldPos();
+	//ç§»å‹•å‡¦ç†
+	if (player->GetHandR()->GetIsGrab() &&
+		(!CollisionCircleCircle(player->GetWorldPos(), player->GetRadius(),
+			player->GetHandR()->GetWorldPos(), player->GetHandR()->GetRadius()))) {
+		Vector3 vec = player->GetHandR()->GetWorldPos() - player->GetWorldPos();
 		vec.Normalized();
 
 		player->SetWorldPos(player->GetWall()->isCollisionWall(player->GetWorldPos(), vec * handVelocityExtend, &isWallHit));
 	}
-	//“Ëi‚µI‚í‚Á‚½‚ç
-	else if (!player->GetUseHands()[0]->GetIsUse())
+
+	//çªé€²ã—çµ‚ã‚ã£ãŸã‚‰
+	if (!player->GetHandR()->GetIsUse() || isWallHit)
 	{
-		//‚Q‚Â–Ú‚ÌŽè‚ª‚È‚¯‚ê‚Î
-		if (player->GetUseHands()[1] == nullptr || isWallHit)
-		{
-			player->GetUseHands()[0]->SetHandCount(0);
-			player->GetUseHands()[0]->ResetFlag();
-			player->GetUseHands()[0] = nullptr;
-
-			player->useHandCount = 0;
-			player->ChangeState(new NoGrab);
-		}
-		else
-		{
-			//‚Q‚Â–Ú‚ÌŽè‚ð‚P‚Â–Ú‚É•ÏX‚µ‚ÄA‚Q‚Â–Ú‚ð–³‚­‚·
-			player->GetUseHands()[0]->SetHandCount(0);
-			player->GetUseHands()[0]->ResetFlag();
-			player->GetUseHands()[0] = player->GetUseHands()[1];
-			player->GetUseHands()[1] = nullptr;
-			player->useHandCount--;
-			player->ChangeState(new OneHandOneGrab);
-		}
-	}
-}
-
-//---------------------------------
-void TwoHandOneGrab::Update()
-{
-	bool isWallHit = false;
-
-	Vector3 vec;
-
-	//“¯‚¶“G‚ð‚Â‚©‚ñ‚Å‚¢‚é‚Ì‚ÅXV‚Í•Ð•û‚Ì‚Ý
-	player->GetUseHands()[0]->Update(player->GetAngle(), player->GetWorldPos());
-	player->GetUseHands()[1]->Update(player->GetAngle(), player->GetWorldPos());
-
-	//‚Â‚©‚ñ‚¾‚ç
-	for (int i = 0; i < 2; i++)
-	{
-		if (player->GetUseHands()[i]->GetIsGrab())
-		{
-			vec = player->GetUseHands()[i]->GetWorldPos() - player->GetWorldPos();
-			vec.Normalized();
-
-			player->SetWorldPos(player->GetWall()->isCollisionWall(player->GetWorldPos(), vec * handVelocityExtend, &isWallHit));
-		}
-	}
-	//“Ëi‚µI‚í‚Á‚½‚ç(or•Ç‚É“–‚½‚Á‚½‚ç)
-	if ((!player->GetUseHands()[0]->GetIsUse() && !player->GetUseHands()[1]->GetIsUse()) || isWallHit)
-	{
-		//ŠÑ’Ê“Ëi
-		player->GetUseHands()[0]->SetHandCount(0);
-		player->GetUseHands()[1]->SetHandCount(0);
-
-		player->GetUseHands()[0]->ResetFlag();
-		player->GetUseHands()[1]->ResetFlag();
-
-		player->GetUseHands()[0]->ChangeState(new HandNormal);
-		player->GetUseHands()[1]->ChangeState(new HandNormal);
-
-		player->GetUseHands()[0] = nullptr;
-		player->GetUseHands()[1] = nullptr;
-
-		player->useHandCount = 0;
-		player->SetIsTwoHandOneGrab(false);
-
-		player->ChangeState(new TwoHandOneGrab2);
-	}
-}
-
-void TwoHandOneGrab2::Update()
-{
-	timer++;
-
-	player->SetWorldPos(player->GetWall()->isCollisionWall(player->GetWorldPos(), player->GetVelocity()));
-
-	//ŽO‰ñ¬‚³‚¢”ÍˆÍ‚±‚¤‚°‚«
-	if (timer % (maxTimer / 3) == 0)
-	{
-		player->GetSkillManager()->SkillGenerate(player->GetWorldPos(), 1.0f);
-	}
-
-	if (timer >= maxTimer)
-	{
+		player->GetHandR()->ResetFlag();
 		player->ChangeState(new NoGrab);
 	}
 }
 
 //---------------------------------
-void TwoHandTwoGrab::Update()
+void OneHandRushGrab::Update()
 {
-	//’Ç‰Á‚·‚é‚©‚à
+	//ä½¿ã£ã¦ã„ã‚‹æ‰‹ã®æ›´æ–°å‡¦ç†
+	player->GetHandR()->Update(player->GetAngle(), player->GetWorldPos());
+
+	//æŽ´ã‚“ã§ã„ã‚‹çŠ¶æ…‹ã§spaceé›¢ã—ãŸã‚‰
+	if (player->input_->ReleaseTriggerKey(DIK_SPACE))
+	{
+		player->ChangeState(new OneHandRushAttack);
+	}
 }
 
+void OneHandRushAttack::Update()
+{
+	bool isWallHit = false;
 
+	//ä½¿ã£ã¦ã„ã‚‹æ‰‹ã®æ›´æ–°å‡¦ç†
+	player->GetHandR()->Update(player->GetAngle(), player->GetWorldPos());
+
+	//ç§»å‹•å‡¦ç†
+	if (player->GetHandR()->GetIsGrab() &&
+		(!CollisionCircleCircle(player->GetWorldPos(), player->GetRadius(),
+			player->GetHandR()->GetWorldPos(), player->GetHandR()->GetRadius()))) {
+		Vector3 vec = player->GetHandR()->GetWorldPos() - player->GetWorldPos();
+		vec.Normalized();
+
+		player->SetWorldPos(player->GetWall()->isCollisionWall(player->GetWorldPos(), vec * handVelocityExtend, &isWallHit));
+	}
+
+	//çªé€²ã—çµ‚ã‚ã£ãŸã‚‰
+	if (!player->GetHandR()->GetIsUse() || isWallHit)
+	{
+		//ä¸¡æ‰‹æŽ´ã¿ã®è²«é€šç”¨ã®ãƒ™ã‚¯ãƒˆãƒ«
+		Vector3 vec = player->GetHandR()->GetWorldPos() - player->GetWorldPos();
+		vec.Normalized();
+		player->SetVelocity(vec);
+		player->ChangeState(new OneHandRushAttack2);
+	}
+}
+
+void OneHandRushAttack2::Update()
+{
+	bool isWallHit = false;
+
+	timer++;
+
+	//ä½¿ã£ã¦ã„ã‚‹æ‰‹ã®æ›´æ–°å‡¦ç†
+	player->GetHandR()->Update(player->GetAngle(), player->GetWorldPos());
+
+	//ç§»å‹•å‡¦ç†
+	player->SetWorldPos(player->GetWall()->isCollisionWall(player->GetWorldPos(), player->GetVelocity(), &isWallHit));
+
+
+	//ä¸‰å›žå°ã•ã„ç¯„å›²ã“ã†ã’ã
+	if (timer % (maxTimer / 3) == 0)
+	{
+		player->GetSkillManager()->SkillGenerate(player->GetWorldPos(), 1.0f);
+	}
+
+	//çªé€²ã—çµ‚ã‚ã£ãŸã‚‰
+	if (timer >= maxTimer)
+	{
+		player->GetHandR()->ResetFlag();
+		player->ChangeState(new NoGrab);
+	}
+	//ãã‚Œã‹å£ã«å½“ãŸã£ãŸã‚‰
+	else if (isWallHit)
+	{
+		player->GetHandR()->ResetFlag();
+		player->ChangeState(new NoGrab);
+	}
+}

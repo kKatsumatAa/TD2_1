@@ -51,17 +51,6 @@ void ItemManager::Update()
 			return (item->GetIsDead());
 		}
 	);
-	//“Gˆê‘Ì‚É“ñ‚Â‚ÌŽè‚ª‚Â‚¢‚Ä‚¢‚½‚ç
-	for (std::unique_ptr<Item>& item : items)
-	{
-		//state‚ð•Ï‚¦‚é
-		if (item.get()->GetHandCount() == 2 && !player->GetIsTwoHandOneGrab())
-		{
-			player->SetIsTwoHandOneGrab(true);
-		}
-	}
-
-	
 
 	//‰¼
 	if (input_->TriggerKey(DIK_Z) || items.size() <= 0)

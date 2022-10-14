@@ -274,8 +274,8 @@ void GameScene::TutorialDrawFunc() {
 void GameScene::MainGameUpdateFunc() {
 
 	wall_->Update();
-	player_->Update();
 	enemyManager.Update();
+	player_->Update();
 	skillManager.Update();
 	itemManager.Update();
 	effectManager->Update();
@@ -305,7 +305,6 @@ void GameScene::MainGameUpdateFunc() {
 		//手との判定
 		{
 			colliderManager->ClearList();
-			colliderManager->SetListCollider(player_->GetHandL());
 			colliderManager->SetListCollider(player_->GetHandR());
 			const std::list<std::unique_ptr<Enemy>>& enemies = enemyManager.GetEnemies();
 			for (const std::unique_ptr<Enemy>& enemy : enemies)
