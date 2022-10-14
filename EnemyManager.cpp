@@ -94,16 +94,6 @@ void EnemyManager::Update()
 		}
 	);
 
-	//“Gˆê‘Ì‚É“ñ‚Â‚ÌŽè‚ª‚Â‚¢‚Ä‚¢‚½‚ç
-	for (std::unique_ptr<Enemy>& enemy : enemies)
-	{
-		//state‚ð•Ï‚¦‚é
-		if (enemy.get()->GetHandCount() == 2 && !player->GetIsTwoHandOneGrab())
-		{
-			player->SetIsTwoHandOneGrab(true);
-		}
-	}
-
 	//‰¼
 	if (input_->TriggerKey(DIK_Z) || enemies.size() <= 0)
 	{
