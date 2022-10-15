@@ -26,7 +26,7 @@ void ColliderManager::CheckCollisionPair(Collider* colliderA, Collider* collider
 
 void ColliderManager::CheckCollisionPair2(Collider* colliderA, Collider* colliderB)
 {
-	if ((colliderA->GetIsDead() || colliderB->GetIsDead()))
+	if ((colliderA->GetIsDead() || colliderB->GetIsDead()) || colliderA->GetIsGrab())
 	{
 		return;//”»’èAÕ“Ëˆ—‚¹‚¸”²‚¯‚é
 	}

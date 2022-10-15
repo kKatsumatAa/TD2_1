@@ -52,7 +52,7 @@ Vector3 Wall::isCollisionWall(Vector3 pos, const Vector3& velocity, bool* flag) 
 				if (wallTrans_[i].translation_.y - wallTrans_[i].scale_.y < pos.y + 1 && wallTrans_[i].translation_.y + wallTrans_[i].scale_.y > pos.y - 1) {
 					pos += velocity * -0.01f;
 					if (flag != nullptr) {
-						*flag = false;
+						*flag = true;
 					}
 					gravity_->axis = i;
 					return pos;

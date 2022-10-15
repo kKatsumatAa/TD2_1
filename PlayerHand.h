@@ -32,8 +32,6 @@ private:
 	float angle;
 	//Žg—p’†‚©‚Ç‚¤‚©
 	bool IsUse = false;
-	//‚Â‚©‚ñ‚Å‚¢‚é‚©‚Ç‚¤‚©
-	bool IsGrab = false;
 	bool IsGrabOld = false;
 	//”­ŽË‚µ‚½‚©
 	bool IsGo = false;

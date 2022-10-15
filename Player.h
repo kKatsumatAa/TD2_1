@@ -84,7 +84,7 @@ public:
 class OneHandOneGrab : public PlayerHandState
 {
 private:
-
+	bool isNotHandRushAttack = false;
 
 public:
 	void Update() override;
@@ -121,7 +121,7 @@ class OneHandRushAttack2 : public PlayerHandState
 {
 private:
 	int timer = 0;
-	const int maxTimer = 15;
+	const int maxTimer = 30;
 
 public:
 	void Update() override;
