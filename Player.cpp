@@ -96,7 +96,7 @@ void NoGrab::Update()
 	player->GetHandR()->Update(player->GetAngle() + pi / 2.0f, player->GetWorldPos());
 
 	//重力を適応
-	player->SetWorldPos(player->gravity->Move(player->GetWorldPos(),0.2f,0.1f));
+	player->SetWorldPos(player->gravity->Move(player->GetWorldPos(), 0.2f, 0.1f));
 
 	if (player->input_->TriggerKey(DIK_SPACE))
 	{
@@ -113,11 +113,26 @@ void NoGrab::Update()
 //---------------------------------
 void OneHandOneGrab::Update()
 {
+	//重力を適応
+	player->SetWorldPos(player->gravity->Move(player->GetWorldPos(), 0.2f, 0.1f));
+
 	//使っている手の更新処理
 	player->GetHandR()->Update(player->GetAngle(), player->GetWorldPos());
 
-	//掴んでいる状態でspace押していたら
-	if (player->GetHandR()->GetIsGrab() && player->input_->PushKey(DIK_SPACE))
+	//スペース離したら貫通しなくなる
+	if (!player->input_->PushKey(DIK_SPACE))
+	{
+		isNotHandRushAttack = true;
+	}
+
+	//掴んでいる状態で手に当たったら
+	if (!player->GetHandR()->GetIsUse())
+	{
+		player->GetHandR()->ResetFlag();
+		player->ChangeState(new NoGrab);
+	}
+	//長押ししていたら
+	else if (player->GetHandR()->GetIsGrab() && isNotHandRushAttack == false)
 	{
 		player->ChangeState(new OneHandRushGrab);
 	}
@@ -157,11 +172,20 @@ void OneHandAttack::Update()
 //---------------------------------
 void OneHandRushGrab::Update()
 {
+	//重力を適応
+	player->SetWorldPos(player->gravity->Move(player->GetWorldPos(), 0.2f, 0.1f));
+
 	//使っている手の更新処理
 	player->GetHandR()->Update(player->GetAngle(), player->GetWorldPos());
 
+	//掴んでいる状態で手に当たったら
+	if (!player->GetHandR()->GetIsUse())
+	{
+		player->GetHandR()->ResetFlag();
+		player->ChangeState(new NoGrab);
+	}
 	//掴んでいる状態でspace離したら
-	if (player->input_->ReleaseTriggerKey(DIK_SPACE))
+	else if (player->input_->ReleaseTriggerKey(DIK_SPACE))
 	{
 		player->ChangeState(new OneHandRushAttack);
 	}
@@ -199,8 +223,6 @@ void OneHandRushAttack2::Update()
 {
 	bool isWallHit = false;
 
-	timer++;
-
 	//使っている手の更新処理
 	player->GetHandR()->Update(player->GetAngle(), player->GetWorldPos());
 
@@ -209,10 +231,12 @@ void OneHandRushAttack2::Update()
 
 
 	//三回小さい範囲こうげき
-	if (timer % (maxTimer / 3) == 0)
+	if (timer % (maxTimer / 5) == 0)
 	{
 		player->GetSkillManager()->SkillGenerate(player->GetWorldPos(), 1.0f);
 	}
+
+	timer++;
 
 	//突進し終わったら
 	if (timer >= maxTimer)

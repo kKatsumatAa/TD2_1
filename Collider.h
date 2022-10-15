@@ -40,6 +40,7 @@ protected:
 	float radius_ = 1.0f;
 	//死亡フラグ
 	bool isDead = false;
+	bool IsGrab = false;
 	//掴まれている手の数（敵用）
 	int handCount = 0;
 	WorldTransform worldTransform_;
@@ -48,6 +49,7 @@ public:
 	int GetHandCount() { return handCount; }
 	void SetHandCount(const int& count) { handCount = count; }
 	bool GetIsDead() { return isDead; }
+	bool GetIsGrab() { return IsGrab; }
 	float GetRadius();
 	void SetRadius(const float& radius);
 	void SetAngle(const float& angle) { worldTransform_.rotation_.z = angle; worldTransform_.UpdateMatrix(); }

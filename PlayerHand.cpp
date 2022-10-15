@@ -1,6 +1,6 @@
 #include "PlayerHand.h"
 
-void PlayerHand::Initialize(Model* model, uint32_t* textureHandle,Wall* wall)
+void PlayerHand::Initialize(Model* model, uint32_t* textureHandle, Wall* wall)
 {
 	assert(model);
 
@@ -53,7 +53,7 @@ void PlayerHand::Draw(const ViewProjection& viewProjection)
 	debugText_->SetPos(0, 55);
 	debugText_->Printf("isGrab:%d", IsGrab);
 	debugText_->SetPos(0, 70);
-	debugText_->Printf("handCount%d",handCount);
+	debugText_->Printf("handCount%d", handCount);
 }
 
 Vector3 PlayerHand::GetWorldPos()
@@ -81,7 +81,7 @@ void PlayerHand::OnCollision2(Collider& collider)
 
 void PlayerHand::ReachOut(const Vector3& pos, const float& angle)
 {
-	if (!IsUse)
+	if (1)
 	{
 		worldTransform_.rotation_.z = angle;
 		worldTransform_.UpdateMatrix();
@@ -127,22 +127,6 @@ void HandNormal::Update()
 //------------------------------------
 void HandReachOut::Update()
 {
-	bool isWallGrab = true;
-	//終着点に向かって動かす
-	hand->SetWorldPos( hand->GetWall()->isCollisionWall(hand->GetWorldPos() , hand->velocity_, &isWallGrab ));
-	if (isWallGrab == false) {
-		hand->SetIsGrab(true);
-	}
-
-
-	//手が限界まで伸びたら
-	Vector3 vec = hand->GetWorldPos() - hand->GetplayerPos();
-	//戻す
-	if (vec.GetLength() >= handLengthMax)
-	{
-		hand->SetIsGo(false);
-		hand->SetIsBack(true);
-	}
 	//外部で当たり判定計算して、つかんだ判定になったら(そこでendposは設定されてる前提)
 	if (hand->GetIsGrab())
 	{
@@ -150,25 +134,43 @@ void HandReachOut::Update()
 		hand->SetIsBack(false);
 		hand->ChangeState(new HandGrab);
 	}
-	//戻しているときはplayerの方向に向かって
-	else if (hand->GetIsBack())
+	else
 	{
-		//hand->SetEndPos(hand->GetplayerPos());
-		//移動用のベクトル
-		Vector3 vec = hand->GetplayerPos() - hand->GetWorldPos();
-		hand->velocity_.x = vec.GetNormalized().x * handVelocityExtend;
-		hand->velocity_.y = vec.GetNormalized().y * handVelocityExtend;
+		bool isWallGrab = false;
+		//終着点に向かって動かす
+		hand->SetWorldPos(hand->GetWall()->isCollisionWall(hand->GetWorldPos(), hand->velocity_, &isWallGrab));
+		if (isWallGrab == true) {
+			hand->SetIsGrab(true);
+		}
 
-		//手が戻ってきたら
-		if (CollisionCircleCircle(hand->GetplayerPos(), hand->GetRadius(), hand->GetWorldPos(), hand->GetRadius()) && hand->GetIsBack())
+		//手が限界まで伸びたら
+		Vector3 vec = hand->GetWorldPos() - hand->GetplayerPos();
+		//戻す
+		if (vec.GetLength() >= handLengthMax)
 		{
 			hand->SetIsGo(false);
-			hand->SetIsBack(false);
-			hand->SetIsUse(false);
-			hand->ChangeState(new HandNormal);
+			hand->SetIsBack(true);
+		}
+
+		//戻しているときはplayerの方向に向かって
+		if (hand->GetIsBack())
+		{
+			//hand->SetEndPos(hand->GetplayerPos());
+			//移動用のベクトル
+			Vector3 vec = hand->GetplayerPos() - hand->GetWorldPos();
+			hand->velocity_.x = vec.GetNormalized().x * handVelocityExtend;
+			hand->velocity_.y = vec.GetNormalized().y * handVelocityExtend;
+
+			//手が戻ってきたら
+			if (CollisionCircleCircle(hand->GetplayerPos(), hand->GetRadius(), hand->GetWorldPos(), hand->GetRadius()) && hand->GetIsBack())
+			{
+				hand->SetIsGo(false);
+				hand->SetIsBack(false);
+				hand->SetIsUse(false);
+				hand->ChangeState(new HandNormal);
+			}
 		}
 	}
-
 }
 
 //------------------------------------

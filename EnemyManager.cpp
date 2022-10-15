@@ -54,9 +54,6 @@ void EnemyManager::EnemyGenerate(const Vector3& pos)
 
 void EnemyManager::Update()
 {
-	
-
-	//“Gˆê‘Ì‚É“ñ‚Â‚ÌŽè‚ª‚Â‚¢‚Ä‚¢‚½‚ç
 	for (std::unique_ptr<Enemy>& enemy : enemies)
 	{
 		if (enemy.get()->GetIsDead()) effectManager->BurstGenerate(enemy.get()->GetWorldPos(), 10);
