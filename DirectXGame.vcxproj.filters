@@ -54,6 +54,9 @@
     <ClCompile Include="NomalSceneEffect.cpp">
       <Filter>Effect\SceneEffect</Filter>
     </ClCompile>
+    <ClCompile Include="SchoolOfFish.cpp">
+      <Filter>Effect\SceneEffect</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="2d\DebugText.h" />
@@ -114,6 +117,9 @@
       <Filter>Effect\SceneEffect</Filter>
     </ClInclude>
     <ClInclude Include="NomalSceneEffect.h">
+      <Filter>Effect\SceneEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="SchoolOfFish.h">
       <Filter>Effect\SceneEffect</Filter>
     </ClInclude>
   </ItemGroup>

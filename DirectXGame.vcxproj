@@ -123,6 +123,7 @@
     <ClCompile Include="PlayerHand.cpp" />
     <ClCompile Include="SceneEffectManager.cpp" />
     <ClCompile Include="scene\GameScene.cpp" />
+    <ClCompile Include="SchoolOfFish.cpp" />
     <ClCompile Include="Setting.cpp" />
     <ClCompile Include="Util.cpp" />
     <ClCompile Include="Wall.cpp" />
@@ -175,6 +176,7 @@
     <ClInclude Include="PlayerHand.h" />
     <ClInclude Include="SceneEffectManager.h" />
     <ClInclude Include="scene\GameScene.h" />
+    <ClInclude Include="SchoolOfFish.h" />
     <ClInclude Include="Setting.h" />
     <ClInclude Include="Util.h" />
     <ClInclude Include="Wall.h" />
