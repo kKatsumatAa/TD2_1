@@ -18,8 +18,13 @@ public:
 private:
 	Vector2 startPos_;
 	Vector2 endPos_;
+	uint32_t r_;
+	Vector2 pos_;
 	Sprite* sprite_;
 	uint32_t texture_;
+	float timer_ = 0;
+
+	Vector2 p1_;
 
 	bool isDead_ = false;
 };

@@ -8,6 +8,7 @@ GameScene::~GameScene() {
 	delete wall_;
 	delete set_;
 	delete effectManager;
+	delete sceneEffectManager;
 }
 
 void (GameScene::* GameScene::sceneUpdateFuncTable[])() = {
@@ -49,6 +50,8 @@ void GameScene::Initialize() {
 
 	effectManager = new EffectManager();
 	effectManager->Initialize();
+	sceneEffectManager = new SceneEffectManager();
+	sceneEffectManager->Initialize();
 
 	gravity_ = new Gravity();
 	wall_ = new Wall();
@@ -179,6 +182,7 @@ void GameScene::TitleDrawFunc() {
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
+	sceneEffectManager->Draw();
 
 	// デバッグテキストの描画
 	debugText_->DrawAll(commandList);
@@ -197,7 +201,7 @@ void GameScene::TitleDrawFunc() {
 void GameScene::TutorialUpdateFunc() {
 
 	effectManager->Update();
-
+	sceneEffectManager->Update();
 
 
 
@@ -211,7 +215,10 @@ void GameScene::TutorialUpdateFunc() {
 	}
 
 	if (input_->TriggerKey(DIK_1)) {
-		effectManager->BurstGenerate(Vector3(0, 0, 0), 5);
+		sceneEffectManager->NormalSceneEffectGenerate();
+	}
+	if (input_->PushKey(DIK_2)) {
+		sceneEffectManager->SchoolOfFishGenerate();
 	}
 #endif
 }
@@ -256,7 +263,7 @@ void GameScene::TutorialDrawFunc() {
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
-
+	sceneEffectManager->Draw();
 	// デバッグテキストの描画
 	debugText_->DrawAll(commandList);
 	//
