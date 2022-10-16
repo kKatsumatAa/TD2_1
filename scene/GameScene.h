@@ -18,6 +18,7 @@
 #include "Setting.h"
 #include "ItemManager.h"
 #include "EffectManager.h"
+#include "SceneEffectManager.h"
 
 enum class Scene {
 	Title,
@@ -94,6 +95,7 @@ private: // メンバ変数
 	Setting* set_ = nullptr;
 
 	EffectManager* effectManager = nullptr;
+	SceneEffectManager* sceneEffectManager = nullptr;
 
 	//衝突
 	std::unique_ptr<ColliderManager> colliderManager = std::make_unique<ColliderManager>();

@@ -37,17 +37,23 @@
     <ClCompile Include="Wall.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="ItemManager.cpp" />
-    <ClCompile Include="EffectManager.cpp">
-      <Filter>Effect</Filter>
-    </ClCompile>
-    <ClCompile Include="EffectBurst.cpp">
-      <Filter>Effect</Filter>
-    </ClCompile>
     <ClCompile Include="Enemy.cpp" />
-    <ClCompile Include="EffectParticle.cpp">
-      <Filter>Effect</Filter>
-    </ClCompile>
     <ClCompile Include="Gravity.cpp" />
+    <ClCompile Include="EffectBurst.cpp">
+      <Filter>Effect\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="EffectManager.cpp">
+      <Filter>Effect\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="EffectParticle.cpp">
+      <Filter>Effect\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneEffectManager.cpp">
+      <Filter>Effect\SceneEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="NomalSceneEffect.cpp">
+      <Filter>Effect\SceneEffect</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="2d\DebugText.h" />
@@ -94,16 +100,22 @@
     <ClInclude Include="Wall.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="ItemManager.h" />
+    <ClInclude Include="Gravity.h" />
     <ClInclude Include="EffectBurst.h">
-      <Filter>Effect</Filter>
+      <Filter>Effect\Effect</Filter>
     </ClInclude>
     <ClInclude Include="EffectManager.h">
-      <Filter>Effect</Filter>
+      <Filter>Effect\Effect</Filter>
     </ClInclude>
     <ClInclude Include="EffectParticle.h">
-      <Filter>Effect</Filter>
+      <Filter>Effect\Effect</Filter>
     </ClInclude>
-    <ClInclude Include="Gravity.h" />
+    <ClInclude Include="SceneEffectManager.h">
+      <Filter>Effect\SceneEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="NomalSceneEffect.h">
+      <Filter>Effect\SceneEffect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\shaders\Obj.hlsli" />
@@ -115,6 +127,12 @@
   <ItemGroup>
     <Filter Include="Effect">
       <UniqueIdentifier>{d83fb07c-4645-4ad2-bc75-be9b813e5d88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Effect\Effect">
+      <UniqueIdentifier>{b1728db5-044a-415b-83fb-5395894e4faa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Effect\SceneEffect">
+      <UniqueIdentifier>{f03125fe-c984-4326-96a3-1b3e2076631c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
