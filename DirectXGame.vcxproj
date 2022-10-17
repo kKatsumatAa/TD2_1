@@ -107,6 +107,7 @@
     <ClCompile Include="EffectParticle.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyManager.cpp" />
+    <ClCompile Include="GameSystem.cpp" />
     <ClCompile Include="Gravity.cpp" />
     <ClCompile Include="HandSkill.cpp" />
     <ClCompile Include="HandSkillManager.cpp" />
@@ -156,6 +157,7 @@
     <ClInclude Include="EffectParticle.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyManager.h" />
+    <ClInclude Include="GameSystem.h" />
     <ClInclude Include="Gravity.h" />
     <ClInclude Include="HandSkill.h" />
     <ClInclude Include="HandSkillManager.h" />
