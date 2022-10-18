@@ -222,6 +222,9 @@ void GameScene::TutorialUpdateFunc() {
 	if (input_->PushKey(DIK_2)) {
 		sceneEffectManager->SchoolOfFishGenerate();
 	}
+	if (input_->TriggerKey(DIK_3)) {
+		sceneEffectManager->CheckGenerate();
+	}
 #endif
 }
 

@@ -3,6 +3,7 @@
 #include "Sprite.h"
 #include "NomalSceneEffect.h"
 #include "SchoolOfFish.h"
+#include "Check.h"
 
 class SceneEffectManager
 {
@@ -13,6 +14,7 @@ public:
 
 	void NormalSceneEffectGenerate();
 	void SchoolOfFishGenerate();
+	void CheckGenerate();
 
 private:
 	uint32_t sceneTexture_ = 0;
@@ -20,4 +22,5 @@ private:
 
 	std::list<std::unique_ptr<NomalSceneEffect>> nomal_;
 	std::list<std::unique_ptr<SchoolOfFish>> fish_;
+	std::list<std::unique_ptr<Check>> fade_;
 };

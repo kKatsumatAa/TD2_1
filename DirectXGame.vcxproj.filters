@@ -57,10 +57,11 @@
     <ClCompile Include="SchoolOfFish.cpp">
       <Filter>Effect\SceneEffect</Filter>
     </ClCompile>
-
+    <ClCompile Include="Check.cpp">
+      <Filter>Effect\SceneEffect</Filter>
+    </ClCompile>
     <ClCompile Include="Gravity.cpp" />
     <ClCompile Include="GameSystem.cpp" />
-
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="2d\DebugText.h" />
@@ -126,10 +127,11 @@
     <ClInclude Include="SchoolOfFish.h">
       <Filter>Effect\SceneEffect</Filter>
     </ClInclude>
-
+    <ClInclude Include="Check.h">
+      <Filter>Effect\SceneEffect</Filter>
+    </ClInclude>
     <ClInclude Include="Gravity.h" />
     <ClInclude Include="GameSystem.h" />
-
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\shaders\Obj.hlsli" />
