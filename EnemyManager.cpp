@@ -1,7 +1,7 @@
 #include "EnemyManager.h"
 
 
-void EnemyManager::Initialize(Player* player, Model* model, uint32_t* textureHandle, EffectManager* effectManager)
+void EnemyManager::Initialize(Player* player, Model* model, uint32_t* textureHandle, EffectManager* effectManager, GameSystem* gameSystem)
 {
 	//////敵発生コマンド
 	//// バッファをクリアします。
@@ -35,6 +35,8 @@ void EnemyManager::Initialize(Player* player, Model* model, uint32_t* textureHan
 	input_ = Input::GetInstance();
 	this->effectManager = effectManager;
 
+	this->gameSystem = gameSystem;
+
 	//仮
 	for (int i = 0; i < 10; i++)
 	{
@@ -56,31 +58,13 @@ void EnemyManager::Update()
 {
 	for (std::unique_ptr<Enemy>& enemy : enemies)
 	{
-		if (enemy.get()->GetIsDead()) effectManager->BurstGenerate(enemy.get()->GetWorldPos(), 10);
-
-	}
-	//一番近い敵の方をplayerが向くように
-	{
-		float length = NULL;
-		Vector3 vec;
-		Enemy* nearEnemy = nullptr;
-
-		for (std::unique_ptr<Enemy>& enemy : enemies)
+		//死んだら
+		if (enemy.get()->GetIsDead())
 		{
-			vec = (enemy.get()->GetWorldPos() - player->GetWorldPos());
-
-			if (length > vec.GetLength() || length == NULL)
-			{
-				length = vec.GetLength();
-				nearEnemy = enemy.get();
-			}
-		}
-
-		if (nearEnemy != nullptr)
-		{
-			vec = nearEnemy->GetWorldPos() - player->GetWorldPos();
-
-			player->SetAngle((atan2(vec.y, vec.x)) - pi / 2.0f);
+			//エフェクト発生
+			effectManager->BurstGenerate(enemy.get()->GetWorldPos(), 10);
+			//倒した数増やす
+			gameSystem->SetStageEnemyDeath(gameSystem->GetStageEnemyDeath() + 1);
 		}
 	}
 

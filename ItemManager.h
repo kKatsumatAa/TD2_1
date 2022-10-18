@@ -15,6 +15,8 @@ private:
 
 	EffectManager* effectManager = nullptr;
 
+	GameSystem* gameSystem;
+
 	////敵発生コマンド
 	//std::stringstream ItemPopCommands;
 	////待機
@@ -39,7 +41,7 @@ public:
 	//bool isBossDead = false;
 
 
-	void Initialize(Player* player, Model* model, uint32_t* textureHandle, HandStop* handStop, EffectManager* effectManager);
+	void Initialize(Player* player, Model* model, uint32_t* textureHandle, HandStop* handStop, EffectManager* effectManager, GameSystem* gameSystem);
 	void Update();
 	void Draw(const ViewProjection& view);
 
