@@ -111,3 +111,7 @@ const Vector2 operator/(const Vector2& v, float s)
 	Vector2 temp(v);
 	return temp /= s;
 }
+
+const Vector2 lerp(const Vector2& start, const Vector2& end, const float t) {
+	return start * (1.0f - t) + end * t;
+}

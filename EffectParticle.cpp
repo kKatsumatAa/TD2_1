@@ -9,6 +9,11 @@ void Particle::Initialize(Vector3 startPos, Vector2 endPos, uint32_t r, uint32_t
 	endPos_.x = endPos.x;
 	endPos_.y = endPos.y;
 
+	r_ = r;
+
+	//ベジエ曲線
+	p1_ = Vector2(startPos_.x + 200,startPos_.y + 200);
+
 	//テクスチャ
 	texture_ = texture;
 
@@ -17,13 +22,15 @@ void Particle::Initialize(Vector3 startPos, Vector2 endPos, uint32_t r, uint32_t
 
 void Particle::Update()
 {
-	Vector2 length = endPos_ - startPos_;
-	startPos_ += length.GetNormalize() * 5;
-	sprite_->SetPosition(startPos_);
+	Vector2 p3 = lerp(startPos_, p1_, timer_);
+	Vector2 p4 = lerp(p1_, endPos_, timer_);
 
-	if (length.GetLength() < 5) {
+	pos_ = lerp(p3, p4, timer_);
+	timer_ += 0.01f;
+	if (timer_ >= 1) {
 		isDead_ = true;
 	}
+	sprite_->SetPosition(Vector2(pos_.x - r_,pos_.y - r_));
 }
 
 void Particle::Draw()

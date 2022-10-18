@@ -119,9 +119,12 @@
     <ClCompile Include="math\Matrix4.cpp" />
     <ClCompile Include="math\Vector2.cpp" />
     <ClCompile Include="math\Vector3.cpp" />
+    <ClCompile Include="NomalSceneEffect.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerHand.cpp" />
+    <ClCompile Include="SceneEffectManager.cpp" />
     <ClCompile Include="scene\GameScene.cpp" />
+    <ClCompile Include="SchoolOfFish.cpp" />
     <ClCompile Include="Setting.cpp" />
     <ClCompile Include="Util.cpp" />
     <ClCompile Include="Wall.cpp" />
@@ -170,9 +173,12 @@
     <ClInclude Include="math\Vector2.h" />
     <ClInclude Include="math\Vector3.h" />
     <ClInclude Include="math\Vector4.h" />
+    <ClInclude Include="NomalSceneEffect.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerHand.h" />
+    <ClInclude Include="SceneEffectManager.h" />
     <ClInclude Include="scene\GameScene.h" />
+    <ClInclude Include="SchoolOfFish.h" />
     <ClInclude Include="Setting.h" />
     <ClInclude Include="Util.h" />
     <ClInclude Include="Wall.h" />
