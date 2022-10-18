@@ -1,10 +1,12 @@
 #pragma once
 #include"Enemy.h"
+#include"GameSystem.h"
 
 class EnemyManager
 {
 private:
 	Player* player;
+	GameSystem* gameSystem;
 	//モデル
 	Model* model_ = nullptr;
 	//テクスチャハンドル
@@ -39,7 +41,7 @@ public:
 	//bool isBossDead = false;
 
 
-	void Initialize(Player* player, Model* model,  uint32_t* textureHandle, EffectManager* effectManager);
+	void Initialize(Player* player, Model* model,  uint32_t* textureHandle, EffectManager* effectManager, GameSystem* gameSystem);
 	void Update();
 	void Draw(const ViewProjection& view);
 
