@@ -28,6 +28,7 @@ void Player::Initialize(Model* model, uint32_t* textureHandle, HandSkillManager*
 	debugText_ = DebugText::GetInstance();
 
 	worldTransform_.Initialize();
+	worldTransform_.scale_ = { 3.0f,3.0f,3.0f };
 	worldTransformHand_.Initialize();
 	worldTransformHand_.scale_ = { 0.2f,0.2f,0.2f };
 
@@ -60,7 +61,7 @@ void Player::Update()
 
 void Player::Draw(const ViewProjection& view)
 {
-	model_->Draw(worldTransform_, view, textureHandle_[0]);
+	model_->Draw(worldTransform_, view,textureHandle_[0]);
 	modelHand_->Draw(worldTransformHand_, view, textureHandle_[0]);
 
 	handR.Draw(view);

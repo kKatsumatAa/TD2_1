@@ -108,6 +108,8 @@ private: // メンバ変数
 
 	//3Dモデル
 	Model* model_ = nullptr;
+	Model* playerModel_ = nullptr;
+
 	//ワールドトランスフォーム
 	WorldTransform worldTransform_;
 	//ビュープロジェクション
