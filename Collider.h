@@ -13,6 +13,7 @@
 #include <cstdint>
 #include <random>
 #include"EffectManager.h"
+#include"GameSystem.h"
 
 //‰¼
 	//—”ƒV[ƒh¶¬Ší

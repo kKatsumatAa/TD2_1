@@ -44,6 +44,8 @@ void GameScene::Initialize() {
 	viewProjection_.eye = { 0,-49,-1 };
 	viewProjection_.UpdateMatrix();
 
+	gameSystem.initialize();
+
 	//3Dモデルの生成
 	model_ = Model::Create();
 
@@ -56,12 +58,12 @@ void GameScene::Initialize() {
 	player_ = new Player();
 	player_->Initialize(model_, textureHandle_, &skillManager, &handStop, wall_, gravity_);
 
-	enemyManager.Initialize(player_, model_, textureHandle_, effectManager);
+	enemyManager.Initialize(player_, model_, textureHandle_, effectManager, &gameSystem);
 
 
 	skillManager.Initialize(model_, textureHandle_);
 
-	itemManager.Initialize(player_, model_, textureHandle_, &handStop, effectManager);
+	itemManager.Initialize(player_, model_, textureHandle_, &handStop, effectManager, &gameSystem);
 
 	set_ = new Setting();
 	set_->Initialize();
@@ -279,6 +281,48 @@ void GameScene::MainGameUpdateFunc() {
 	skillManager.Update();
 	itemManager.Update();
 	effectManager->Update();
+	gameSystem.Update();
+
+	//一番近いobjの方をplayerが向くように
+	{
+		float length = NULL;
+		Vector3 vec;
+		std::list<Collider*> objs;
+		Collider* nearObj = nullptr;
+
+		const std::list<std::unique_ptr<Enemy>>& enemies = enemyManager.GetEnemies();
+		for (const std::unique_ptr<Enemy>& enemy : enemies)
+		{
+			objs.push_back(enemy.get());
+		}
+		const std::list<std::unique_ptr<Item>>& items = itemManager.GetItems();
+		for (const std::unique_ptr<Item>& item : items)
+		{
+			objs.push_back(item.get());
+		}
+
+		std::list<Collider*>::iterator itr = objs.begin();
+
+		for (int i = 0; i < objs.size(); i++)
+		{
+			vec = ((*itr)->GetWorldPos() - player_->GetWorldPos());
+
+			if (length > vec.GetLength() || length == NULL)
+			{
+				length = vec.GetLength();
+				nearObj = *itr;
+			}
+
+			itr++;
+		}
+
+		if (nearObj != nullptr)
+		{
+			vec = nearObj->GetWorldPos() - player_->GetWorldPos();
+
+			player_->SetAngle((atan2(vec.y, vec.x)) - pi / 2.0f);
+		}
+	}
 
 	//colliderManager
 	{
@@ -374,6 +418,8 @@ void GameScene::MainGameDrawFunc() {
 	wall_->Draw(viewProjection_);
 
 	effectManager->Draw(viewProjection_);
+
+	gameSystem.Draw();
 
 
 	// 3Dオブジェクト描画後処理

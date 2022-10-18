@@ -1,5 +1,6 @@
 #pragma once
 #include<sstream>
+#include"DebugText.h"
 
 class GameSystem;
 
@@ -40,11 +41,10 @@ private:
 	std::stringstream stageSystemCommands;
 	std::string word;
 
+	DebugText* debugText_;
+
 private:
-	/// <summary>
-	/// システム系コマンドの更新（すてーじ変えるstateの時のみ）
-	/// </summary>
-	void UpdateStageSystemCommands();
+	
 
 public:
 	void ChangeState(GameSystemState* state);
@@ -52,6 +52,7 @@ public:
 	void initialize();
 
 	void Update();
+	void Draw();
 
 	int GetStage() { return stage; }
 	int GetStageMax() { return stageMax; }
@@ -76,6 +77,10 @@ public:
 	/// システムデータの読み込み
 	/// </summary>
 	void LoadStageSystemData();
+	/// <summary>
+	/// システム系コマンドの更新（すてーじ変えるstateの時のみ）
+	/// </summary>
+	void UpdateStageSystemCommands();
 };
 
 
@@ -98,7 +103,7 @@ public:
 };
 
 //ゲームオーバー時
-class GameOver : GameSystemState
+class GameOver : public GameSystemState
 {
 private:
 
@@ -107,7 +112,7 @@ public:
 };
 
 //ゲームクリア時
-class GameClear : GameSystemState
+class GameClear : public GameSystemState
 {
 private:
 

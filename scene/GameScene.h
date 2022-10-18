@@ -114,6 +114,9 @@ private: // メンバ変数
 	//シーン
 	Scene scene_ = Scene::Title;
 
+	//システム
+	GameSystem gameSystem;
+
 	//スタート演出
 	bool isStart = false;
 
