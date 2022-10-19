@@ -112,43 +112,43 @@ void NoGrab::Update()
 		{
 			player->GetHandR()->ReachOut(player->GetWorldPos(), player->GetAngle() + pi / 2.0f);
 
-			player->ChangeState(new OneHandOneGrab);
+			player->ChangeState(new OneHandRushGrab);
 		}
 	}
 }
 
 //---------------------------------
-void OneHandOneGrab::Update()
-{
-	//重力を適応
-	player->SetWorldPos(player->gravity->Move(player->GetWorldPos(), 0.2f, 0.1f));
-
-	//使っている手の更新処理
-	player->GetHandR()->Update(player->GetAngle(), player->GetWorldPos());
-
-	//スペース離したら貫通しなくなる
-	if (!player->input_->PushKey(DIK_SPACE))
-	{
-		isNotHandRushAttack = true;
-	}
-
-	//掴んでいる状態で手に当たったら
-	if (!player->GetHandR()->GetIsUse())
-	{
-		player->GetHandR()->ResetFlag();
-		player->ChangeState(new NoGrab);
-	}
-	//長押ししていたら
-	else if (player->GetHandR()->GetIsGrab() && isNotHandRushAttack == false)
-	{
-		player->ChangeState(new OneHandRushGrab);
-	}
-	//そうじゃなかったら普通の突進
-	else if (player->GetHandR()->GetIsGrab())
-	{
-		player->ChangeState(new OneHandAttack);
-	}
-}
+//void OneHandOneGrab::Update()
+//{
+//	//重力を適応
+//	player->SetWorldPos(player->gravity->Move(player->GetWorldPos(), 0.2f, 0.1f));
+//
+//	//使っている手の更新処理
+//	player->GetHandR()->Update(player->GetAngle(), player->GetWorldPos());
+//
+//	//スペース離したら貫通しなくなる
+//	if (!player->input_->PushKey(DIK_SPACE))
+//	{
+//		isNotHandRushAttack = true;
+//	}
+//
+//	//掴んでいる状態で手に当たったら
+//	if (!player->GetHandR()->GetIsUse())
+//	{
+//		player->GetHandR()->ResetFlag();
+//		player->ChangeState(new NoGrab);
+//	}
+//	//長押ししていたら
+//	else if (player->GetHandR()->GetIsGrab() && isNotHandRushAttack == false)
+//	{
+//		player->ChangeState(new OneHandRushGrab);
+//	}
+//	//そうじゃなかったら普通の突進
+//	else if (player->GetHandR()->GetIsGrab())
+//	{
+//		player->ChangeState(new OneHandAttack);
+//	}
+//}
 
 //---------------------------------
 void OneHandAttack::Update()
