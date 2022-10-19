@@ -94,7 +94,9 @@ private: // メンバ変数
 	Wall* wall_ = nullptr;
 	Gravity* gravity_ = nullptr;
 	Setting* set_ = nullptr;
-	Number* number_ = nullptr;
+	Number* timer_ = nullptr;
+	Number* nolma_ = nullptr;
+	Number* kill_ = nullptr;
 
 	EffectManager* effectManager = nullptr;
 	SceneEffectManager* sceneEffectManager = nullptr;

@@ -9,6 +9,7 @@ void Wall::Initialize(Gravity* gravity)
 		wall_[i] = Model::Create();
 		wallTrans_[i].Initialize();
 	}
+	texture_ = TextureManager::Load("white1x1.png");
 
 	//äeï«ÇÃç¿ïWéwíË
 	wallTrans_[0].translation_ = { -35,  0,  0 };
@@ -40,7 +41,7 @@ void Wall::Draw(ViewProjection viewProjection)
 {
 	for (int i = 0; i < 5; i++) {
 
-		wall_[i]->Draw(wallTrans_[i], viewProjection);
+		wall_[i]->Draw(wallTrans_[i], viewProjection/*, texture_*/);
 	}
 }
 
