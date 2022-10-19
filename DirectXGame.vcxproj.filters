@@ -62,6 +62,7 @@
     </ClCompile>
     <ClCompile Include="Gravity.cpp" />
     <ClCompile Include="GameSystem.cpp" />
+    <ClCompile Include="Number.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="2d\DebugText.h" />
@@ -132,6 +133,7 @@
     </ClInclude>
     <ClInclude Include="Gravity.h" />
     <ClInclude Include="GameSystem.h" />
+    <ClInclude Include="Number.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\shaders\Obj.hlsli" />
