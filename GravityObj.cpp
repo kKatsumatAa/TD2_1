@@ -28,6 +28,7 @@ void GravityObj::Initialize(Model* model, uint32_t* textureHandle, Gravity* grav
 
 void GravityObj::Update()
 {
+	SetWorldPos(gravity->ObjMove(worldTransform_, 0.3f));
 	worldTransform_.UpdateMatrix();
 }
 
