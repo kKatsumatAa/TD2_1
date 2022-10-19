@@ -9,7 +9,7 @@ void Gravity::Initialize(Model* model)
 
 void Gravity::Update()
 {
-	pos_.translation_ = ObjMove(pos_,1);
+	pos_.translation_ = ObjMove(pos_, 0.3f);
 	pos_.UpdateMatrix();
 }
 
@@ -18,7 +18,7 @@ void Gravity::Draw(ViewProjection view)
 	model_->Draw(pos_, view);
 }
 
-Vector3 Gravity::Move(Vector3 pos,float gavitySpeed, float playerSprrd)
+Vector3 Gravity::Move(Vector3 pos, float gavitySpeed, float playerSprrd)
 {
 	if (axis == Axis::DOWN) {
 		pos.y -= gavitySpeed;
@@ -108,25 +108,25 @@ Vector3 Gravity::ObjMove(WorldTransform world, float gavitySpeed)
 {
 	if (axis == Axis::DOWN) {
 		world.translation_.y -= gavitySpeed;
-		if (world.translation_.y < -18 + world.scale_.y / 2) {
+		if (world.translation_.y < -18 + world.scale_.y + 2) {
 			world.translation_.y += gavitySpeed;
 		}
 	}
 	else if (axis == Axis::UP) {
 		world.translation_.y += gavitySpeed;
-		if (world.translation_.y > 18 - world.scale_.y / 2) {
+		if (world.translation_.y > 18 - world.scale_.y - 2) {
 			world.translation_.y -= gavitySpeed;
 		}
 	}
 	else if (axis == Axis::RIGHT) {
 		world.translation_.x += gavitySpeed;
-		if (world.translation_.x > 3 - world.scale_.x / 2) {
+		if (world.translation_.x > 3 - world.scale_.x - 2) {
 			world.translation_.x -= gavitySpeed;
 		}
 	}
 	else {
 		world.translation_.x -= gavitySpeed;
-		if (world.translation_.x < -33 + world.scale_.x / 2) {
+		if (world.translation_.x < -33 + world.scale_.x + 2) {
 			world.translation_.x += gavitySpeed;
 		}
 	}
