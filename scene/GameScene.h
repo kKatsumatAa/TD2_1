@@ -19,6 +19,7 @@
 #include "ItemManager.h"
 #include "EffectManager.h"
 #include "SceneEffectManager.h"
+#include "GravityObj.h"
 
 enum class Scene {
 	Title,
@@ -118,6 +119,8 @@ private: // メンバ変数
 
 	//システム
 	GameSystem gameSystem;
+
+	GravityObj grabityObj;
 
 	//スタート演出
 	bool isStart = false;

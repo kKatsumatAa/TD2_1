@@ -1,12 +1,14 @@
 #pragma once
 #include"Enemy.h"
 #include"GameSystem.h"
+#include"ItemManager.h"
 
 class EnemyManager
 {
 private:
 	Player* player;
 	GameSystem* gameSystem;
+	ItemManager* itemManager;
 	//モデル
 	Model* model_ = nullptr;
 	//テクスチャハンドル
@@ -16,32 +18,31 @@ private:
 
 	EffectManager* effectManager = nullptr;
 
+	//出現している敵の番号を保管
+	int aliveEnemyNumber[5] = { NULL,NULL,NULL,NULL,NULL };
 
-	////敵発生コマンド
-	//std::stringstream enemyPopCommands;
-	////待機
-	//bool isWait = false;
-	//int  waitTimer = 0;
+
+	//敵発生コマンド
+	std::stringstream enemyPopCommands;
+	//待機
+	bool isWait = false;
+	int groupCount = 0;
 
 
 	/// <summary>
 	/// 敵発生コマンドの更新
 	/// </summary>
-	//void UpdateEnemyPopCommands();
-	void EnemyGenerate(const Vector3& pos);
+	void UpdateEnemyPopCommands();
+	void EnemyGenerate(const Vector3& pos,int groupNum);
 
 
 public:
 	std::list<std::unique_ptr<Enemy>> enemies;
-	//int phase = 0;
-	////phaseが変わるまで待つフラグ
-	//bool isPhase = false;
-	//bool isEnd[2] = { false };
-	//bool isItem = false;
-	//bool isBossDead = false;
+	
 
 
-	void Initialize(Player* player, Model* model,  uint32_t* textureHandle, EffectManager* effectManager, GameSystem* gameSystem);
+	void Initialize(Player* player, Model* model,  uint32_t* textureHandle, EffectManager* effectManager, GameSystem* gameSystem
+		, ItemManager* itemManager);
 	void Update();
 	void Draw(const ViewProjection& view);
 
@@ -51,11 +52,9 @@ public:
 		return enemies;
 	}
 
-	/*/// <summary>
+	/// <summary>
 	/// 敵発生データの読み込み
 	/// </summary>
-	void LoadEnemyPopData();*/
-
-	//void InfoEnd(bool& infoEnd);
+	void LoadEnemyPopData();
 };
 
