@@ -15,12 +15,6 @@ void ItemManager::Initialize(Player* player, Model* model, uint32_t* textureHand
 	//シングルトンインスタンスを取得
 	input_ = Input::GetInstance();
 	this->handStop = handStop;
-
-	//仮
-	for (int i = 0; i < 1; i++)
-	{
-		ItemGenerate({ posDistX(engine),posDistY(engine),0 });
-	}
 }
 
 void ItemManager::ItemGenerate(const Vector3& pos)
@@ -59,16 +53,6 @@ void ItemManager::Update()
 			return (item->GetIsDead());
 		}
 	);
-
-	//仮
-	if (input_->TriggerKey(DIK_Z) || items.size() <= 0)
-	{
-		items.clear();
-		for (int i = 0; i < 1; i++)
-		{
-			ItemGenerate({ posDistX(engine),posDistY(engine),0 });
-		}
-	}
 }
 
 void ItemManager::Draw(const ViewProjection& view)

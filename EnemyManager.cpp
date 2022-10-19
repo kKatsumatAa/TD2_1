@@ -28,12 +28,6 @@ void EnemyManager::Initialize(Player* player, Model* model, uint32_t* textureHan
 
 	this->gameSystem = gameSystem;
 
-	//仮
-	for (int i = 0; i < 10; i++)
-	{
-		EnemyGenerate({ posDistX(engine),posDistY(engine),0 });
-	}
-
 }
 
 void EnemyManager::EnemyGenerate(const Vector3& pos, int groupNum)
@@ -71,15 +65,6 @@ void EnemyManager::Update()
 		}
 	);
 
-	//仮
-	if (input_->TriggerKey(DIK_Z) || enemies.size() <= 0)
-	{
-		enemies.clear();
-		for (int i = 0; i < 10; i++)
-		{
-			EnemyGenerate({ posDistX(engine),posDistY(engine),0 });
-		}
-	}
 }
 
 void EnemyManager::Draw(const ViewProjection& view)
