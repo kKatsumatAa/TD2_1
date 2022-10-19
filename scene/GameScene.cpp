@@ -58,7 +58,7 @@ void GameScene::Initialize() {
 	sceneEffectManager->Initialize();
 
 	gravity_ = new Gravity();
-	gravity_->Initialize(model_);
+	//gravity_->Initialize(model_);
 	wall_ = new Wall();
 	wall_->Initialize(gravity_);
 	player_ = new Player();
@@ -445,7 +445,7 @@ void GameScene::MainGameDrawFunc() {
 	effectManager->Draw(viewProjection_);
 
 	gameSystem.Draw();
-	gravity_->Draw(viewProjection_);
+	//gravity_->Draw(viewProjection_);
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
