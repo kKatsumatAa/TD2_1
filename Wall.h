@@ -22,6 +22,7 @@ private:
 	Model* wall_[5];
 	WorldTransform wallTrans_[5];
 	Gravity* gravity_;
+	uint32_t texture_;
 };
 
 static Vector2 stageLeftTop = Vector2(-33.0f, -18.0f);

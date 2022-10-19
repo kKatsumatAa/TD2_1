@@ -21,6 +21,7 @@ class Player : public Collider
 {
 private:
 	WorldTransform worldTransformHand_;
+	WorldTransform worldTransformHand2_;
 	//ƒ‚ƒfƒ‹
 	Model* model_ = nullptr;
 	Model* modelHand_ = nullptr;

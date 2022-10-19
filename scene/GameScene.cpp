@@ -73,8 +73,12 @@ void GameScene::Initialize() {
 	set_ = new Setting();
 	set_->Initialize();
 
-	number_ = new Number();
-	number_->Initialize();
+	timer_ = new Number();
+	timer_->Initialize();
+	nolma_ = new Number();
+	nolma_->Initialize();
+	kill_ = new Number();
+	kill_->Initialize();
 
 	//ワールドトランスフォームの初期化
 	worldTransform_.Initialize();
@@ -448,7 +452,9 @@ void GameScene::MainGameDrawFunc() {
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
 	effectManager->SpriteDraw();
-	number_->Draw({ 850,100 }, gameSystem.GetTime() / 60);
+	timer_->Draw({ 850,100 }, gameSystem.GetTime() / 60);
+	nolma_->Draw({ 1050,300 }, gameSystem.GetStageEnemyNorma());
+	kill_->Draw({ 850,300 }, gameSystem.GetStageEnemyDeath());
 	// デバッグテキストの描画
 	debugText_->DrawAll(commandList);
 	//
