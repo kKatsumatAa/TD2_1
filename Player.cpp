@@ -245,14 +245,14 @@ void OneHandRushAttack2::Update()
 
 	timer++;
 
-	//突進し終わったら
-	if (timer >= maxTimer)
-	{
-		player->GetHandR()->ResetFlag();
-		player->ChangeState(new NoGrab);
-	}
+	////突進し終わったら
+	//if (timer >= maxTimer)
+	//{
+	//	player->GetHandR()->ResetFlag();
+	//	player->ChangeState(new NoGrab);
+	//}
 	//それか壁に当たったら
-	else if (isWallHit)
+	/*else*/ if (isWallHit)
 	{
 		player->GetHandR()->ResetFlag();
 		player->ChangeState(new NoGrab);
