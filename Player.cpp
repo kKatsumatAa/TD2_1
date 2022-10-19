@@ -201,7 +201,7 @@ void OneHandRushGrab::Update()
 	//掴んでいる状態でspace離したら
 	else if (player->input_->ReleaseTriggerKey(DIK_SPACE))
 	{
-		player->gravity->SetSugitaIsGomi(false);
+		//player->gravity->SetSugitaIsGomi(false);
 		player->ChangeState(new OneHandRushAttack);
 	}
 }

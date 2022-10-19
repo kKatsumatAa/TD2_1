@@ -55,6 +55,9 @@ Vector3 Wall::isCollisionWall(Vector3 pos, const Vector3& velocity, bool* flag) 
 					if (flag != nullptr) {
 						*flag = true;
 					}
+					if (gravity_->axis != i) {
+						gravity_->SetSugitaIsGomi(false);
+					}
 					gravity_->axis = i;
 					return pos;
 				}
