@@ -28,7 +28,7 @@ public:
 
 	Vector3 Move(Vector3 pos, float gravitySpeed,float playerSprrd);
 	
-	Vector3 ObjMove(WorldTransform world, float gavitySpeed);
+	Vector3 ObjMove(WorldTransform world, float gavitySpeed, bool isStop);
 public:
 	int axis = DOWN;
 	bool playerWay = CLOCK;
