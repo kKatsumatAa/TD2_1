@@ -49,6 +49,7 @@ void GameScene::Initialize() {
 
 	//3Dモデルの生成
 	model_ = Model::Create();
+	playerModel_ = Model::CreateFromOBJ("arm",true);
 
 	effectManager = new EffectManager();
 	effectManager->Initialize();
@@ -59,7 +60,7 @@ void GameScene::Initialize() {
 	wall_ = new Wall();
 	wall_->Initialize(gravity_);
 	player_ = new Player();
-	player_->Initialize(model_, textureHandle_, &skillManager, &handStop, wall_, gravity_);
+	player_->Initialize(playerModel_, textureHandle_, &skillManager, &handStop, wall_, gravity_);
 
 	enemyManager.Initialize(player_, model_, textureHandle_, effectManager, &gameSystem);
 
