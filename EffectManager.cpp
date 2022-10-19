@@ -51,3 +51,13 @@ void EffectManager::ParticleGenerate(Vector3 pos,Vector2 endPos)
 	newParticle->Initialize(pos,endPos,particleR_,particleTexture_);
 	particle_.push_back(std::move(newParticle));
 }
+
+void EffectManager::ShakeGenerate(int time)
+{
+	shake_.SetTimer(time);
+}
+
+Vector3 EffectManager::ShakePow()
+{
+	return shake_.ShakePow();
+}

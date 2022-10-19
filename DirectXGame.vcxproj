@@ -129,6 +129,7 @@
     <ClCompile Include="scene\GameScene.cpp" />
     <ClCompile Include="SchoolOfFish.cpp" />
     <ClCompile Include="Setting.cpp" />
+    <ClCompile Include="Shake.cpp" />
     <ClCompile Include="Util.cpp" />
     <ClCompile Include="Wall.cpp" />
   </ItemGroup>
@@ -186,6 +187,7 @@
     <ClInclude Include="scene\GameScene.h" />
     <ClInclude Include="SchoolOfFish.h" />
     <ClInclude Include="Setting.h" />
+    <ClInclude Include="Shake.h" />
     <ClInclude Include="Util.h" />
     <ClInclude Include="Wall.h" />
   </ItemGroup>

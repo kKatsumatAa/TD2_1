@@ -60,7 +60,7 @@ void GameScene::Initialize() {
 	gravity_ = new Gravity();
 	//gravity_->Initialize(model_);
 	wall_ = new Wall();
-	wall_->Initialize(gravity_);
+	wall_->Initialize(gravity_,effectManager);
 	player_ = new Player();
 	player_->Initialize(playerModel_, textureHandle_, &skillManager, &handStop, wall_, gravity_);
 
@@ -389,6 +389,9 @@ void GameScene::MainGameUpdateFunc() {
 		}
 
 	}
+	viewProjection_.eye = Vector3( 0,0,-50) + effectManager->ShakePow();
+	viewProjection_.target = Vector3(0, 0, 0) + effectManager->ShakePow();
+	viewProjection_.UpdateMatrix();
 
 #ifdef _DEBUG
 	debugText_->SetPos(1100, 20);

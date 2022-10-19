@@ -1,8 +1,9 @@
 #include "Wall.h"
 
-void Wall::Initialize(Gravity* gravity)
+void Wall::Initialize(Gravity* gravity, EffectManager* effect)
 {
 	gravity_ = gravity;
+	effect_ = effect;
 
 	//ƒ‚ƒfƒ‹‚Ì¶¬‚ÆÀ•W‚Ì‰Šú‰»
 	for (int i = 0; i < 5; i++) {
@@ -57,6 +58,7 @@ Vector3 Wall::isCollisionWall(Vector3 pos, const Vector3& velocity, bool* flag) 
 					}
 					if (gravity_->axis != i) {
 						gravity_->SetSugitaIsGomi(false);
+						effect_->ShakeGenerate(30);
 					}
 					gravity_->axis = i;
 					return pos;

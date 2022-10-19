@@ -6,11 +6,12 @@
 #include "TextureManager.h"
 #include "Vector3.h"
 #include "Gravity.h"
+#include "EffectManager.h"
 
 class Wall
 {
 public:
-	void Initialize(Gravity* gravity);
+	void Initialize(Gravity* gravity,EffectManager* effect);
 	void Update();
 	void Draw(ViewProjection viewProjection);
 
@@ -23,6 +24,7 @@ private:
 	WorldTransform wallTrans_[5];
 	Gravity* gravity_;
 	uint32_t texture_;
+	EffectManager* effect_;
 };
 
 static Vector2 stageLeftTop = Vector2(-33.0f, -18.0f);

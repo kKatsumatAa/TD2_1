@@ -62,11 +62,11 @@
     </ClCompile>
     <ClCompile Include="Gravity.cpp" />
     <ClCompile Include="GameSystem.cpp" />
-
     <ClCompile Include="GravityObj.cpp" />
-
     <ClCompile Include="Number.cpp" />
-
+    <ClCompile Include="Shake.cpp">
+      <Filter>Effect\Effect</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="2d\DebugText.h" />
@@ -137,11 +137,11 @@
     </ClInclude>
     <ClInclude Include="Gravity.h" />
     <ClInclude Include="GameSystem.h" />
-
     <ClInclude Include="GravityObj.h" />
-
     <ClInclude Include="Number.h" />
-
+    <ClInclude Include="Shake.h">
+      <Filter>Effect\Effect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\shaders\Obj.hlsli" />
