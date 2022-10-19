@@ -24,7 +24,7 @@ private:
 	Gravity* gravity_;
 };
 
-Vector2 stageLeftTop = Vector2(-33.0f, -18.0f);
-Vector2 stageRightTop = Vector2(3.0f, -18.0f);
-Vector2 stageLeftBottom = Vector2(-33.0f, 18.0f);
-Vector2 stageRightBottom = Vector2(3.0f, 18.0f);
+static Vector2 stageLeftTop = Vector2(-33.0f, -18.0f);
+static Vector2 stageRightTop = Vector2(3.0f, -18.0f);
+static Vector2 stageLeftBottom = Vector2(-33.0f, 18.0f);
+static Vector2 stageRightBottom = Vector2(3.0f, 18.0f);
