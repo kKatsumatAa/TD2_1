@@ -9,7 +9,7 @@ void Gravity::Initialize(Model* model)
 
 void Gravity::Update()
 {
-	pos_.translation_ = ObjMove(pos_, 0.3f,false);
+	pos_.translation_ = ObjMove(pos_, 0.3f);
 	pos_.UpdateMatrix();
 }
 
@@ -104,9 +104,9 @@ Vector3 Gravity::Move(Vector3 pos, float gavitySpeed, float playerSprrd)
 	return pos;
 }
 
-Vector3 Gravity::ObjMove(WorldTransform world, float gavitySpeed,bool isStop)
+Vector3 Gravity::ObjMove(WorldTransform world, float gavitySpeed)
 {
-	if (!isStop) {
+	if (!sugitaIsGomi) {
 		if (axis == Axis::DOWN) {
 			world.translation_.y -= gavitySpeed;
 			if (world.translation_.y < -18 + world.scale_.y + 2) {

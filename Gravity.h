@@ -11,6 +11,8 @@ public:
 	void Update();
 	void Draw(ViewProjection view);
 
+	bool sugitaIsGomi = false;
+
 public:
 	WorldTransform pos_;
 	Model* model_;
@@ -28,7 +30,10 @@ public:
 
 	Vector3 Move(Vector3 pos, float gravitySpeed,float playerSprrd);
 	
-	Vector3 ObjMove(WorldTransform world, float gavitySpeed, bool isStop);
+	Vector3 ObjMove(WorldTransform world, float gavitySpeed);
+
+	void SetSugitaIsGomi(bool is) { sugitaIsGomi = is; }
+	bool GetSugitaIsGomi() { return sugitaIsGomi; }
 public:
 	int axis = DOWN;
 	bool playerWay = CLOCK;
