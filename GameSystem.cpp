@@ -28,7 +28,9 @@ void GameSystem::Update()
 void GameSystem::Draw()
 {
 	debugText_->SetPos(500, 30);
-	debugText_->Printf("Time:%d kill:%d norma:%d bornusTime:%d", time / 60, stageEnemyDeath, stageEnemyNorma, bornusTime);
+	debugText_->Printf("Stage:%d Time:%d kill:%d norma:%d bornusTime:%d",stage, time / 60, stageEnemyDeath, stageEnemyNorma, bornusTime);
+
+	state->Draw();
 }
 
 
@@ -75,6 +77,10 @@ void StageChange::Update()
 	}
 }
 
+void StageChange::Draw()
+{
+}
+
 //-------------------------------------------------------------
 void GamePlay::Update()
 {
@@ -93,14 +99,32 @@ void GamePlay::Update()
 	}
 }
 
+void GamePlay::Draw()
+{
+}
+
 //-------------------------------------------------------------
 void GameOver::Update()
 {
+	gameSystem->SetIsGameOver(true);
+}
+
+void GameOver::Draw()
+{
+	debugText_->SetPos(500, 45);
+	debugText_->Printf("GAME_OVER");
 }
 
 //-------------------------------------------------------------
 void GameClear::Update()
 {
+	gameSystem->SetIsGameClear(true);
+}
+
+void GameClear::Draw()
+{
+	debugText_->SetPos(500, 45);
+	debugText_->Printf("GAME_CLEAR");
 }
 
 //----------------------------------------------------------------
