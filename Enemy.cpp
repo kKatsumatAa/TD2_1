@@ -13,6 +13,7 @@ void Enemy::Initialize(Model* model, uint32_t* textureHandle, const Vector3& pos
 
 	worldTransform_.Initialize();
 	worldTransform_.translation_ = pos;
+	worldTransform_.rotation_.x = pi / -2.0f;
 	worldTransform_.UpdateMatrix();
 
 	//Õ“Ë‘®«
@@ -27,7 +28,7 @@ void Enemy::Update()
 
 void Enemy::Draw(const ViewProjection& view)
 {
-	model_->Draw(worldTransform_, view,textureHandle_[2]);
+	model_->Draw(worldTransform_, view);
 }
 
 Vector3 Enemy::GetWorldPos()

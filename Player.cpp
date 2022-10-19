@@ -28,8 +28,11 @@ void Player::Initialize(Model* model, uint32_t* textureHandle, HandSkillManager*
 	debugText_ = DebugText::GetInstance();
 
 	worldTransform_.Initialize();
+	worldTransform_.scale_ = { 3.0f,3.0f,3.0f };
 	worldTransformHand_.Initialize();
-	worldTransformHand_.scale_ = { 0.2f,0.2f,0.2f };
+	//worldTransformHand_.scale_ = { 1.0f,1.0f,1.0f };
+	worldTransformHand2_.Initialize();
+	//worldTransformHand2_.scale_ = { 1.0f,1.0f,1.0f };
 
 	handR.Initialize(modelHand_, textureHandle, wall);
 
@@ -51,6 +54,9 @@ void Player::Update()
 	worldTransformHand_.translation_.x = worldTransform_.translation_.x + cosf(worldTransform_.rotation_.z + pi / 2.0f) * handLengthMax;
 	worldTransformHand_.translation_.y = worldTransform_.translation_.y + sinf(worldTransform_.rotation_.z + pi / 2.0f) * handLengthMax;
 	worldTransformHand_.UpdateMatrix();
+	worldTransformHand2_.translation_.x = worldTransform_.translation_.x + cosf(worldTransform_.rotation_.z + pi / 2.0f);
+	worldTransformHand2_.translation_.y = worldTransform_.translation_.y + sinf(worldTransform_.rotation_.z + pi / 2.0f);
+	worldTransformHand2_.UpdateMatrix();
 
 	//使ってないときプレイヤーと一緒に移動
 	if (!handR.GetIsUse()) handR.Update(worldTransform_.rotation_.z, worldTransform_.translation_);
@@ -60,8 +66,9 @@ void Player::Update()
 
 void Player::Draw(const ViewProjection& view)
 {
-	model_->Draw(worldTransform_, view, textureHandle_[0]);
+	model_->Draw(worldTransform_, view,textureHandle_[0]);
 	modelHand_->Draw(worldTransformHand_, view, textureHandle_[0]);
+	modelHand_->Draw(worldTransformHand2_, view, textureHandle_[0]);
 
 	handR.Draw(view);
 }

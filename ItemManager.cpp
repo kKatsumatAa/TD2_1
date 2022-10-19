@@ -12,18 +12,24 @@ void ItemManager::Initialize(Player* player, Model* model, uint32_t* textureHand
 	this->player = player;
 	this->effectManager = effectManager;
 	this->gameSystem = gameSystem;
-	//ÉVÉìÉOÉãÉgÉìÉCÉìÉXÉ^ÉìÉXÇéÊìæ
+	//„Ç∑„É≥„Ç∞„É´„Éà„É≥„Ç§„É≥„Çπ„Çø„É≥„Çπ„ÇíÂèñÂæó
 	input_ = Input::GetInstance();
 	this->handStop = handStop;
+
+	//‰ªÆ
+	for (int i = 0; i < 1; i++)
+	{
+		ItemGenerate({ posDistX(engine),posDistY(engine),0 });
+	}
 }
 
 void ItemManager::ItemGenerate(const Vector3& pos)
 {
-	//ìGÇê∂ê¨ÅAèâä˙âª
+	//Êïµ„ÇíÁîüÊàê„ÄÅÂàùÊúüÂåñ
 	std::unique_ptr<Item> item = std::make_unique<Item>();
 	item->Initialize(model_, textureHandle_, pos, handStop, effectManager);
 	/*item->SetPlayer(player_);*/
-	//ìGÇìoò^
+	//Êïµ„ÇíÁôªÈå≤
 	items.push_back(std::move(item));
 }
 
@@ -36,23 +42,33 @@ void ItemManager::Update()
 			item->Update();
 		}
 	}
-	//îjâÛÇ≥ÇÍÇΩÇÁ
+	//Á†¥Â£ä„Åï„Çå„Åü„Çâ
 	for (std::unique_ptr<Item>& item : items)
 	{
 		if (item.get()->GetIsDead())
 		{
-			//ÉGÉtÉFÉNÉg
-			effectManager->ParticleGenerate(item.get()->GetWorldPos(), { 1000,10 });
-			//É{Å[ÉiÉXÉ^ÉCÉÄí«â¡
+			//„Ç®„Éï„Çß„ÇØ„Éà
+			effectManager->ParticleGenerate(item.get()->GetWorldPos(), { 890,140 });
+			//„Éú„Éº„Éä„Çπ„Çø„Ç§„É†ËøΩÂä†
 			gameSystem->SetBornusTime(gameSystem->GetBornusTime() + item.get()->GetBonusTime());
 		}
 	}
-	//è¡Ç∑
+	//Ê∂à„Åô
 	items.remove_if([](std::unique_ptr<Item>& item)
 		{
 			return (item->GetIsDead());
 		}
 	);
+
+	//‰ªÆ
+	if (input_->TriggerKey(DIK_Z) || items.size() <= 0)
+	{
+		items.clear();
+		for (int i = 0; i < 1; i++)
+		{
+			ItemGenerate({ posDistX(engine),posDistY(engine),0 });
+		}
+	}
 }
 
 void ItemManager::Draw(const ViewProjection& view)

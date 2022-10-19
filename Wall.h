@@ -14,7 +14,7 @@ public:
 	void Update();
 	void Draw(ViewProjection viewProjection);
 
-	Vector3 isCollisionWall(Vector3 pos, const Vector3& velocity,bool* flag = nullptr);
+	Vector3 isCollisionWall(Vector3 pos, const Vector3& velocity, bool* flag = nullptr);
 	void Start();
 
 private:
@@ -22,5 +22,10 @@ private:
 	Model* wall_[5];
 	WorldTransform wallTrans_[5];
 	Gravity* gravity_;
+	uint32_t texture_;
 };
 
+static Vector2 stageLeftTop = Vector2(-33.0f, -18.0f);
+static Vector2 stageRightTop = Vector2(3.0f, -18.0f);
+static Vector2 stageLeftBottom = Vector2(-33.0f, 18.0f);
+static Vector2 stageRightBottom = Vector2(3.0f, 18.0f);

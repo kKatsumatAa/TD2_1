@@ -9,7 +9,7 @@ void EnemyManager::Initialize(Player* player, Model* model, uint32_t* textureHan
 {
 	LoadEnemyPopData();
 
-	//‘Ò‹@
+	//å¾…æ©Ÿ
 	isWait = false;
 
 	enemies.clear();
@@ -22,47 +22,64 @@ void EnemyManager::Initialize(Player* player, Model* model, uint32_t* textureHan
 	model_ = model;
 	textureHandle_ = textureHandle;
 	this->player = player;
-	//ƒVƒ“ƒOƒ‹ƒgƒ“ƒCƒ“ƒXƒ^ƒ“ƒX‚ğæ“¾
+	//ã‚·ãƒ³ã‚°ãƒ«ãƒˆãƒ³ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’å–å¾—
 	input_ = Input::GetInstance();
 	this->effectManager = effectManager;
 
 	this->gameSystem = gameSystem;
+
+	//ä»®
+	for (int i = 0; i < 10; i++)
+	{
+		EnemyGenerate({ posDistX(engine),posDistY(engine),0 });
+	}
+
 }
 
 void EnemyManager::EnemyGenerate(const Vector3& pos, int groupNum)
 {
-	//“G‚ğ¶¬A‰Šú‰»
+	//æ•µã‚’ç”Ÿæˆã€åˆæœŸåŒ–
 	std::unique_ptr<Enemy> enemy = std::make_unique<Enemy>();
 	enemy->Initialize(model_, textureHandle_, pos, effectManager);
 	enemy.get()->SetAliveNum(groupNum);
 	/*enemy->SetPlayer(player_);*/
-	//“G‚ğ“o˜^
+	//æ•µã‚’ç™»éŒ²
 	enemies.push_back(std::move(enemy));
 }
 
 void EnemyManager::Update()
 {
-	//ƒXƒNƒŠƒvƒg”­¶ˆ—
+	//ã‚¹ã‚¯ãƒªãƒ—ãƒˆç™ºç”Ÿå‡¦ç†
 	UpdateEnemyPopCommands();
 
 	for (std::unique_ptr<Enemy>& enemy : enemies)
 	{
-		//€‚ñ‚¾‚ç
+		//æ­»ã‚“ã ã‚‰
 		if (enemy.get()->GetIsDead())
 		{
-			//ƒGƒtƒFƒNƒg”­¶
+			//ã‚¨ãƒ•ã‚§ã‚¯ãƒˆç™ºç”Ÿ
 			effectManager->BurstGenerate(enemy.get()->GetWorldPos(), 10);
-			//“|‚µ‚½”‘‚â‚·
+			//å€’ã—ãŸæ•°å¢—ã‚„ã™
 			gameSystem->SetStageEnemyDeath(gameSystem->GetStageEnemyDeath() + 1);
 		}
 	}
 
-	//“GÁ‚·
+	//æ•µæ¶ˆã™
 	enemies.remove_if([](std::unique_ptr<Enemy>& enemy)
 		{
 			return (enemy->GetIsDead());
 		}
 	);
+
+	//ä»®
+	if (input_->TriggerKey(DIK_Z) || enemies.size() <= 0)
+	{
+		enemies.clear();
+		for (int i = 0; i < 10; i++)
+		{
+			EnemyGenerate({ posDistX(engine),posDistY(engine),0 });
+		}
+	}
 }
 
 void EnemyManager::Draw(const ViewProjection& view)
@@ -76,21 +93,21 @@ void EnemyManager::Draw(const ViewProjection& view)
 //-----------------------------------------
 void EnemyManager::LoadEnemyPopData()
 {
-	////“G”­¶ƒRƒ}ƒ“ƒh
-// ƒoƒbƒtƒ@‚ğƒNƒŠƒA‚µ‚Ü‚·B
+	////æ•µç™ºç”Ÿã‚³ãƒãƒ³ãƒ‰
+// ãƒãƒƒãƒ•ã‚¡ã‚’ã‚¯ãƒªã‚¢ã—ã¾ã™ã€‚
 	enemyPopCommands.str("");
-	// ó‘Ô‚ğƒNƒŠƒA‚µ‚Ü‚·B
+	// çŠ¶æ…‹ã‚’ã‚¯ãƒªã‚¢ã—ã¾ã™ã€‚
 	enemyPopCommands.clear(std::stringstream::goodbit);
 
-	//ƒtƒ@ƒCƒ‹ŠJ‚­
+	//ãƒ•ã‚¡ã‚¤ãƒ«é–‹ã
 	std::ifstream file;
 	file.open("Resources/enemyPopDatas/enemyPop.csv");
 	assert(file.is_open());
 
-	//ƒtƒ@ƒCƒ‹‚Ì“à—e‚ğ•¶š—ñƒXƒgƒŠ[ƒ€‚ÉƒRƒs[
+	//ãƒ•ã‚¡ã‚¤ãƒ«ã®å†…å®¹ã‚’æ–‡å­—åˆ—ã‚¹ãƒˆãƒªãƒ¼ãƒ ã«ã‚³ãƒ”ãƒ¼
 	enemyPopCommands << file.rdbuf();
 
-	//ƒtƒ@ƒCƒ‹‚ğ•Â‚¶‚é
+	//ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‰ã˜ã‚‹
 	file.close();
 }
 
@@ -98,21 +115,21 @@ void EnemyManager::UpdateEnemyPopCommands()
 {
 	bool isOnaji = false;
 
-	//1s•ª‚Ì•¶š—ñ‚ğ“ü‚ê‚é•Ï”
+	//1è¡Œåˆ†ã®æ–‡å­—åˆ—ã‚’å…¥ã‚Œã‚‹å¤‰æ•°
 	std::string line;
 	if (!isWait)
 	{
-		//ƒRƒ}ƒ“ƒhÀsƒ‹[ƒv
+		//ã‚³ãƒãƒ³ãƒ‰å®Ÿè¡Œãƒ«ãƒ¼ãƒ—
 		while (getline(enemyPopCommands, line))
 		{
-			//1Œ…•ª‚Ì•¶š—ñ‚ğƒXƒgƒŠ[ƒ€‚É•ÏŠ·‚µ‚Ä‰ğÍ‚µ‚â‚·‚­‚·‚é
+			//1æ¡åˆ†ã®æ–‡å­—åˆ—ã‚’ã‚¹ãƒˆãƒªãƒ¼ãƒ ã«å¤‰æ›ã—ã¦è§£æã—ã‚„ã™ãã™ã‚‹
 			std::istringstream line_stream(line);
 
 			std::string word;
-			//[,]‹æØ‚è‚Ås‚Ìæ“ª•¶š—ñ‚ğæ“¾
+			//[,]åŒºåˆ‡ã‚Šã§è¡Œã®å…ˆé ­æ–‡å­—åˆ—ã‚’å–å¾—
 			getline(line_stream, word, ',');
 
-			//[//]‚©‚çn‚Ü‚és‚ÍƒRƒƒ“ƒg
+			//[//]ã‹ã‚‰å§‹ã¾ã‚‹è¡Œã¯ã‚³ãƒ¡ãƒ³ãƒˆ
 			if (word.find("//") == 0)
 			{
 				continue;
@@ -120,19 +137,19 @@ void EnemyManager::UpdateEnemyPopCommands()
 
 			if (word.find("POP") == 0)
 			{
-				//ƒOƒ‹[ƒv”Ô†
+				//ã‚°ãƒ«ãƒ¼ãƒ—ç•ªå·
 				getline(line_stream, word, ',');
 				int groupNum = (int)std::atoi(word.c_str());
 
-				//xÀ•W
+				//xåº§æ¨™
 				getline(line_stream, word, ',');
 				float x = (float)std::atof(word.c_str());
 
-				//yÀ•W
+				//yåº§æ¨™
 				getline(line_stream, word, ',');
 				float y = (float)std::atof(word.c_str());
 
-				//zÀ•W
+				//zåº§æ¨™
 				getline(line_stream, word, ',');
 				float z = (float)std::atof(word.c_str());
 
@@ -152,27 +169,27 @@ void EnemyManager::UpdateEnemyPopCommands()
 
 				
 			}
-			//ZEROƒRƒ}ƒ“ƒh(“G‚ªƒ[ƒ‚É‚È‚é‚Ü‚Å‘Ò‚Â)
+			//ZEROã‚³ãƒãƒ³ãƒ‰(æ•µãŒã‚¼ãƒ­ã«ãªã‚‹ã¾ã§å¾…ã¤)
 			else if (word.find("ZERO") == 0)
 			{
-				//phase‚ª•Ï‚í‚é‚Ü‚Å‘Ò‚Âƒtƒ‰ƒO
+				//phaseãŒå¤‰ã‚ã‚‹ã¾ã§å¾…ã¤ãƒ•ãƒ©ã‚°
 				isWait = true;
 
-				//ƒRƒ}ƒ“ƒhƒ‹[ƒv”²‚¯‚é
-				break;//(Ÿ‚Ìs(POP)‚ğ“Ç‚İ‚Ü‚È‚¢‚æ‚¤‚É)
+				//ã‚³ãƒãƒ³ãƒ‰ãƒ«ãƒ¼ãƒ—æŠœã‘ã‚‹
+				break;//(æ¬¡ã®è¡Œ(POP)ã‚’èª­ã¿è¾¼ã¾ãªã„ã‚ˆã†ã«)
 			}
-			//ITEMƒRƒ}ƒ“ƒh
+			//ITEMã‚³ãƒãƒ³ãƒ‰
 			else if (word.find("ITEM") == 0)
 			{
-				//xÀ•W
+				//xåº§æ¨™
 				getline(line_stream, word, ',');
 				float x = (float)std::atof(word.c_str());
 
-				//yÀ•W
+				//yåº§æ¨™
 				getline(line_stream, word, ',');
 				float y = (float)std::atof(word.c_str());
 
-				//zÀ•W
+				//zåº§æ¨™
 				getline(line_stream, word, ',');
 				float z = (float)std::atof(word.c_str());
 
@@ -182,16 +199,16 @@ void EnemyManager::UpdateEnemyPopCommands()
 
 				itemManager->ItemGenerate({ x,y,z });
 			}
-			//ENDƒRƒ}ƒ“ƒh
+			//ENDã‚³ãƒãƒ³ãƒ‰
 			else if (word.find("END") == 0)
 			{
-				//ƒtƒ@ƒCƒ‹‚ğÅ‰‚©‚ç“Ç‚İ‚Ş
+				//ãƒ•ã‚¡ã‚¤ãƒ«ã‚’æœ€åˆã‹ã‚‰èª­ã¿è¾¼ã‚€
 				LoadEnemyPopData();
 
 				isWait = true;
 
-				//ƒRƒ}ƒ“ƒhƒ‹[ƒv”²‚¯‚é
-				break;//(Ÿ‚Ìs(POP)‚ğ“Ç‚İ‚Ü‚È‚¢‚æ‚¤‚É)
+				//ã‚³ãƒãƒ³ãƒ‰ãƒ«ãƒ¼ãƒ—æŠœã‘ã‚‹
+				break;//(æ¬¡ã®è¡Œ(POP)ã‚’èª­ã¿è¾¼ã¾ãªã„ã‚ˆã†ã«)
 			}
 		}
 	}
@@ -215,7 +232,7 @@ void EnemyManager::UpdateEnemyPopCommands()
 		}
 	}
 
-	//‘O‚É‹l‚ß‚é
+	//å‰ã«è©°ã‚ã‚‹
 	for (int i = 0; i < _countof(aliveEnemyNumber); i++)
 	{
 		if (count[i] == 0)

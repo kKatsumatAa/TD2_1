@@ -20,6 +20,7 @@
 #include "EffectManager.h"
 #include "SceneEffectManager.h"
 #include "GravityObj.h"
+#include "Number.h"
 
 enum class Scene {
 	Title,
@@ -94,6 +95,9 @@ private: // メンバ変数
 	Wall* wall_ = nullptr;
 	Gravity* gravity_ = nullptr;
 	Setting* set_ = nullptr;
+	Number* timer_ = nullptr;
+	Number* nolma_ = nullptr;
+	Number* kill_ = nullptr;
 
 	EffectManager* effectManager = nullptr;
 	SceneEffectManager* sceneEffectManager = nullptr;
@@ -109,6 +113,9 @@ private: // メンバ変数
 
 	//3Dモデル
 	Model* model_ = nullptr;
+	Model* playerModel_ = nullptr;
+	Model* enemyModel_ = nullptr;
+
 	//ワールドトランスフォーム
 	WorldTransform worldTransform_;
 	//ビュープロジェクション
@@ -125,6 +132,7 @@ private: // メンバ変数
 	//スタート演出
 	bool isStart = false;
 
+	uint32_t time = 30000;
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>
