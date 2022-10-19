@@ -4,12 +4,12 @@
 class Number
 {
 public:
-	void Initialize(Sprite* sprite);
+	void Initialize();
 	void Update();
-	void Draw();
+	void Draw(Vector2 pos, uint32_t num);
 
 private:
-	Sprite* sprite_;
+	Sprite* sprite_[5][10];
 	uint32_t numTexture_;
 };
 

@@ -50,6 +50,7 @@ void GameScene::Initialize() {
 	//3Dモデルの生成
 	model_ = Model::Create();
 	playerModel_ = Model::CreateFromOBJ("arm",true);
+	enemyModel_ = Model::CreateFromOBJ("enemy", true);
 
 	effectManager = new EffectManager();
 	effectManager->Initialize();
@@ -62,7 +63,7 @@ void GameScene::Initialize() {
 	player_ = new Player();
 	player_->Initialize(playerModel_, textureHandle_, &skillManager, &handStop, wall_, gravity_);
 
-	enemyManager.Initialize(player_, model_, textureHandle_, effectManager, &gameSystem);
+	enemyManager.Initialize(player_, enemyModel_, textureHandle_, effectManager, &gameSystem);
 
 
 	skillManager.Initialize(model_, textureHandle_);
@@ -72,6 +73,8 @@ void GameScene::Initialize() {
 	set_ = new Setting();
 	set_->Initialize();
 
+	number_ = new Number();
+	number_->Initialize();
 
 	//ワールドトランスフォームの初期化
 	worldTransform_.Initialize();
@@ -445,6 +448,7 @@ void GameScene::MainGameDrawFunc() {
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
 	effectManager->SpriteDraw();
+	number_->Draw({ 800,200 }, gameSystem.GetTime() / 60);
 	// デバッグテキストの描画
 	debugText_->DrawAll(commandList);
 	//
@@ -576,7 +580,7 @@ void GameScene::GameClearDrawFunc() {
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
-
+	
 	// デバッグテキストの描画
 	debugText_->DrawAll(commandList);
 	//

@@ -40,7 +40,7 @@ void EnemyManager::Initialize(Player* player, Model* model, uint32_t* textureHan
 	//‰¼
 	for (int i = 0; i < 10; i++)
 	{
-		EnemyGenerate({ posDist(engine)-12.0f,posDist(engine),0 });
+		EnemyGenerate({ posDistX(engine),posDistY(engine),0 });
 	}
 }
 
@@ -81,7 +81,7 @@ void EnemyManager::Update()
 		enemies.clear();
 		for (int i = 0; i < 10; i++)
 		{
-			EnemyGenerate({ posDist(engine)-12.0f,posDist(engine),0 });
+			EnemyGenerate({ posDistX(engine),posDistY(engine),0 });
 		}
 	}
 }

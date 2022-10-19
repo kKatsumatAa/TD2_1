@@ -19,7 +19,7 @@ void ItemManager::Initialize(Player* player, Model* model, uint32_t* textureHand
 	//‰¼
 	for (int i = 0; i < 1; i++)
 	{
-		ItemGenerate({ posDist(engine),posDist(engine),0 });
+		ItemGenerate({ posDistX(engine),posDistY(engine),0 });
 	}
 }
 
@@ -66,7 +66,7 @@ void ItemManager::Update()
 		items.clear();
 		for (int i = 0; i < 1; i++)
 		{
-			ItemGenerate({ posDist(engine),posDist(engine),0 });
+			ItemGenerate({ posDistX(engine),posDistY(engine),0 });
 		}
 	}
 }
