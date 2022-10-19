@@ -24,11 +24,7 @@ private:
 	//int  waitTimer = 0;
 
 
-	/// <summary>
-	/// 敵発生コマンドの更新
-	/// </summary>
-	//void UpdateItemPopCommands();
-	void ItemGenerate(const Vector3& pos);
+
 
 
 public:
@@ -58,5 +54,10 @@ public:
 
 	//void InfoEnd(bool& infoEnd);
 
+		/// <summary>
+	/// 敵発生コマンドの更新
+	/// </summary>
+	//void UpdateItemPopCommands();
+	void ItemGenerate(const Vector3& pos);
 };
 

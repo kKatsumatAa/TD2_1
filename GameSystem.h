@@ -8,10 +8,12 @@ class GameSystemState
 {
 protected:
 	GameSystem* gameSystem = nullptr;
+	DebugText* debugText_ = DebugText::GetInstance();
 
 public:
 	void SetGameSystem(GameSystem* gameSystem);
 	virtual void Update() = 0;
+	virtual void Draw() = 0;
 };
 
 
@@ -91,6 +93,7 @@ private:
 
 public:
 	void Update() override;
+	void Draw() override;
 };
 
 //ステージ切り替え時
@@ -100,6 +103,7 @@ private:
 
 public:
 	void Update() override;
+	void Draw() override;
 };
 
 //ゲームオーバー時
@@ -109,6 +113,7 @@ private:
 
 public:
 	void Update() override;
+	void Draw() override;
 };
 
 //ゲームクリア時
@@ -118,5 +123,6 @@ private:
 
 public:
 	void Update() override;
+	void Draw() override;
 };
 

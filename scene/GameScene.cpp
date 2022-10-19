@@ -63,12 +63,15 @@ void GameScene::Initialize() {
 	player_ = new Player();
 	player_->Initialize(playerModel_, textureHandle_, &skillManager, &handStop, wall_, gravity_);
 
-	enemyManager.Initialize(player_, enemyModel_, textureHandle_, effectManager, &gameSystem);
+	enemyManager.Initialize(player_, model_, textureHandle_, effectManager, &gameSystem, &itemManager);
+
 
 
 	skillManager.Initialize(model_, textureHandle_);
 
 	itemManager.Initialize(player_, model_, textureHandle_, &handStop, effectManager, &gameSystem);
+
+	grabityObj.Initialize(model_, textureHandle_, gravity_);
 
 	set_ = new Setting();
 	set_->Initialize();
@@ -300,6 +303,7 @@ void GameScene::MainGameUpdateFunc() {
 	itemManager.Update();
 	effectManager->Update();
 	gameSystem.Update();
+	grabityObj.Update();
 
 	//一番近いobjの方をplayerが向くように
 	{
@@ -346,6 +350,7 @@ void GameScene::MainGameUpdateFunc() {
 	{
 		colliderManager->ClearList();
 		colliderManager->SetListCollider(player_);
+		colliderManager->SetListCollider(&grabityObj);
 		const std::list<std::unique_ptr<Enemy>>& enemies = enemyManager.GetEnemies();
 		for (const std::unique_ptr<Enemy>& enemy : enemies)
 		{
@@ -434,6 +439,7 @@ void GameScene::MainGameDrawFunc() {
 	itemManager.Draw(viewProjection_);
 
 	wall_->Draw(viewProjection_);
+	grabityObj.Draw(viewProjection_);
 
 	effectManager->Draw(viewProjection_);
 
