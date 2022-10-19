@@ -48,7 +48,7 @@ void ItemManager::Update()
 		if (item.get()->GetIsDead())
 		{
 			//エフェクト
-			effectManager->ParticleGenerate(item.get()->GetWorldPos(), { 1000,10 });
+			effectManager->ParticleGenerate(item.get()->GetWorldPos(), { 890,140 });
 			//ボーナスタイム追加
 			gameSystem->SetBornusTime(gameSystem->GetBornusTime() + item.get()->GetBonusTime());
 		}

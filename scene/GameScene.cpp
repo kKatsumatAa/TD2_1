@@ -448,7 +448,7 @@ void GameScene::MainGameDrawFunc() {
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
 	effectManager->SpriteDraw();
-	number_->Draw({ 800,200 }, gameSystem.GetTime() / 60);
+	number_->Draw({ 850,100 }, gameSystem.GetTime() / 60);
 	// デバッグテキストの描画
 	debugText_->DrawAll(commandList);
 	//
