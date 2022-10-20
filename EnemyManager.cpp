@@ -98,7 +98,7 @@ void EnemyManager::LoadEnemyPopData()
 
 void EnemyManager::UpdateEnemyPopCommands()
 {
-	bool isOnaji = false;
+	bool isOnaji[2] = { false,false };
 
 	//1行分の文字列を入れる変数
 	std::string line;
@@ -117,6 +117,8 @@ void EnemyManager::UpdateEnemyPopCommands()
 			//[//]から始まる行はコメント
 			if (word.find("//") == 0)
 			{
+				isOnaji[0] = false;
+				isOnaji[1] = false;
 				continue;
 			}
 
@@ -140,9 +142,10 @@ void EnemyManager::UpdateEnemyPopCommands()
 
 				for (int i = 0; i < _countof(aliveEnemyNumber); i++)
 				{
-					if (aliveEnemyNumber[i] == groupNum) break;
+					if (aliveEnemyNumber[i] == groupNum && !isOnaji[0]) isOnaji[1] = true;
+					if (isOnaji[1]) break;
 
-					if (aliveEnemyNumber[i] == 0)
+					if (aliveEnemyNumber[i] == 0 && !isOnaji[0])
 					{
 						aliveEnemyNumber[i] = groupNum;
 						groupCount++;
@@ -150,9 +153,9 @@ void EnemyManager::UpdateEnemyPopCommands()
 					}
 				}
 
-				EnemyGenerate({ x,y,z }, groupNum);
+				if(!isOnaji[1]) EnemyGenerate({x,y,z}, groupNum);
 
-				
+				isOnaji[0] = true;
 			}
 			//ZEROコマンド(敵がゼロになるまで待つ)
 			else if (word.find("ZERO") == 0)
@@ -218,12 +221,13 @@ void EnemyManager::UpdateEnemyPopCommands()
 	}
 
 	//前に詰める
-	for (int i = 0; i < _countof(aliveEnemyNumber); i++)
+	for (int i = 0; i < _countof(aliveEnemyNumber)-2; i++)
 	{
 		if (count[i] == 0)
 		{
 			if (aliveEnemyNumber[i + 1] != 0)
 				aliveEnemyNumber[i] = aliveEnemyNumber[i + 1];
+			else aliveEnemyNumber[i] = 0;
 
 			if (aliveEnemyNumber[i + 2] == 0)
 			{
