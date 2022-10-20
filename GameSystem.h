@@ -49,12 +49,15 @@ private:
 	SceneEffectManager* sceneEffect_;
 	Sprite* sprite_;
 
+	//外部で使用するためのステージ変更したフラグ
+	bool isStageChange = false;
+
 public:
 	//シーン遷移の時間
 	static const int SCENE_TIME = 150;
 	int sceneTime = SCENE_TIME;
 private:
-	
+
 
 public:
 	void ChangeState(GameSystemState* state);
@@ -72,6 +75,7 @@ public:
 	int GetBornusTime() { return bornusTime; }
 	bool GetIsGameOver() { return isGameOver; }
 	bool GetIsGameClear() { return isGameClear; }
+	bool GetIsStageChange() { return isStageChange; }
 	int GetSceneTime() {
 		return sceneTime;
 	}
@@ -86,10 +90,11 @@ public:
 	void SetBornusTime(int bornusTime) { this->bornusTime = bornusTime; }
 	void SetIsGameOver(bool isGameOver) { this->isGameOver = isGameOver; }
 	void SetIsGameClear(bool isGameClear) { this->isGameClear = isGameClear; }
+	void SetIsStageChange(bool is) { isStageChange=is; }
 	void ResetSceneTime() {
 		sceneTime = SCENE_TIME;
 	}
-	
+
 	void SubSceneTime() {
 		sceneTime--;
 	}

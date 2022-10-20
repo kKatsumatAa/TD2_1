@@ -7,6 +7,8 @@
 void EnemyManager::Initialize(Player* player, Model* model, uint32_t* textureHandle, EffectManager* effectManager, GameSystem* gameSystem,
 	ItemManager* itemManager)
 {
+	this->gameSystem = gameSystem;
+
 	LoadEnemyPopData();
 
 	//待機
@@ -25,9 +27,6 @@ void EnemyManager::Initialize(Player* player, Model* model, uint32_t* textureHan
 	//シングルトンインスタンスを取得
 	input_ = Input::GetInstance();
 	this->effectManager = effectManager;
-
-	this->gameSystem = gameSystem;
-
 }
 
 void EnemyManager::EnemyGenerate(const Vector3& pos, int groupNum)
@@ -43,6 +42,8 @@ void EnemyManager::EnemyGenerate(const Vector3& pos, int groupNum)
 
 void EnemyManager::Update()
 {
+	
+
 	//スクリプト発生処理
 	UpdateEnemyPopCommands();
 
@@ -86,7 +87,25 @@ void EnemyManager::LoadEnemyPopData()
 
 	//ファイル開く
 	std::ifstream file;
-	file.open("Resources/enemyPopDatas/enemyPop.csv");
+	switch (gameSystem->GetStage())
+	{
+	case 1:
+  		file.open("Resources/enemyPopDatas/enemyPop1.csv");
+		break;
+	case 2:
+ 		file.open("Resources/enemyPopDatas/enemyPop2.csv");
+		break;
+	case 3:
+		file.open("Resources/enemyPopDatas/enemyPop3.csv");
+		break;
+	case 4:
+		file.open("Resources/enemyPopDatas/enemyPop4.csv");
+		break;
+	case 5:
+		file.open("Resources/enemyPopDatas/enemyPop5.csv");
+		break;
+	}
+	
 	assert(file.is_open());
 
 	//ファイルの内容を文字列ストリームにコピー
@@ -98,6 +117,18 @@ void EnemyManager::LoadEnemyPopData()
 
 void EnemyManager::UpdateEnemyPopCommands()
 {
+	//ステージ変わったら敵消す
+	if (gameSystem->GetIsStageChange())
+	{
+		gameSystem->SetIsStageChange(false);
+		enemies.clear();
+		aliveEnemyNumber[0] = 0;
+		aliveEnemyNumber[1] = 0;
+		aliveEnemyNumber[2] = 0;
+		aliveEnemyNumber[3] = 0;
+		aliveEnemyNumber[4] = 0;
+	}
+
 	bool isOnaji[2] = { false,false };
 
 	//1行分の文字列を入れる変数
