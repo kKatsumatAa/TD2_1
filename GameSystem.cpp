@@ -3,9 +3,10 @@
 #include<cassert>
 #include <fstream>
 
-void GameSystem::initialize()
+void GameSystem::initialize(SceneEffectManager* sceneEffect)
 {
 	debugText_ = DebugText::GetInstance();
+	sceneEffect_ = sceneEffect;
 
 	LoadStageSystemData();
 
@@ -28,7 +29,7 @@ void GameSystem::Update()
 void GameSystem::Draw()
 {
 	debugText_->SetPos(500, 30);
-	debugText_->Printf("Stage:%d Time:%d kill:%d norma:%d bornusTime:%d",stage, time / 60, stageEnemyDeath, stageEnemyNorma, bornusTime);
+	debugText_->Printf("Stage:%d Time:%d kill:%d norma:%d bornusTime:%d", stage, time / 60, stageEnemyDeath, stageEnemyNorma, bornusTime);
 
 	state->Draw();
 }
@@ -85,17 +86,28 @@ void StageChange::Draw()
 void GamePlay::Update()
 {
 	//ŽžŠÔŒ¸‚ç‚·
-	gameSystem->SetTime(gameSystem->GetTime() - 1);
+	if (gameSystem->GetTime() > 0) {
+		gameSystem->SetTime(gameSystem->GetTime() - 1);
+	}
 
 	//ƒmƒ‹ƒ}’B¬‚µ‚½‚ç
 	if (gameSystem->GetStageEnemyDeath() >= gameSystem->GetStageEnemyNorma())
 	{
-		gameSystem->ChangeState(new StageChange);
+		gameSystem->SubSceneTime();
+		if (gameSystem->GetSceneTime() < 0) {
+			gameSystem->ChangeState(new StageChange);
+		}
 	}
 	//§ŒÀŽžŠÔI‚í‚Á‚½‚ç
 	else if (gameSystem->GetTime() <= 0)
 	{
-		gameSystem->ChangeState(new GameOver);
+		if (gameSystem->GetSceneTime() == gameSystem->SCENE_TIME) {
+			gameSystem->GetSceneEffect()->CheckGenerate();
+		}
+		gameSystem->SubSceneTime();
+		if (gameSystem->GetSceneTime() < 0) {
+			gameSystem->ChangeState(new GameOver);
+		}
 	}
 }
 
@@ -106,7 +118,10 @@ void GamePlay::Draw()
 //-------------------------------------------------------------
 void GameOver::Update()
 {
-	gameSystem->SetIsGameOver(true);
+	gameSystem->SubSceneTime();
+	if (gameSystem->GetSceneTime() <= 0) {
+		gameSystem->SetIsGameOver(true);
+	}
 }
 
 void GameOver::Draw()
@@ -118,7 +133,11 @@ void GameOver::Draw()
 //-------------------------------------------------------------
 void GameClear::Update()
 {
-	gameSystem->SetIsGameClear(true);
+	gameSystem->SubSceneTime();
+	if (gameSystem->GetSceneTime() <= 0) {
+		gameSystem->SetIsGameClear(true);
+
+	}
 }
 
 void GameClear::Draw()

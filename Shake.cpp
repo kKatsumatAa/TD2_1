@@ -8,8 +8,8 @@ Vector3 Shake::ShakePow() {
 		std::random_device seed_gen;
 		std::mt19937_64 engine(seed_gen());
 
-		std::uniform_real_distribution<float> x(-1.0f, 1.0f);
-		std::uniform_real_distribution<float> y(-1.0f, 1.0f);
+		std::uniform_real_distribution<float> x(-0.75f, 0.75f);
+		std::uniform_real_distribution<float> y(-0.75f, 0.75f);
 
 		//ƒ‰ƒ“ƒ_ƒ€‚Åo‚µ‚½’l‚ğ“ü‚ê‚é
 		pow_ = { x(engine), y(engine), 0 };
