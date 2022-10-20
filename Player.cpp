@@ -115,64 +115,6 @@ void NoGrab::Update()
 	}
 }
 
-//---------------------------------
-//void OneHandOneGrab::Update()
-//{
-//	//重力を適応
-//	player->SetWorldPos(player->gravity->Move(player->GetWorldPos(), 0.2f, 0.1f));
-//
-//	//使っている手の更新処理
-//	player->GetHandR()->Update(player->GetAngle(), player->GetWorldPos());
-//
-//	//スペース離したら貫通しなくなる
-//	if (!player->input_->PushKey(DIK_SPACE))
-//	{
-//		isNotHandRushAttack = true;
-//	}
-//
-//	//掴んでいる状態で手に当たったら
-//	if (!player->GetHandR()->GetIsUse())
-//	{
-//		player->GetHandR()->ResetFlag();
-//		player->ChangeState(new NoGrab);
-//	}
-//	//長押ししていたら
-//	else if (player->GetHandR()->GetIsGrab() && isNotHandRushAttack == false)
-//	{
-//		player->ChangeState(new OneHandRushGrab);
-//	}
-//	//そうじゃなかったら普通の突進
-//	else if (player->GetHandR()->GetIsGrab())
-//	{
-//		player->ChangeState(new OneHandAttack);
-//	}
-//}
-
-//---------------------------------
-//void OneHandAttack::Update()
-//{
-//	bool isWallHit = false;
-//
-//	//使っている手の更新処理
-//	player->GetHandR()->Update(player->GetAngle(), player->GetWorldPos());
-//
-//	//移動処理
-//	if (player->GetHandR()->GetIsGrab() &&
-//		(!CollisionCircleCircle(player->GetWorldPos(), player->GetRadius(),
-//			player->GetHandR()->GetWorldPos(), player->GetHandR()->GetRadius()))) {
-//		Vector3 vec = player->GetHandR()->GetWorldPos() - player->GetWorldPos();
-//		vec.Normalized();
-//
-//		player->SetWorldPos(player->GetWall()->isCollisionWall(player->GetWorldPos(), vec * handVelocityExtend, &isWallHit));
-//	}
-//
-//	//突進し終わったら
-//	if (!player->GetHandR()->GetIsUse() || isWallHit)
-//	{
-//		player->GetHandR()->ResetFlag();
-//		player->ChangeState(new NoGrab);
-//	}
-//}
 
 //---------------------------------
 void OneHandRushGrab::Update()

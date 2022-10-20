@@ -136,6 +136,7 @@ private: // メンバ変数
 
 	Collider* nearObj = nullptr;
 	float angle = 0;
+	Vector3 vec;
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>

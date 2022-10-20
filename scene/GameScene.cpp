@@ -336,7 +336,7 @@ void GameScene::MainGameUpdateFunc() {
 			angle = ((atan2(vec.y, vec.x)) - pi / 2.0f);
 		}
 	}
-	if (player_->GetIsRush()&& nearObj != nullptr)
+	if (player_->GetIsRush() && nearObj != nullptr)
 	{
 		vec = nearObj->GetWorldPos() - player_->GetWorldPos();
 
