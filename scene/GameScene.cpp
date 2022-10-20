@@ -45,8 +45,6 @@ void GameScene::Initialize() {
 	viewProjection_.eye = { 0,-49,-1 };
 	viewProjection_.UpdateMatrix();
 
-	gameSystem.initialize();
-
 	//3Dモデルの生成
 	model_ = Model::Create();
 	playerModel_ = Model::CreateFromOBJ("arm",true);
@@ -56,6 +54,8 @@ void GameScene::Initialize() {
 	effectManager->Initialize();
 	sceneEffectManager = new SceneEffectManager();
 	sceneEffectManager->Initialize();
+
+	gameSystem.initialize(sceneEffectManager);
 
 	gravity_ = new Gravity();
 	//gravity_->Initialize(model_);
@@ -305,6 +305,7 @@ void GameScene::MainGameUpdateFunc() {
 	effectManager->Update();
 	gameSystem.Update();
 	grabityObj.Update();
+	sceneEffectManager->Update();
 
 	//一番近いobjの方をplayerが向くように
 	{
@@ -407,6 +408,9 @@ void GameScene::MainGameUpdateFunc() {
 	if (input_->TriggerKey(DIK_2)) {
 		effectManager->ParticleGenerate(Vector3(0, 0, 0), Vector2(1000, 100));
 	}
+	if (input_->TriggerKey(DIK_3)) {
+		sceneEffectManager->CheckGenerate();
+	}
 #endif
 }
 /// <summary>
@@ -465,6 +469,8 @@ void GameScene::MainGameDrawFunc() {
 	timer_->Draw({ 850,100 }, gameSystem.GetTime() / 60);
 	nolma_->Draw({ 1050,300 }, gameSystem.GetStageEnemyNorma());
 	kill_->Draw({ 850,300 }, gameSystem.GetStageEnemyDeath());
+	sceneEffectManager->Draw();
+
 	// デバッグテキストの描画
 	debugText_->DrawAll(commandList);
 	//
@@ -480,6 +486,8 @@ void GameScene::MainGameDrawFunc() {
 /// ゲームオーバーアップデート
 /// </summary>
 void GameScene::GameoverUpdateFunc() {
+
+	sceneEffectManager->Update();
 
 #ifdef _DEBUG
 	debugText_->SetPos(1100, 20);
@@ -530,7 +538,7 @@ void GameScene::GameoverDrawFunc() {
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
-
+	sceneEffectManager->Draw();
 	// デバッグテキストの描画
 	debugText_->DrawAll(commandList);
 	//
