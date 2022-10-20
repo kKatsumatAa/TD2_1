@@ -107,7 +107,7 @@ void NoGrab::Update()
 	player->SetIsRush2(false);
 
 	//重力を適応
-	player->SetWorldPos(player->gravity->Move(player->GetWorldPos(), 0.2f, 0.1f));
+	player->SetWorldPos(player->gravity->Move(player->GetWorldPos(), 0.2f, 0.25f));
 
 	if (player->input_->TriggerKey(DIK_SPACE))
 	{
@@ -187,7 +187,7 @@ void OneHandRushGrab::Update()
 	}
 
 	//重力を適応
-	player->SetWorldPos(player->gravity->Move(player->GetWorldPos(), 0.2f, 0.1f));
+	player->SetWorldPos(player->gravity->Move(player->GetWorldPos(), 0.2f, 0.25f));
 
 	//掴んでいる状態でspace離したら
 	if (!player->input_->PushKey(DIK_SPACE))
@@ -208,6 +208,8 @@ void OneHandRushAttack::Update()
 
 	player->SetWorldPos(player->GetWall()->isCollisionWall(player->GetWorldPos(), vec, &isWallHit));
 
+		player->SetWorldPos(player->GetWall()->isCollisionWall(player->GetWorldPos(), vec * 1.25, &isWallHit));
+	}
 
 	//突進し終わったら
 	if (isWallHit)

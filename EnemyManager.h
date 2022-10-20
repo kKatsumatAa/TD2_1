@@ -39,10 +39,8 @@ private:
 public:
 	std::list<std::unique_ptr<Enemy>> enemies;
 	
-
-
-	void Initialize(Player* player, Model* model,  uint32_t* textureHandle, EffectManager* effectManager, GameSystem* gameSystem
-		, ItemManager* itemManager);
+	void Initialize(Player* player, Model* model,  uint32_t* textureHandle,
+		EffectManager* effectManager, GameSystem* gameSystem, ItemManager* itemManager);
 	void Update();
 	void Draw(const ViewProjection& view);
 

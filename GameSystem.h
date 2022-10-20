@@ -1,6 +1,8 @@
 #pragma once
 #include<sstream>
 #include"DebugText.h"
+#include"SceneEffectManager.h"
+#include "Sprite.h"
 
 class GameSystem;
 
@@ -44,14 +46,20 @@ private:
 	std::string word;
 
 	DebugText* debugText_;
+	SceneEffectManager* sceneEffect_;
+	Sprite* sprite_;
 
+public:
+	//ƒV[ƒ“‘JˆÚ‚ÌŽžŠÔ
+	static const int SCENE_TIME = 150;
+	int sceneTime = SCENE_TIME;
 private:
 	
 
 public:
 	void ChangeState(GameSystemState* state);
 
-	void initialize();
+	void initialize(SceneEffectManager* sceneEffect);
 
 	void Update();
 	void Draw();
@@ -64,6 +72,12 @@ public:
 	int GetBornusTime() { return bornusTime; }
 	bool GetIsGameOver() { return isGameOver; }
 	bool GetIsGameClear() { return isGameClear; }
+	int GetSceneTime() {
+		return sceneTime;
+	}
+	SceneEffectManager* GetSceneEffect() {
+		return sceneEffect_;
+	}
 
 	void SetStage(int stage) { this->stage = stage; }
 	void SetStageEnemyNorma(int stageEnemyNorma) { this->stageEnemyNorma = stageEnemyNorma; }
@@ -72,6 +86,13 @@ public:
 	void SetBornusTime(int bornusTime) { this->bornusTime = bornusTime; }
 	void SetIsGameOver(bool isGameOver) { this->isGameOver = isGameOver; }
 	void SetIsGameClear(bool isGameClear) { this->isGameClear = isGameClear; }
+	void ResetSceneTime() {
+		sceneTime = SCENE_TIME;
+	}
+	
+	void SubSceneTime() {
+		sceneTime--;
+	}
 
 	void NextStage(int nowStage);
 

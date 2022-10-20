@@ -107,7 +107,7 @@ Vector3 Gravity::Move(Vector3 pos, float gavitySpeed, float playerSprrd)
 Vector3 Gravity::ObjMove(WorldTransform world, float gavitySpeed)
 {
 	if (sugitaIsGomi) {
-		gavitySpeed *= 0.2f;
+		gavitySpeed *= 0.1f;
 	}
 	if (axis == Axis::DOWN) {
 		world.translation_.y -= gavitySpeed;

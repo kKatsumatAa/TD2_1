@@ -15,7 +15,7 @@ void GravityObj::Initialize(Model* model, uint32_t* textureHandle, Gravity* grav
 	input_ = Input::GetInstance();
 	debugText_ = DebugText::GetInstance();
 
-	radius_ = 2.0f;
+	radius_ = 3.5f;
 
 	worldTransform_.Initialize();
 	worldTransform_.scale_ = { radius_,radius_,radius_ };
@@ -28,7 +28,7 @@ void GravityObj::Initialize(Model* model, uint32_t* textureHandle, Gravity* grav
 
 void GravityObj::Update()
 {
-	SetWorldPos(gravity->ObjMove(worldTransform_, 0.3f));
+	SetWorldPos(gravity->ObjMove(worldTransform_, 0.5f));
 	worldTransform_.UpdateMatrix();
 }
 
