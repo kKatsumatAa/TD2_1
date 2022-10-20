@@ -208,7 +208,7 @@ void OneHandRushAttack::Update()
 
 	player->SetWorldPos(player->GetWall()->isCollisionWall(player->GetWorldPos(), vec, &isWallHit));
 
-		player->SetWorldPos(player->GetWall()->isCollisionWall(player->GetWorldPos(), vec * 1.25, &isWallHit));
+		player->SetWorldPos(player->GetWall()->isCollisionWall(player->GetWorldPos(), vec * 0.25, &isWallHit));
 
 	//突進し終わったら
 	if (isWallHit)
