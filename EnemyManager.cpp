@@ -117,9 +117,14 @@ void EnemyManager::LoadEnemyPopData()
 
 void EnemyManager::UpdateEnemyPopCommands()
 {
+	
 	//ステージ変わったら敵消す
 	if (gameSystem->GetIsStageChange())
 	{
+		//待機
+		isWait = false;
+		groupCount = 0;
+		LoadEnemyPopData();
 		gameSystem->SetIsStageChange(false);
 		enemies.clear();
 		aliveEnemyNumber[0] = 0;
