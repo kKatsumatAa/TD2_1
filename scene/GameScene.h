@@ -133,6 +133,9 @@ private: // メンバ変数
 	bool isStart = false;
 
 	uint32_t time = 30000;
+
+	Collider* nearObj = nullptr;
+	float angle = 0;
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>

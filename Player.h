@@ -44,6 +44,7 @@ private:
 
 	//貫通攻撃かどうか
 	bool isRush = false;
+	bool isRush2 = false;
 
 public:
 	Input* input_ = nullptr;
@@ -66,6 +67,11 @@ public:
 	void SetVelocity(Vector3 vec) { velocity = vec; }
 	Vector3 GetVelocity() { return velocity; }
 	Wall* GetWall() {return wall;}
+
+	bool GetIsRush() { return isRush; }
+	void SetIsRush(bool is) { isRush = is; }
+	bool GetIsRush2() { return isRush2; }
+	void SetIsRush2(bool is) { isRush2 = is; }
 	//衝突を検出したら呼び出す（コールバック関数）
 	void OnCollision()override;
 	void OnCollision2(Collider& collider)override;
