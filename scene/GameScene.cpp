@@ -296,12 +296,24 @@ void GameScene::TutorialDrawFunc() {
 /// メインゲームアップデート
 /// </summary>
 void GameScene::MainGameUpdateFunc() {
+	
+	gameSystem.Update();
+	wall_->Update();
+	enemyManager.Update();
+	player_->Update();
+	skillManager.Update();
+	itemManager.Update();
+	effectManager->Update();
+
+	grabityObj.Update();
+	sceneEffectManager->Update();
 
 	//一番近いobjの方をplayerが向くように
 	float length = NULL;
 	Vector3 vec;
 	std::list<Collider*> objs;
-	if (!player_->GetIsRush2() && !player_->GetIsRush())
+	nearObj = nullptr;
+	if (!player_->GetIsRush2() && !player_->GetIsRush() && !gameSystem.GetIsStageChange())
 	{
 		const std::list<std::unique_ptr<Enemy>>& enemies = enemyManager.GetEnemies();
 		for (const std::unique_ptr<Enemy>& enemy : enemies)
@@ -338,7 +350,7 @@ void GameScene::MainGameUpdateFunc() {
 			angle = ((atan2(vec.y, vec.x)) - pi / 2.0f);
 		}
 	}
-	if (player_->GetIsRush() && nearObj != nullptr)
+	if (player_->GetIsRush())
 	{
 		vec = pos - player_->GetWorldPos();
 
@@ -348,20 +360,6 @@ void GameScene::MainGameUpdateFunc() {
 	{
 		player_->SetAngle(angle);
 	}
-
-
-	wall_->Update();
-	enemyManager.Update();
-	player_->Update();
-	skillManager.Update();
-	itemManager.Update();
-	effectManager->Update();
-	gameSystem.Update();
-	grabityObj.Update();
-	sceneEffectManager->Update();
-
-
-
 
 	//colliderManager
 	{

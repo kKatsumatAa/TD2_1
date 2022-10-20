@@ -12,6 +12,7 @@ void GameSystem::initialize(SceneEffectManager* sceneEffect)
 
 	state = new StageChange;
 	state->SetGameSystem(this);
+	state->Update();
 }
 
 void GameSystem::ChangeState(GameSystemState* state)
@@ -72,6 +73,9 @@ void StageChange::Update()
 
 		//ステージ進める
 		gameSystem->NextStage(gameSystem->GetStage());
+
+		//ステージ変わったよフラグ
+		gameSystem->SetIsStageChange(true);
 
 		//ステートをゲームに変える
 		gameSystem->ChangeState(new GamePlay);
