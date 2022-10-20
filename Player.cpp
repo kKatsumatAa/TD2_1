@@ -220,7 +220,7 @@ void OneHandRushAttack::Update()
 		Vector3 vec = player->GetHandR()->GetWorldPos() - player->GetWorldPos();
 		vec.Normalized();
 
-		player->SetWorldPos(player->GetWall()->isCollisionWall(player->GetWorldPos(), vec * handVelocityExtend, &isWallHit));
+		player->SetWorldPos(player->GetWall()->isCollisionWall(player->GetWorldPos(), vec, &isWallHit));
 	}
 
 	//突進し終わったら
@@ -242,7 +242,7 @@ void OneHandRushAttack2::Update()
 	player->GetHandR()->Update(player->GetAngle(), player->GetWorldPos());
 
 	//移動処理
-	player->SetWorldPos(player->GetWall()->isCollisionWall(player->GetWorldPos(), player->GetVelocity(), &isWallHit));
+	player->SetWorldPos(player->GetWall()->isCollisionWall(player->GetWorldPos(), player->GetVelocity()*1.5f, &isWallHit));
 
 
 	//三回小さい範囲こうげき
