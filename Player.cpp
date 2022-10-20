@@ -220,7 +220,7 @@ void OneHandRushAttack::Update()
 		Vector3 vec = player->GetHandR()->GetWorldPos() - player->GetWorldPos();
 		vec.Normalized();
 
-		player->SetWorldPos(player->GetWall()->isCollisionWall(player->GetWorldPos(), vec, &isWallHit));
+		player->SetWorldPos(player->GetWall()->isCollisionWall(player->GetWorldPos(), vec * 1.25, &isWallHit));
 	}
 
 	//突進し終わったら
