@@ -297,17 +297,6 @@ void GameScene::TutorialDrawFunc() {
 /// </summary>
 void GameScene::MainGameUpdateFunc() {
 
-	wall_->Update();
-	enemyManager.Update();
-	player_->Update();
-	skillManager.Update();
-	itemManager.Update();
-	effectManager->Update();
-	gameSystem.Update();
-	grabityObj.Update();
-	sceneEffectManager->Update();
-
-
 	//一番近いobjの方をplayerが向くように
 	float length = NULL;
 	Vector3 vec;
@@ -340,11 +329,14 @@ void GameScene::MainGameUpdateFunc() {
 			itr++;
 		}
 
-		vec = nearObj->GetWorldPos() - player_->GetWorldPos();
+		if (nearObj != nullptr)
+		{
+			vec = nearObj->GetWorldPos() - player_->GetWorldPos();
 
-		angle = ((atan2(vec.y, vec.x)) - pi / 2.0f);
+			angle = ((atan2(vec.y, vec.x)) - pi / 2.0f);
+		}
 	}
-	if (player_->GetIsRush())
+	if (player_->GetIsRush() && nearObj != nullptr)
 	{
 		vec = nearObj->GetWorldPos() - player_->GetWorldPos();
 
@@ -354,6 +346,20 @@ void GameScene::MainGameUpdateFunc() {
 	{
 		player_->SetAngle(angle);
 	}
+
+
+	wall_->Update();
+	enemyManager.Update();
+	player_->Update();
+	skillManager.Update();
+	itemManager.Update();
+	effectManager->Update();
+	gameSystem.Update();
+	grabityObj.Update();
+	sceneEffectManager->Update();
+
+
+
 
 	//colliderManager
 	{
