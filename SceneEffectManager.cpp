@@ -2,8 +2,9 @@
 
 void SceneEffectManager::Initialize()
 {
-	sceneTexture_ = TextureManager::Load("sceneEffect.png");
+	sceneTexture_ = TextureManager::Load("nextStage.png");
 	fishTexture_ = TextureManager::Load("particle.png");
+	gameovertexture_ = TextureManager::Load("gameover.png");
 }
 
 void SceneEffectManager::Update()
@@ -52,7 +53,7 @@ void SceneEffectManager::SchoolOfFishGenerate()
 void SceneEffectManager::CheckGenerate()
 {
 	std::unique_ptr<Check> newFade = std::make_unique<Check>();
-	newFade->Initialize(sceneTexture_);
+	newFade->Initialize(gameovertexture_);
 	fade_.push_back(std::move(newFade));
 }
 

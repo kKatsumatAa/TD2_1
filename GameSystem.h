@@ -2,6 +2,7 @@
 #include<sstream>
 #include"DebugText.h"
 #include"SceneEffectManager.h"
+#include "Sprite.h"
 
 class GameSystem;
 
@@ -46,6 +47,7 @@ private:
 
 	DebugText* debugText_;
 	SceneEffectManager* sceneEffect_;
+	Sprite* sprite_;
 
 public:
 	//ƒV[ƒ“‘JˆÚ‚ÌŽžŠÔ
@@ -84,6 +86,9 @@ public:
 	void SetBornusTime(int bornusTime) { this->bornusTime = bornusTime; }
 	void SetIsGameOver(bool isGameOver) { this->isGameOver = isGameOver; }
 	void SetIsGameClear(bool isGameClear) { this->isGameClear = isGameClear; }
+	void ResetSceneTime() {
+		sceneTime = SCENE_TIME;
+	}
 	
 	void SubSceneTime() {
 		sceneTime--;
