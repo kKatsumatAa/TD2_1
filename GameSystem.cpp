@@ -93,8 +93,12 @@ void GamePlay::Update()
 	//ƒmƒ‹ƒ}’B¬‚µ‚½‚ç
 	if (gameSystem->GetStageEnemyDeath() >= gameSystem->GetStageEnemyNorma())
 	{
+		if (gameSystem->GetSceneTime() == gameSystem->SCENE_TIME) {
+			gameSystem->GetSceneEffect()->NormalSceneEffectGenerate();
+		}
 		gameSystem->SubSceneTime();
 		if (gameSystem->GetSceneTime() < 0) {
+			gameSystem->ResetSceneTime();
 			gameSystem->ChangeState(new StageChange);
 		}
 	}
@@ -106,6 +110,7 @@ void GamePlay::Update()
 		}
 		gameSystem->SubSceneTime();
 		if (gameSystem->GetSceneTime() < 0) {
+			gameSystem->ResetSceneTime();
 			gameSystem->ChangeState(new GameOver);
 		}
 	}
