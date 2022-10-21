@@ -12,5 +12,5 @@ void Guide::Update()
 
 void Guide::Draw(ViewProjection view)
 {
-	model_->Draw(view);
+	model_->Draw(pos_,view);
 }
