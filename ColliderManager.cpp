@@ -9,6 +9,12 @@ void ColliderManager::CheckCollisionPair(Collider* colliderA, Collider* collider
 	{
 		return;//判定、衝突処理せず抜ける
 	}
+	//アイテムのプロト切り替えに対応するため
+	if ((colliderA->GetIsPlayer() && colliderB->GetIsItem() && isItemMode)
+		|| (colliderB->GetIsPlayer() && colliderA->GetIsItem() && isItemMode))
+	{
+		return;
+	}
 
 	Vector3 posA = colliderA->GetWorldPos();
 	Vector3 posB = colliderB->GetWorldPos();
@@ -18,8 +24,8 @@ void ColliderManager::CheckCollisionPair(Collider* colliderA, Collider* collider
 
 	if (CollisionCircleCircle(posA, rA, posB, rB))
 	{
-		colliderA->OnCollision();
-		colliderB->OnCollision();
+		colliderA->OnCollision(*colliderB);
+		colliderB->OnCollision(*colliderA);
 	}
 }
 
@@ -42,7 +48,7 @@ void ColliderManager::CheckCollisionPair2(Collider* colliderA, Collider* collide
 		if (colliderA->GetCollisionAttribute() == kCollisionAttributeHand && colliderB->GetCollisionAttribute() == kCollisionAttributeEnemy)
 		{
 			colliderB->OnCollision2(*colliderA);
-			colliderA->OnCollision();
+			colliderA->OnCollision(*colliderB);
 		}
 	}
 }

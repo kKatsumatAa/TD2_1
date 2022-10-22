@@ -2,7 +2,7 @@
 #include"PlayerHand.h"
 #include"HandSkillManager.h"
 #include"Gravity.h"
-
+#include "Guide.h"
 
 class Player;
 
@@ -31,7 +31,7 @@ private:
 	HandSkillManager* skillManager;
 
 	Wall* wall = nullptr;
-	
+	Guide* guide = nullptr;
 
 	Vector3 velocity;
 
@@ -73,7 +73,7 @@ public:
 	bool GetIsRush2() { return isRush2; }
 	void SetIsRush2(bool is) { isRush2 = is; }
 	//衝突を検出したら呼び出す（コールバック関数）
-	void OnCollision()override;
+	void OnCollision(Collider& collider)override;
 	void OnCollision2(Collider& collider)override;
 };
 

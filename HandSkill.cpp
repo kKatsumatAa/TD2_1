@@ -44,7 +44,7 @@ Vector3 HandSkill::GetWorldPos()
 	return worldTransform_.translation_;
 }
 
-void HandSkill::OnCollision()
+void HandSkill::OnCollision(Collider& collider)
 {
 }
 

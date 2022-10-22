@@ -10,6 +10,7 @@ void GravityObj::Initialize(Model* model, uint32_t* textureHandle, Gravity* grav
 
 	this->gravity = gravity;
 
+	isGravityObj = true;
 
 	//シングルトンインスタンスを取得
 	input_ = Input::GetInstance();
@@ -42,7 +43,7 @@ Vector3 GravityObj::GetWorldPos()
 	return worldTransform_.translation_;
 }
 
-void GravityObj::OnCollision()
+void GravityObj::OnCollision(Collider& collider)
 {
 }
 

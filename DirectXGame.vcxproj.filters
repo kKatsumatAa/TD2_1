@@ -67,6 +67,7 @@
     <ClCompile Include="Shake.cpp">
       <Filter>Effect\Effect</Filter>
     </ClCompile>
+    <ClCompile Include="Guide.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="2d\DebugText.h" />
@@ -142,6 +143,7 @@
     <ClInclude Include="Shake.h">
       <Filter>Effect\Effect</Filter>
     </ClInclude>
+    <ClInclude Include="Guide.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\shaders\Obj.hlsli" />

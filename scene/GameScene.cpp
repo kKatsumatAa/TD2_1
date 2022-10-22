@@ -49,6 +49,16 @@ void GameScene::Initialize() {
 	model_ = Model::Create();
 	playerModel_ = Model::CreateFromOBJ("arm", true);
 	enemyModel_ = Model::CreateFromOBJ("enemy", true);
+	titleBord_ = Model::Create();
+	titleBordTrans_.Initialize();
+	titleBordTrans_.translation_.y = -22;
+	titleBordTrans_.scale_ = { 20,1,12 };
+	titleBordTrans_.UpdateMatrix();
+	titleBord2_ = Model::Create();
+	titleBordTrans2_.Initialize();
+	titleBordTrans2_.translation_.y = 22;
+	titleBordTrans2_.scale_ = { 50,1,20 };
+	titleBordTrans2_.UpdateMatrix();
 
 	effectManager = new EffectManager();
 	effectManager->Initialize();
@@ -184,6 +194,8 @@ void GameScene::TitleDrawFunc() {
 	/// </summary>
 	wall_->Draw(viewProjection_);
 	player_->Draw(viewProjection_);
+	titleBord_->Draw(titleBordTrans_, viewProjection_);
+	titleBord_->Draw(titleBordTrans2_, viewProjection_);
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
@@ -216,7 +228,7 @@ void GameScene::TutorialUpdateFunc() {
 
 	effectManager->Update();
 	sceneEffectManager->Update();
-
+	
 
 
 #ifdef _DEBUG
@@ -297,6 +309,13 @@ void GameScene::TutorialDrawFunc() {
 /// </summary>
 void GameScene::MainGameUpdateFunc() {
 	
+	//アイテムのプロトタイプ切替
+	if (input_->TriggerKey(DIK_Z))
+	{
+		if (colliderManager->isItemMode) colliderManager->isItemMode = false;
+		else                             colliderManager->isItemMode = true;
+	}
+
 	gameSystem.Update();
 	wall_->Update();
 	enemyManager.Update();
@@ -467,6 +486,9 @@ void GameScene::MainGameDrawFunc() {
 	gameSystem.Draw();
 	//gravity_->Draw(viewProjection_);
 
+	debugText_->SetPos(10, 600);
+	debugText_->Printf("アイテムのプロト:%d", colliderManager->isItemMode);
+
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 #pragma endregion
@@ -510,6 +532,7 @@ void GameScene::GameoverUpdateFunc() {
 	if (input_->TriggerKey(DIK_P)) {
 		scene_ = Scene::GameClear;
 	}
+	
 #endif
 }
 /// <summary>

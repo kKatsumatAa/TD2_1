@@ -111,6 +111,7 @@
     <ClCompile Include="GameSystem.cpp" />
     <ClCompile Include="GravityObj.cpp" />
     <ClCompile Include="Gravity.cpp" />
+    <ClCompile Include="Guide.cpp" />
     <ClCompile Include="HandSkill.cpp" />
     <ClCompile Include="HandSkillManager.cpp" />
     <ClCompile Include="HandStop.cpp" />
@@ -168,6 +169,7 @@
     <ClInclude Include="GameSystem.h" />
     <ClInclude Include="GravityObj.h" />
     <ClInclude Include="Gravity.h" />
+    <ClInclude Include="Guide.h" />
     <ClInclude Include="HandSkill.h" />
     <ClInclude Include="HandSkillManager.h" />
     <ClInclude Include="HandStop.h" />
