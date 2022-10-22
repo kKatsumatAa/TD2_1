@@ -24,10 +24,10 @@ private:
 	//int  waitTimer = 0;
 
 
-
-
-
 public:
+	//csv用
+	int aliveItemNumber[5] = { NULL,NULL,NULL,NULL,NULL };
+	int groupCountI = 0;
 	std::list<std::unique_ptr<Item>> items;
 	//int phase = 0;
 	////phaseが変わるまで待つフラグ
@@ -58,6 +58,6 @@ public:
 	/// 敵発生コマンドの更新
 	/// </summary>
 	//void UpdateItemPopCommands();
-	void ItemGenerate(const Vector3& pos);
+	void ItemGenerate(const Vector3& pos,int groupNum);
 };
 

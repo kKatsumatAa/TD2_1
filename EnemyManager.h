@@ -21,7 +21,6 @@ private:
 	//出現している敵の番号を保管
 	int aliveEnemyNumber[5] = { NULL,NULL,NULL,NULL,NULL };
 
-
 	//敵発生コマンド
 	std::stringstream enemyPopCommands;
 	//待機
