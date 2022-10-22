@@ -9,6 +9,12 @@ void ColliderManager::CheckCollisionPair(Collider* colliderA, Collider* collider
 	{
 		return;//判定、衝突処理せず抜ける
 	}
+	//アイテムのプロト切り替えに対応するため
+	if ((colliderA->GetIsPlayer() && colliderB->GetIsItem() && isItemMode)
+		|| (colliderB->GetIsPlayer() && colliderA->GetIsItem() && isItemMode))
+	{
+		return;
+	}
 
 	Vector3 posA = colliderA->GetWorldPos();
 	Vector3 posB = colliderB->GetWorldPos();

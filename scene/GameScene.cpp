@@ -297,6 +297,13 @@ void GameScene::TutorialDrawFunc() {
 /// </summary>
 void GameScene::MainGameUpdateFunc() {
 	
+	//アイテムのプロトタイプ切替
+	if (input_->TriggerKey(DIK_Z))
+	{
+		if (colliderManager->isItemMode) colliderManager->isItemMode = false;
+		else                             colliderManager->isItemMode = true;
+	}
+
 	gameSystem.Update();
 	wall_->Update();
 	enemyManager.Update();
@@ -466,6 +473,9 @@ void GameScene::MainGameDrawFunc() {
 
 	gameSystem.Draw();
 	//gravity_->Draw(viewProjection_);
+
+	debugText_->SetPos(10, 600);
+	debugText_->Printf("アイテムのプロト:%d", colliderManager->isItemMode);
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();

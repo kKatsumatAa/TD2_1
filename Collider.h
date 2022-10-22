@@ -51,6 +51,8 @@ protected:
 	bool isPlayer = false;
 	//
 	bool isGravityObj = false;
+	//
+	bool isItem = false;
 
 public:
 	int GetHandCount() { return handCount; }
@@ -58,6 +60,7 @@ public:
 	bool GetIsDead() { return isDead; }
 	bool GetIsGrab() { return IsGrab; }
 	bool GetIsPlayer() { return isPlayer; }
+	bool GetIsItem() { return isItem; }
 	bool GetIsGravityObj() { return isGravityObj; }
 	float GetRadius();
 	void SetRadius(const float& radius);

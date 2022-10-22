@@ -14,6 +14,8 @@ void Item::Initialize(Model* model, uint32_t* textureHandle, const Vector3& pos,
 
 	this->gameSystem = gameSystem;
 
+	isItem = true;
+
 	this->handStop = handStop;
 
 	worldTransform_.Initialize();
