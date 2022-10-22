@@ -10,7 +10,7 @@ public:
 	void Draw(ViewProjection view);
 
 private:
-	static const int Num = 60;
+	static const int Num = 50;
 	WorldTransform pos_[Num];
 	Vector3 playerStart_;
 	Vector3 playerEnd_;

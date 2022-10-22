@@ -18,7 +18,7 @@ void Guide::Initialize(Model* model)
 
 void Guide::Update(Vector3 start, Vector3 end)
 {
-	for (int i = 1; i < Num; i++) {
+	for (int i = 0; i < Num; i++) {
 		start += end;
 		pos_[i].translation_ = start;
 		pos_[i].scale_ = { 1.0f,1.0f,1.0f };
