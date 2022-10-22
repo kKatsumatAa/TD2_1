@@ -34,7 +34,7 @@ Vector3 Gravity::Move(Vector3 pos, float gavitySpeed, float playerSprrd)
 			else {
 				pos.x -= playerSprrd;
 				if (pos.x < -33) {
-					pos.x -= playerSprrd;
+					pos.x += playerSprrd;
 					playerWay = Way::CLOCK;
 				}
 			}

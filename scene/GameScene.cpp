@@ -510,6 +510,7 @@ void GameScene::GameoverUpdateFunc() {
 	if (input_->TriggerKey(DIK_P)) {
 		scene_ = Scene::GameClear;
 	}
+	
 #endif
 }
 /// <summary>

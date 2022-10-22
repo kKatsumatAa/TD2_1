@@ -2,7 +2,7 @@
 #include"PlayerHand.h"
 #include"HandSkillManager.h"
 #include"Gravity.h"
-
+#include "Guide.h"
 
 class Player;
 
@@ -31,7 +31,7 @@ private:
 	HandSkillManager* skillManager;
 
 	Wall* wall = nullptr;
-	
+	Guide* guide = nullptr;
 
 	Vector3 velocity;
 
