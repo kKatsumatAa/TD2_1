@@ -21,7 +21,7 @@ void ItemManager::ItemGenerate(const Vector3& pos)
 {
 	//敵を生成、初期化
 	std::unique_ptr<Item> item = std::make_unique<Item>();
-	item->Initialize(model_, textureHandle_, pos, handStop, effectManager);
+	item->Initialize(model_, textureHandle_, pos, handStop, effectManager,gameSystem);
 	/*item->SetPlayer(player_);*/
 	//敵を登録
 	items.push_back(std::move(item));
@@ -43,8 +43,6 @@ void ItemManager::Update()
 		{
 			//エフェクト
 			effectManager->ParticleGenerate(item.get()->GetWorldPos(), { 890,140 });
-			//ボーナスタイム追加
-			gameSystem->SetBornusTime(gameSystem->GetBornusTime() + item.get()->GetBonusTime());
 		}
 	}
 	//消す

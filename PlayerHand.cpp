@@ -70,7 +70,7 @@ void PlayerHand::ResetFlag()
 	IsBack = false;
 }
 
-void PlayerHand::OnCollision()
+void PlayerHand::OnCollision(Collider& collider)
 {
 	IsGrab = true;
 }

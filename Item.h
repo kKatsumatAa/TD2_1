@@ -12,6 +12,8 @@ private:
 	HandStop* handStop = nullptr;
 	EffectManager* effectManager = nullptr;
 
+	GameSystem* gameSystem = nullptr;
+
 	int bonusTime = 0;
 	int timer = 0;
 
@@ -20,7 +22,8 @@ public:
 	Input* input_ = nullptr;
 
 
-	void Initialize(Model* model, uint32_t* textureHandle, const Vector3& pos, HandStop* handStop, EffectManager* effectManager);
+	void Initialize(Model* model, uint32_t* textureHandle, const Vector3& pos, HandStop* handStop, EffectManager* effectManager,
+		GameSystem* gameSystem);
 	void Update();
 	void Draw(const ViewProjection& view);
 
@@ -32,7 +35,7 @@ public:
 	float GetAngle() { return worldTransform_.rotation_.z; }
 
 	//衝突を検出したら呼び出す（コールバック関数）
-	void OnCollision()override;
+	void OnCollision(Collider& collider)override;
 	void OnCollision2(Collider& collider)override;
 };
 

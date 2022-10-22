@@ -33,7 +33,7 @@ public:
 	void SetVelocity(Vector3 vec) { velocity = vec; }
 	Vector3 GetVelocity() { return velocity; }
 	//衝突を検出したら呼び出す（コールバック関数）
-	void OnCollision()override;
+	void OnCollision(Collider& collider)override;
 	void OnCollision2(Collider& collider)override;
 };
 

@@ -73,7 +73,7 @@ public:
 	bool GetIsRush2() { return isRush2; }
 	void SetIsRush2(bool is) { isRush2 = is; }
 	//衝突を検出したら呼び出す（コールバック関数）
-	void OnCollision()override;
+	void OnCollision(Collider& collider)override;
 	void OnCollision2(Collider& collider)override;
 };
 

@@ -47,17 +47,24 @@ protected:
 	int handCount = 0;
 	WorldTransform worldTransform_;
 
+	//プレーヤーかどうか（判定時に使う）
+	bool isPlayer = false;
+	//
+	bool isGravityObj = false;
+
 public:
 	int GetHandCount() { return handCount; }
 	void SetHandCount(const int& count) { handCount = count; }
 	bool GetIsDead() { return isDead; }
 	bool GetIsGrab() { return IsGrab; }
+	bool GetIsPlayer() { return isPlayer; }
+	bool GetIsGravityObj() { return isGravityObj; }
 	float GetRadius();
 	void SetRadius(const float& radius);
 	void SetAngle(const float& angle) { worldTransform_.rotation_.z = angle; worldTransform_.UpdateMatrix(); }
 
 	//衝突時に呼ばれる
-	virtual void OnCollision() = 0;
+	virtual void OnCollision(Collider& collider) = 0;
 	//手と敵の判定用
 	virtual void OnCollision2(Collider& collider) = 0;
 	//world座標をゲット

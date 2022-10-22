@@ -1,7 +1,8 @@
 #include "Item.h"
 
 
-void Item::Initialize(Model* model, uint32_t* textureHandle, const Vector3& pos, HandStop* handStop, EffectManager* effectManager)
+void Item::Initialize(Model* model, uint32_t* textureHandle, const Vector3& pos, HandStop* handStop, EffectManager* effectManager,
+	GameSystem* gameSystem)
 {
 	assert(model);
 
@@ -10,6 +11,8 @@ void Item::Initialize(Model* model, uint32_t* textureHandle, const Vector3& pos,
 
 	this->effectManager = effectManager;
 	debugText_ = DebugText::GetInstance();
+
+	this->gameSystem = gameSystem;
 
 	this->handStop = handStop;
 
@@ -45,9 +48,16 @@ Vector3 Item::GetWorldPos()
 	return worldTransform_.translation_;
 }
 
-void Item::OnCollision()
+void Item::OnCollision(Collider& collider)
 {
 	isDead = true;
+
+	//重力の箱が当たった時のみボーナス
+	if (collider.GetIsGravityObj())
+	{
+		//ボーナスタイム追加
+		gameSystem->SetBornusTime(gameSystem->GetBornusTime() + GetBonusTime());
+	}
 }
 
 void Item::OnCollision2(Collider& collider)

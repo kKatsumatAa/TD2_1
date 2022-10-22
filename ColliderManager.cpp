@@ -18,8 +18,8 @@ void ColliderManager::CheckCollisionPair(Collider* colliderA, Collider* collider
 
 	if (CollisionCircleCircle(posA, rA, posB, rB))
 	{
-		colliderA->OnCollision();
-		colliderB->OnCollision();
+		colliderA->OnCollision(*colliderB);
+		colliderB->OnCollision(*colliderA);
 	}
 }
 
@@ -42,7 +42,7 @@ void ColliderManager::CheckCollisionPair2(Collider* colliderA, Collider* collide
 		if (colliderA->GetCollisionAttribute() == kCollisionAttributeHand && colliderB->GetCollisionAttribute() == kCollisionAttributeEnemy)
 		{
 			colliderB->OnCollision2(*colliderA);
-			colliderA->OnCollision();
+			colliderA->OnCollision(*colliderB);
 		}
 	}
 }
