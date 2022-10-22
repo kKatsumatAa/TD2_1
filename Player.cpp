@@ -58,6 +58,7 @@ void Player::Update()
 	worldTransformHand2_.translation_.x = worldTransform_.translation_.x + cosf(worldTransform_.rotation_.z + pi / 2.0f);
 	worldTransformHand2_.translation_.y = worldTransform_.translation_.y + sinf(worldTransform_.rotation_.z + pi / 2.0f);
 	worldTransformHand2_.translation_.Normalized();
+	//worldTransformHand2_.UpdateMatrix();
 
 	guide->Update(worldTransform_.translation_, Vector3(cosf(worldTransform_.rotation_.z + pi / 2.0f),sinf(worldTransform_.rotation_.z + pi / 2.0f),0));
 
@@ -69,11 +70,11 @@ void Player::Update()
 
 void Player::Draw(const ViewProjection& view)
 {
-	guide->Draw(view);
-  
 	model_->Draw(worldTransform_, view, textureHandle_[0]);
-	modelHand_->Draw(worldTransformHand_, view, textureHandle_[0]);
-	modelHand_->Draw(worldTransformHand2_, view, textureHandle_[0]);
+	//modelHand_->Draw(worldTransformHand_, view, textureHandle_[0]);
+	//modelHand_->Draw(worldTransformHand2_, view, textureHandle_[0]);
+
+	guide->Draw(view);
 
 	debugText_->SetPos(10, 400);
 	debugText_->Printf("isRush:%d", isRush);
