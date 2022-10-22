@@ -115,11 +115,16 @@ private: // メンバ変数
 	Model* model_ = nullptr;
 	Model* playerModel_ = nullptr;
 	Model* enemyModel_ = nullptr;
+	Model* titleBord_ = nullptr;
+	Model* titleBord2_ = nullptr;
 
 	//ワールドトランスフォーム
 	WorldTransform worldTransform_;
 	//ビュープロジェクション
 	ViewProjection viewProjection_;
+
+	WorldTransform titleBordTrans_;
+	WorldTransform titleBordTrans2_;
 
 	//シーン
 	Scene scene_ = Scene::Title;
