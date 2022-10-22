@@ -17,6 +17,8 @@ private:
 	int bonusTime = 0;
 	int timer = 0;
 
+	int aliveNum = NULL;
+
 public:
 	int useHandCount = 0;
 	Input* input_ = nullptr;
@@ -33,6 +35,9 @@ public:
 	void SetWorldPos(const Vector3& pos) { worldTransform_.translation_ = pos; };
 
 	float GetAngle() { return worldTransform_.rotation_.z; }
+
+	int GetAliveNum() { return aliveNum; }
+	void SetAliveNum(int aliveNum) { this->aliveNum = aliveNum; }
 
 	//衝突を検出したら呼び出す（コールバック関数）
 	void OnCollision(Collider& collider)override;
