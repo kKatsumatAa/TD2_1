@@ -205,6 +205,10 @@ void EnemyManager::UpdateEnemyPopCommands()
 			//ITEMコマンド
 			else if (word.find("ITEM") == 0)
 			{
+				//グループ番号
+				getline(line_stream, word, ',');
+				int groupNum = (int)std::atoi(word.c_str());
+
 				//x座標
 				getline(line_stream, word, ',');
 				float x = (float)std::atof(word.c_str());
@@ -217,11 +221,23 @@ void EnemyManager::UpdateEnemyPopCommands()
 				getline(line_stream, word, ',');
 				float z = (float)std::atof(word.c_str());
 
-				//scale
-				getline(line_stream, word, ',');
-				bool right = (float)std::atof(word.c_str());
+				for (int i = 0; i < _countof(itemManager->aliveItemNumber); i++)
+				{
+					if (itemManager->aliveItemNumber[i] == groupNum && !isOnaji[0]) isOnaji[1] = true;
+					if (isOnaji[1]) break;
 
-				itemManager->ItemGenerate({ x,y,z });
+					if (itemManager->aliveItemNumber[i] == 0 && !isOnaji[0])
+					{
+						itemManager->aliveItemNumber[i] = groupNum;
+						itemManager->groupCountI++;
+						break;
+					}
+				}
+
+				if (!isOnaji[1]) itemManager->ItemGenerate({ x,y,z }, groupNum);
+
+				isOnaji[0] = true;
+
 			}
 			//ENDコマンド
 			else if (word.find("END") == 0)
@@ -238,8 +254,6 @@ void EnemyManager::UpdateEnemyPopCommands()
 	}
 
 	int count[5] = { NULL };
-
-
 
 	for (std::unique_ptr<Enemy>& enemy : enemies)
 	{
