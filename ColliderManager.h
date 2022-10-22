@@ -19,6 +19,9 @@ private:
 	void CheckCollisionPair2(Collider* colliderA, Collider* colliderB);
 
 public:
+	bool isItemMode = false;
+
+
 	void Initialize();
 
 	//player‚Æ“G

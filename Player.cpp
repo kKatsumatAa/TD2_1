@@ -17,6 +17,8 @@ void Player::Initialize(Model* model, uint32_t* textureHandle, HandSkillManager*
 	modelHand_ = model;
 	textureHandle_ = textureHandle;
 
+	isPlayer = true;
+
 	this->skillManager = skillManager;
 
 	this->wall = wall;
@@ -92,7 +94,7 @@ Vector3 Player::GetWorldPos()
 	return worldTransform_.translation_;
 }
 
-void Player::OnCollision()
+void Player::OnCollision(Collider& collider)
 {
 }
 

@@ -30,7 +30,7 @@ public:
 	void SetAliveNum(int aliveNum) { this->aliveNum = aliveNum; }
 
 	//衝突を検出したら呼び出す（コールバック関数）
-	void OnCollision()override;
+	void OnCollision(Collider& collider)override;
 	//手との当たり判定用
 	void OnCollision2(Collider& collider)override;
 };

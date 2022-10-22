@@ -36,7 +36,7 @@ Vector3 Enemy::GetWorldPos()
 	return worldTransform_.translation_;
 }
 
-void Enemy::OnCollision()
+void Enemy::OnCollision(Collider& collider)
 {
 	isDead = true;
 }
