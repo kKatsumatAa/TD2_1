@@ -47,7 +47,7 @@ void GameScene::Initialize() {
 
 	//3Dモデルの生成
 	model_ = Model::Create();
-	playerModel_ = Model::CreateFromOBJ("arm",true);
+	playerModel_ = Model::CreateFromOBJ("arm", true);
 	enemyModel_ = Model::CreateFromOBJ("enemy", true);
 
 	effectManager = new EffectManager();
@@ -60,7 +60,7 @@ void GameScene::Initialize() {
 	gravity_ = new Gravity();
 	//gravity_->Initialize(model_);
 	wall_ = new Wall();
-	wall_->Initialize(gravity_,effectManager);
+	wall_->Initialize(gravity_, effectManager);
 	player_ = new Player();
 	player_->Initialize(playerModel_, textureHandle_, &skillManager, &handStop, wall_, gravity_);
 
@@ -296,24 +296,25 @@ void GameScene::TutorialDrawFunc() {
 /// メインゲームアップデート
 /// </summary>
 void GameScene::MainGameUpdateFunc() {
-
+	
+	gameSystem.Update();
 	wall_->Update();
 	enemyManager.Update();
 	player_->Update();
 	skillManager.Update();
 	itemManager.Update();
 	effectManager->Update();
-	gameSystem.Update();
+
 	grabityObj.Update();
 	sceneEffectManager->Update();
 
 	//一番近いobjの方をplayerが向くように
+	float length = NULL;
+	Vector3 vec;
+	std::list<Collider*> objs;
+	nearObj = nullptr;
+	if (!player_->GetIsRush2() && !player_->GetIsRush() && !gameSystem.GetIsStageChange())
 	{
-		float length = NULL;
-		Vector3 vec;
-		std::list<Collider*> objs;
-		Collider* nearObj = nullptr;
-
 		const std::list<std::unique_ptr<Enemy>>& enemies = enemyManager.GetEnemies();
 		for (const std::unique_ptr<Enemy>& enemy : enemies)
 		{
@@ -344,8 +345,20 @@ void GameScene::MainGameUpdateFunc() {
 		{
 			vec = nearObj->GetWorldPos() - player_->GetWorldPos();
 
-			player_->SetAngle((atan2(vec.y, vec.x)) - pi / 2.0f);
+			pos = nearObj->GetWorldPos();
+
+			angle = ((atan2(vec.y, vec.x)) - pi / 2.0f);
 		}
+	}
+	if (player_->GetIsRush())
+	{
+		vec = pos - player_->GetWorldPos();
+
+		angle = ((atan2(vec.y, vec.x)) - pi / 2.0f);
+	}
+
+	{
+		player_->SetAngle(angle);
 	}
 
 	//colliderManager
@@ -390,7 +403,7 @@ void GameScene::MainGameUpdateFunc() {
 		}
 
 	}
-	viewProjection_.eye = Vector3( 0,0,-50) + effectManager->ShakePow();
+	viewProjection_.eye = Vector3(0, 0, -50) + effectManager->ShakePow();
 	viewProjection_.target = Vector3(0, 0, 0) + effectManager->ShakePow();
 	viewProjection_.UpdateMatrix();
 
@@ -605,7 +618,7 @@ void GameScene::GameClearDrawFunc() {
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
-	
+
 	// デバッグテキストの描画
 	debugText_->DrawAll(commandList);
 	//
