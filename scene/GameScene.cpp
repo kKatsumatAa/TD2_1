@@ -94,6 +94,8 @@ void GameScene::Initialize() {
 	kill_ = new Number();
 	kill_->Initialize();
 
+	tutorial.Initialize();
+
 	//ワールドトランスフォームの初期化
 	worldTransform_.Initialize();
 }
@@ -228,7 +230,7 @@ void GameScene::TutorialUpdateFunc() {
 
 	effectManager->Update();
 	sceneEffectManager->Update();
-	
+	tutorial.Update();
 
 
 #ifdef _DEBUG
@@ -295,6 +297,7 @@ void GameScene::TutorialDrawFunc() {
 	sceneEffectManager->Draw();
 	// デバッグテキストの描画
 	debugText_->DrawAll(commandList);
+	tutorial.Draw();
 	//
 	// スプライト描画後処理
 	Sprite::PostDraw();

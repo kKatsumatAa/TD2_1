@@ -68,6 +68,7 @@
       <Filter>Effect\Effect</Filter>
     </ClCompile>
     <ClCompile Include="Guide.cpp" />
+    <ClCompile Include="Tutorial.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="2d\DebugText.h" />
@@ -144,6 +145,7 @@
       <Filter>Effect\Effect</Filter>
     </ClInclude>
     <ClInclude Include="Guide.h" />
+    <ClInclude Include="Tutorial.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\shaders\Obj.hlsli" />

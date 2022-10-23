@@ -131,6 +131,7 @@
     <ClCompile Include="SchoolOfFish.cpp" />
     <ClCompile Include="Setting.cpp" />
     <ClCompile Include="Shake.cpp" />
+    <ClCompile Include="Tutorial.cpp" />
     <ClCompile Include="Util.cpp" />
     <ClCompile Include="Wall.cpp" />
   </ItemGroup>
@@ -190,6 +191,7 @@
     <ClInclude Include="SchoolOfFish.h" />
     <ClInclude Include="Setting.h" />
     <ClInclude Include="Shake.h" />
+    <ClInclude Include="Tutorial.h" />
     <ClInclude Include="Util.h" />
     <ClInclude Include="Wall.h" />
   </ItemGroup>

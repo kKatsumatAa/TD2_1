@@ -21,6 +21,7 @@
 #include "SceneEffectManager.h"
 #include "GravityObj.h"
 #include "Number.h"
+#include "Tutorial.h"
 
 enum class Scene {
 	Title,
@@ -143,6 +144,8 @@ private: // メンバ変数
 	float angle = 0;
 	Vector3 vec;
 	Vector3 pos;
+
+	Tutorial tutorial;
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>
