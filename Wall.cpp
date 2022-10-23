@@ -1,4 +1,5 @@
 #include "Wall.h"
+static const float PI = 3.14159265f;
 
 void Wall::Initialize(Gravity* gravity, EffectManager* effect)
 {
@@ -10,7 +11,65 @@ void Wall::Initialize(Gravity* gravity, EffectManager* effect)
 		wall_[i] = Model::Create();
 		wallTrans_[i].Initialize();
 	}
-	texture_ = TextureManager::Load("white1x1.png");
+
+	//角度
+	for (int i = 0; i < 80; i++) {
+		model_[i] = Model::CreateFromOBJ("wall_3", true);
+		modelTrans_[i].Initialize();
+		if (i <= 20) {
+			if (i % 2 == 0) {
+				modelTrans_[i].rotation_ = { PI / 2,0,PI };
+			}
+			else {
+				modelTrans_[i].rotation_ = { PI / 2,PI,PI };
+			}
+		}
+		else if(i <= 40) {
+			if (i % 2 == 0) {
+				modelTrans_[i].rotation_ = { PI * 1.5f,PI,PI};
+			}
+			else {
+				modelTrans_[i].rotation_ = { PI / 2,PI,PI };
+			}
+		}
+		else if(i <= 61) {
+			if (i % 2 == 0) {
+				modelTrans_[i].rotation_ = { PI * 1.5f,PI,PI };
+			}
+			else {
+				modelTrans_[i].rotation_ = { PI * 1.5f,PI * 2,PI };
+			}
+		}
+		else {
+			if (i % 2 == 0) {
+				modelTrans_[i].rotation_ = { PI / 2,0,PI };
+			}
+			else {
+				modelTrans_[i].rotation_ = { PI * 1.5f,PI * 2,PI };
+			}
+		}
+	}
+
+	//位置
+	for (int i = 0; i < 80; i++) {
+		if (i <= 20) {
+			modelTrans_[i].translation_ = { (float)-35 + i * 2,19,0 };
+		}
+		else if (i <= 40) {
+			modelTrans_[i].translation_ = { 7,(float)19 - (i - 21) * 2,0 };
+		}
+		else if (i <= 61) {
+			modelTrans_[i].translation_ = { (float)7 - (i - 40) * 2 ,-19,0 };
+		}
+		else {
+			modelTrans_[i].translation_ = { -35,(float) - 19 + (i - 61) * 2,0};
+		}
+	}
+
+
+	for (int i = 0; i < 80; i++) {
+		modelTrans_[i].UpdateMatrix();
+	}
 
 	//各壁の座標指定
 	wallTrans_[0].translation_ = { -35,  0,  0 };
@@ -41,8 +100,10 @@ void Wall::Update()
 void Wall::Draw(ViewProjection viewProjection)
 {
 	for (int i = 0; i < 5; i++) {
-
-		wall_[i]->Draw(wallTrans_[i], viewProjection/*, texture_*/);
+		//wall_[i]->Draw(wallTrans_[i], viewProjection);
+	}
+	for (int i = 0; i < 80; i++) {
+		model_[i]->Draw(modelTrans_[i], viewProjection);
 	}
 }
 

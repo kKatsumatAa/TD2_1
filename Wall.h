@@ -11,7 +11,7 @@
 class Wall
 {
 public:
-	void Initialize(Gravity* gravity,EffectManager* effect);
+	void Initialize(Gravity* gravity, EffectManager* effect);
 	void Update();
 	void Draw(ViewProjection viewProjection);
 
@@ -25,6 +25,8 @@ private:
 	Gravity* gravity_;
 	uint32_t texture_;
 	EffectManager* effect_;
+	Model* model_[80];
+	WorldTransform modelTrans_[80];
 };
 
 static Vector2 stageLeftTop = Vector2(-33.0f, -18.0f);
