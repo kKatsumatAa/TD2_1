@@ -1,7 +1,8 @@
 #include "Guide.h"
 
-void Guide::Initialize(Model* model)
+void Guide::Initialize(Model* model, uint32_t* textureHandle_)
 {
+	this->textureHandle_ = textureHandle_;
 	model_ = model;
 	for (int i = 0; i < Num; i++) {
 		pos_[i].Initialize();
@@ -69,6 +70,9 @@ void Guide::Update(Vector3 start, Vector3 end)
 void Guide::Draw(ViewProjection view)
 {
 	for (int i = 0; i < Num; i++) {
-		model_->Draw(pos_[i], view);
+		if (!isLongPush)
+			model_->Draw(pos_[i], view);
+		else
+			model_->Draw(pos_[i], view, textureHandle_[2]);
 	}
 }

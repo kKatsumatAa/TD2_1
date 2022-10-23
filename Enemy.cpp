@@ -28,7 +28,10 @@ void Enemy::Update()
 
 void Enemy::Draw(const ViewProjection& view)
 {
-	model_->Draw(worldTransform_, view);
+	if (isTarget)
+		model_->Draw(worldTransform_, view, textureHandle_[1]);
+	else
+		model_->Draw(worldTransform_, view);
 }
 
 Vector3 Enemy::GetWorldPos()

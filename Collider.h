@@ -54,11 +54,15 @@ protected:
 	//
 	bool isItem = false;
 
+	bool isTarget = false;
+
 public:
 	int GetHandCount() { return handCount; }
 	void SetHandCount(const int& count) { handCount = count; }
 	bool GetIsDead() { return isDead; }
 	bool GetIsGrab() { return IsGrab; }
+	void SetIsTarget(bool is) { isTarget = is; }
+	bool GetIsTarget() { return isTarget; }
 	bool GetIsPlayer() { return isPlayer; }
 	bool GetIsItem() { return isItem; }
 	bool GetIsGravityObj() { return isGravityObj; }

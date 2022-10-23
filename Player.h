@@ -67,6 +67,7 @@ public:
 	void SetVelocity(Vector3 vec) { velocity = vec; }
 	Vector3 GetVelocity() { return velocity; }
 	Wall* GetWall() {return wall;}
+	Guide* GetGuid() { return guide; }
 
 	bool GetIsRush() { return isRush; }
 	void SetIsRush(bool is) { isRush = is; }

@@ -5,11 +5,17 @@
 class Guide
 {
 public:
-	void Initialize(Model* model);
+	void Initialize(Model* model, uint32_t* textureHandle_);
 	void Update(Vector3 start, Vector3 end);
 	void Draw(ViewProjection view);
 
+	void SetIsLongPush(bool is) { isLongPush = is; }
+	bool GetIsLongPush() { return isLongPush; }
+
 private:
+	//テクスチャハンドル
+	uint32_t* textureHandle_;
+	bool isLongPush = false;
 	static const int Num = 50;
 	WorldTransform pos_[Num];
 	Vector3 playerStart_;
