@@ -357,11 +357,15 @@ void GameScene::MainGameUpdateFunc() {
 				nearObj = *itr;
 			}
 
+			(*itr)->SetIsTarget(false);
+
 			itr++;
 		}
 
 		if (nearObj != nullptr)
 		{
+			nearObj->SetIsTarget(true);
+
 			vec = nearObj->GetWorldPos() - player_->GetWorldPos();
 
 			pos = nearObj->GetWorldPos();

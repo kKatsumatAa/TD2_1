@@ -24,7 +24,7 @@ void Player::Initialize(Model* model, uint32_t* textureHandle, HandSkillManager*
 	this->wall = wall;
 	this->gravity = gravity;
 	guide = new Guide;
-	guide->Initialize(model_);
+	guide->Initialize(model_,textureHandle_);
 
 	//シングルトンインスタンスを取得
 	input_ = Input::GetInstance();
@@ -49,6 +49,9 @@ void Player::Initialize(Model* model, uint32_t* textureHandle, HandSkillManager*
 
 void Player::Update()
 {
+	if (isRush || isRush2) guide->SetIsLongPush(true);
+	else                   guide->SetIsLongPush(false);
+
 	//playerの回転
 	worldTransform_.rotation_.z += ((int)input_->PushKey(DIK_LEFTARROW) - (int)input_->PushKey(DIK_RIGHTARROW)) * 0.05f;
 	worldTransform_.UpdateMatrix();
@@ -62,7 +65,7 @@ void Player::Update()
 	worldTransformHand2_.translation_.Normalized();
 	//worldTransformHand2_.UpdateMatrix();
 
-	guide->Update(worldTransform_.translation_, Vector3(cosf(worldTransform_.rotation_.z + pi / 2.0f),sinf(worldTransform_.rotation_.z + pi / 2.0f),0));
+	guide->Update(worldTransform_.translation_, Vector3(cosf(worldTransform_.rotation_.z + pi / 2.0f), sinf(worldTransform_.rotation_.z + pi / 2.0f), 0));
 
 	//使ってないときプレイヤーと一緒に移動
 	if (!handR.GetIsUse()) handR.Update(worldTransform_.rotation_.z, worldTransform_.translation_);
@@ -159,7 +162,7 @@ void OneHandRushAttack::Update()
 
 	player->SetWorldPos(player->GetWall()->isCollisionWall(player->GetWorldPos(), vec, &isWallHit));
 
-		player->SetWorldPos(player->GetWall()->isCollisionWall(player->GetWorldPos(), vec * 0.25, &isWallHit));
+	player->SetWorldPos(player->GetWall()->isCollisionWall(player->GetWorldPos(), vec * 0.25, &isWallHit));
 
 	//突進し終わったら
 	if (isWallHit)
