@@ -22,10 +22,10 @@ void Guide::Update(Vector3 start, Vector3 end)
 	for (int i = 0; i < Num; i++) {
 		start += end;
 		pos_[i].translation_ = start;
-		pos_[i].scale_ = { 1.0f,1.0f,1.0f };
+		pos_[i].scale_ = { 0.1f,0.1f,0.1f };
 		pos_[i].UpdateMatrix();
 		if (pos_[i].translation_.x <= wallStart_[0].x) {
-			pos_[i].scale_ = { 10.0f,10.0f,1.0f };
+			pos_[i].scale_ = { 1.0f,1.0f,1.0f };
 			pos_[i].translation_.x = wallStart_[0].x;
 			pos_[i].UpdateMatrix();
 			for (int j = i + 1; j < Num; j++) {
@@ -35,7 +35,7 @@ void Guide::Update(Vector3 start, Vector3 end)
 			break;
 		}
 		else if (pos_[i].translation_.x >= wallEnd_[0].x) {
-			pos_[i].scale_ = { 10.0f,10.0f,1.0f };
+			pos_[i].scale_ = { 1.0f,1.0f,1.0f };
 			pos_[i].translation_.x = wallEnd_[0].x;
 			pos_[i].UpdateMatrix();
 			for (int j = i + 1; j < Num; j++) {
@@ -45,7 +45,7 @@ void Guide::Update(Vector3 start, Vector3 end)
 			break;
 		}
 		else if (pos_[i].translation_.y <= wallStart_[0].y) {
-			pos_[i].scale_ = { 10.0f,10.0f,1.0f };
+			pos_[i].scale_ = { 1.0f,1.0f,1.0f };
 			pos_[i].translation_.y = wallStart_[0].y;
 			pos_[i].UpdateMatrix();
 			for (int j = i + 1; j < Num; j++) {
@@ -55,7 +55,7 @@ void Guide::Update(Vector3 start, Vector3 end)
 			break;
 		}
 		else if (pos_[i].translation_.y >= wallStart_[3].y) {
-			pos_[i].scale_ = { 10.0f,10.0f,1.0f };
+			pos_[i].scale_ = { 1.0f,1.0f,1.0f };
 			pos_[i].translation_.y = wallStart_[3].y;
 			pos_[i].UpdateMatrix();
 			for (int j = i + 1; j < Num; j++) {

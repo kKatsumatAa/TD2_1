@@ -47,8 +47,11 @@ void GameScene::Initialize() {
 
 	//3Dモデルの生成
 	model_ = Model::Create();
-	playerModel_ = Model::CreateFromOBJ("arm", true);
-	enemyModel_ = Model::CreateFromOBJ("enemy", true);
+	playerModel_ = Model::CreateFromOBJ("ufo", true);
+	enemyModel_ = Model::CreateFromOBJ("meteorite", true);
+	itemModel_ = Model::Create();
+	gravityBlock_ = Model::CreateFromOBJ("gravity",true);
+
 	titleBord_ = Model::Create();
 	titleBordTrans_.Initialize();
 	titleBordTrans_.translation_.y = -22;
@@ -59,6 +62,12 @@ void GameScene::Initialize() {
 	titleBordTrans2_.translation_.y = 22;
 	titleBordTrans2_.scale_ = { 50,1,20 };
 	titleBordTrans2_.UpdateMatrix();
+
+	UI_back_ = Model::CreateFromOBJ("ui_back", true);
+	UITrans_.Initialize();
+	UITrans_.scale_ = { 15,30,1 };
+	UITrans_.translation_ = { 22,0,0 };
+	UITrans_.UpdateMatrix();
 
 	effectManager = new EffectManager();
 	effectManager->Initialize();
@@ -74,7 +83,7 @@ void GameScene::Initialize() {
 	player_ = new Player();
 	player_->Initialize(playerModel_, textureHandle_, &skillManager, &handStop, wall_, gravity_);
 
-	enemyManager.Initialize(player_, model_, textureHandle_, effectManager, &gameSystem, &itemManager);
+	enemyManager.Initialize(player_, enemyModel_, textureHandle_, effectManager, &gameSystem, &itemManager);
 
 
 
@@ -82,7 +91,7 @@ void GameScene::Initialize() {
 
 	itemManager.Initialize(player_, model_, textureHandle_, &handStop, effectManager, &gameSystem);
 
-	grabityObj.Initialize(model_, textureHandle_, gravity_);
+	grabityObj.Initialize(gravityBlock_, textureHandle_, gravity_);
 
 	set_ = new Setting();
 	set_->Initialize();
@@ -426,7 +435,7 @@ void GameScene::MainGameUpdateFunc() {
 		}
 
 	}
-	viewProjection_.eye = Vector3(0, 0, -50) + effectManager->ShakePow();
+	viewProjection_.eye = Vector3(0, 0, -49) + effectManager->ShakePow();
 	viewProjection_.target = Vector3(0, 0, 0) + effectManager->ShakePow();
 	viewProjection_.UpdateMatrix();
 
@@ -488,6 +497,8 @@ void GameScene::MainGameDrawFunc() {
 	effectManager->Draw(viewProjection_);
 
 	gameSystem.Draw();
+
+	UI_back_->Draw(UITrans_, viewProjection_);
 	//gravity_->Draw(viewProjection_);
 
 	debugText_->SetPos(10, 600);
