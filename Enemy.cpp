@@ -13,6 +13,7 @@ void Enemy::Initialize(Model* model, uint32_t* textureHandle, const Vector3& pos
 
 	worldTransform_.Initialize();
 	worldTransform_.translation_ = pos;
+	worldTransform_.scale_ = { 2.0f,2.0f,2.0f };
 	worldTransform_.rotation_.x = pi / -2.0f;
 	worldTransform_.UpdateMatrix();
 

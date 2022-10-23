@@ -98,6 +98,15 @@ private: // メンバ変数
 	Number* timer_ = nullptr;
 	Number* nolma_ = nullptr;
 	Number* kill_ = nullptr;
+	Number* stage_ = nullptr;
+	Sprite* timerSprite_;
+	uint32_t timerTexture_;
+	Sprite* slashSprite_;
+	uint32_t slashTexture_;
+	Sprite* spaceSprite_;
+	uint32_t spaceTexture_;
+	Sprite* stageSprite_;
+	uint32_t stageTexture_;
 
 	EffectManager* effectManager = nullptr;
 	SceneEffectManager* sceneEffectManager = nullptr;
