@@ -15,6 +15,7 @@ void Wall::Initialize(Gravity* gravity, EffectManager* effect)
 	//角度
 	for (int i = 0; i < 80; i++) {
 		model_[i] = Model::CreateFromOBJ("wall_3", true);
+		floor_ = Model::CreateFromOBJ("floor", true);
 		modelTrans_[i].Initialize();
 		if (i <= 20) {
 			if (i % 2 == 0) {
@@ -80,7 +81,7 @@ void Wall::Initialize(Gravity* gravity, EffectManager* effect)
 	wallTrans_[2].scale_ = { 35,1,3 };
 	wallTrans_[3].translation_ = { 0,  -20,0 };
 	wallTrans_[3].scale_ = { 35,1,3 };
-	wallTrans_[4].translation_ = { 0,0,0 };
+	wallTrans_[4].translation_ = { 0,0,2 };
 	wallTrans_[4].scale_ = { 40,20,0 };
 
 	//座標をアップデート
@@ -105,6 +106,7 @@ void Wall::Draw(ViewProjection viewProjection)
 	for (int i = 0; i < 80; i++) {
 		model_[i]->Draw(modelTrans_[i], viewProjection);
 	}
+	floor_->Draw(wallTrans_[4], viewProjection);
 }
 
 Vector3 Wall::isCollisionWall(Vector3 pos, const Vector3& velocity, bool* flag) {
@@ -133,6 +135,6 @@ Vector3 Wall::isCollisionWall(Vector3 pos, const Vector3& velocity, bool* flag) 
 }
 
 void Wall::Start() {
-	wallTrans_[3].scale_ = { 36,1,3 };
-	wallTrans_[4].translation_.z = 0;
+	//wallTrans_[3].scale_ = { 36,1,3 };
+	wallTrans_[4].translation_.z = 5;
 }

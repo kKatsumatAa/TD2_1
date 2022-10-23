@@ -115,6 +115,10 @@ private: // メンバ変数
 	Model* model_ = nullptr;
 	Model* playerModel_ = nullptr;
 	Model* enemyModel_ = nullptr;
+	Model* itemModel_ = nullptr;
+	Model* gravityBlock_ = nullptr;
+	Model* UI_back_ = nullptr;
+
 	Model* titleBord_ = nullptr;
 	Model* titleBord2_ = nullptr;
 
@@ -125,6 +129,8 @@ private: // メンバ変数
 
 	WorldTransform titleBordTrans_;
 	WorldTransform titleBordTrans2_;
+
+	WorldTransform UITrans_;
 
 	//シーン
 	Scene scene_ = Scene::Title;

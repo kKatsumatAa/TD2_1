@@ -14,7 +14,7 @@ void Player::Initialize(Model* model, uint32_t* textureHandle, HandSkillManager*
 	assert(model);
 
 	model_ = model;
-	modelHand_ = model;
+	modelHand_ = Model::Create();
 	textureHandle_ = textureHandle;
 
 	isPlayer = true;
@@ -24,7 +24,7 @@ void Player::Initialize(Model* model, uint32_t* textureHandle, HandSkillManager*
 	this->wall = wall;
 	this->gravity = gravity;
 	guide = new Guide;
-	guide->Initialize(model_);
+	guide->Initialize(modelHand_);
 
 	//シングルトンインスタンスを取得
 	input_ = Input::GetInstance();
@@ -32,6 +32,8 @@ void Player::Initialize(Model* model, uint32_t* textureHandle, HandSkillManager*
 
 	worldTransform_.Initialize();
 	worldTransform_.scale_ = { 3.0f,3.0f,3.0f };
+	worldTransform_.rotation_ = {pi / 2 * 3,0,0};
+	worldTransform_.UpdateMatrix();
 	worldTransformHand_.Initialize();
 	//worldTransformHand_.scale_ = { 1.0f,1.0f,1.0f };
 	worldTransformHand2_.Initialize();
@@ -72,7 +74,7 @@ void Player::Update()
 
 void Player::Draw(const ViewProjection& view)
 {
-	model_->Draw(worldTransform_, view, textureHandle_[0]);
+	model_->Draw(worldTransform_, view);
 	//modelHand_->Draw(worldTransformHand_, view, textureHandle_[0]);
 	//modelHand_->Draw(worldTransformHand2_, view, textureHandle_[0]);
 
