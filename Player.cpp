@@ -24,7 +24,7 @@ void Player::Initialize(Model* model, uint32_t* textureHandle, HandSkillManager*
 	this->wall = wall;
 	this->gravity = gravity;
 	guide = new Guide;
-	guide->Initialize(modelHand_);
+	guide->Initialize(modelHand_,textureHandle_);
 
 	//シングルトンインスタンスを取得
 	input_ = Input::GetInstance();
