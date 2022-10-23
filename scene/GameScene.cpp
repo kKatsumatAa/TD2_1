@@ -50,7 +50,7 @@ void GameScene::Initialize() {
 	playerModel_ = Model::CreateFromOBJ("ufo", true);
 	enemyModel_ = Model::CreateFromOBJ("meteorite", true);
 	itemModel_ = Model::Create();
-	gravityBlock_ = Model::CreateFromOBJ("gravity",true);
+	gravityBlock_ = Model::CreateFromOBJ("gravity", true);
 
 	titleBord_ = Model::Create();
 	titleBordTrans_.Initialize();
@@ -102,6 +102,18 @@ void GameScene::Initialize() {
 	nolma_->Initialize();
 	kill_ = new Number();
 	kill_->Initialize();
+	stage_ = new Number();
+	stage_->Initialize();
+
+	timerTexture_ = TextureManager::Load("Timer.png");
+	timerSprite_ = Sprite::Create(timerTexture_, { 880,250 });
+	timerSprite_->SetSize({ 300, 300});
+	slashTexture_ = TextureManager::Load("slash.png");
+	slashSprite_ = Sprite::Create(slashTexture_, { 1010,150 });
+	spaceTexture_ = TextureManager::Load("space.png");
+	spaceSprite_ = Sprite::Create(spaceTexture_, { 900,600 });
+	stageTexture_ = TextureManager::Load("stage.png");
+	stageSprite_ = Sprite::Create(stageTexture_, { 840,40 });
 
 	//ワールドトランスフォームの初期化
 	worldTransform_.Initialize();
@@ -237,7 +249,7 @@ void GameScene::TutorialUpdateFunc() {
 
 	effectManager->Update();
 	sceneEffectManager->Update();
-	
+
 
 
 #ifdef _DEBUG
@@ -317,7 +329,7 @@ void GameScene::TutorialDrawFunc() {
 /// メインゲームアップデート
 /// </summary>
 void GameScene::MainGameUpdateFunc() {
-	
+
 	//アイテムのプロトタイプ切替
 	if (input_->TriggerKey(DIK_Z))
 	{
@@ -516,9 +528,14 @@ void GameScene::MainGameDrawFunc() {
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
 	effectManager->SpriteDraw();
-	timer_->Draw({ 850,100 }, gameSystem.GetTime() / 60);
-	nolma_->Draw({ 1050,300 }, gameSystem.GetStageEnemyNorma());
-	kill_->Draw({ 850,300 }, gameSystem.GetStageEnemyDeath());
+	timerSprite_->Draw();
+	timer_->Draw({ 985,370 }, {0,0,0,255}, gameSystem.GetTime() / 60);
+	nolma_->Draw({ 1100,150 }, { 255,255,255,255 }, gameSystem.GetStageEnemyNorma());
+	kill_->Draw({ 900,150 }, { 255,255,255,255 }, gameSystem.GetStageEnemyDeath());
+	stage_->Draw({ 1150,40 }, { 255,255,255,255 }, gameSystem.GetStage());
+	slashSprite_->Draw();
+	spaceSprite_->Draw();
+	stageSprite_->Draw();
 	sceneEffectManager->Draw();
 
 	// デバッグテキストの描画
@@ -547,7 +564,7 @@ void GameScene::GameoverUpdateFunc() {
 	if (input_->TriggerKey(DIK_P)) {
 		scene_ = Scene::GameClear;
 	}
-	
+
 #endif
 }
 /// <summary>

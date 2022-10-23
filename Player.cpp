@@ -31,7 +31,7 @@ void Player::Initialize(Model* model, uint32_t* textureHandle, HandSkillManager*
 	debugText_ = DebugText::GetInstance();
 
 	worldTransform_.Initialize();
-	worldTransform_.scale_ = { 3.0f,3.0f,3.0f };
+	worldTransform_.scale_ = { 1.0f,1.0f,1.0f };
 	worldTransform_.rotation_ = {pi / 2 * 3,0,0};
 	worldTransform_.UpdateMatrix();
 	worldTransformHand_.Initialize();
@@ -87,7 +87,7 @@ void Player::Draw(const ViewProjection& view)
 	debugText_->Printf("isRush:%d", isRush);
 
 
-	handR.Draw(view);
+	//handR.Draw(view);
 }
 
 void Player::ReachOut()
