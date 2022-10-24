@@ -36,7 +36,7 @@ void Player::Initialize(Model* model, uint32_t* textureHandle, HandSkillManager*
 
 	worldTransform_.Initialize();
 	worldTransform_.scale_ = { 1.0f,1.0f,1.0f };
-	worldTransform_.rotation_ = {pi / 2 * 3,0,0};
+	worldTransform_.rotation_ = {0,0,pi / 2};
 	worldTransform_.UpdateMatrix();
 	worldTransformHand_.Initialize();
 	//worldTransformHand_.scale_ = { 1.0f,1.0f,1.0f };

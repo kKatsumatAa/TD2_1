@@ -7,6 +7,19 @@ void GameSystem::initialize(SceneEffectManager* sceneEffect)
 {
 	debugText_ = DebugText::GetInstance();
 	sceneEffect_ = sceneEffect;
+	//現在のステージが何番目か
+	int stage = 0;
+	//ステージ切り替え時にノルマを入れる
+	int stageEnemyNorma = 0;
+	//今のステージでどんだけ倒したか
+	int stageEnemyDeath = 0;
+	//残り時間
+	int time = 0;
+	//前ステージからの繰り越しの時間
+	int bornusTime = 0;
+
+	bool isGameOver = false;
+	bool isGameClear = false;
 
 	LoadStageSystemData();
 

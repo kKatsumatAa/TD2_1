@@ -102,6 +102,7 @@
     <ClCompile Include="base\WinApp.cpp" />
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="ColliderManager.cpp" />
+    <ClCompile Include="Convert2D.cpp" />
     <ClCompile Include="EffectBurst.cpp" />
     <ClCompile Include="EffectManager.cpp" />
     <ClCompile Include="EffectParticle.cpp" />
@@ -161,6 +162,7 @@
     <ClInclude Include="Collider.h" />
     <ClInclude Include="ColliderManager.h" />
     <ClInclude Include="CollisionConfig.h" />
+    <ClInclude Include="Convert2D.h" />
     <ClInclude Include="EffectBurst.h" />
     <ClInclude Include="EffectManager.h" />
     <ClInclude Include="EffectParticle.h" />

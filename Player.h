@@ -32,7 +32,6 @@ private:
 	HandSkillManager* skillManager;
 
 	Wall* wall = nullptr;
-	Guide* guide = nullptr;
 
 	Vector3 velocity;
 
@@ -50,6 +49,7 @@ private:
 public:
 	Input* input_ = nullptr;
 	Gravity* gravity;
+	Guide* guide = nullptr;
 
 	void ChangeState(PlayerHandState* state);
 

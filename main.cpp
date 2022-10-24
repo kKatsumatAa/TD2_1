@@ -90,6 +90,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	}
 
 	// 各種解放
+	gameScene->DeleteGameScene();
 	SafeDelete(gameScene);
 	audio->Finalize();
 
