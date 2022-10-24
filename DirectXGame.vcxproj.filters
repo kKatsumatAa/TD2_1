@@ -68,6 +68,7 @@
       <Filter>Effect\Effect</Filter>
     </ClCompile>
     <ClCompile Include="Guide.cpp" />
+    <ClCompile Include="Convert2D.cpp" />
     <ClCompile Include="Tutorial.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -145,6 +146,7 @@
       <Filter>Effect\Effect</Filter>
     </ClInclude>
     <ClInclude Include="Guide.h" />
+    <ClInclude Include="Convert2D.h" />
     <ClInclude Include="Tutorial.h" />
   </ItemGroup>
   <ItemGroup>
