@@ -3,6 +3,7 @@
 #include"HandSkillManager.h"
 #include"Gravity.h"
 #include "Guide.h"
+#include "Tutorial.h"
 
 class Player;
 
@@ -13,7 +14,7 @@ protected:
 
 public:
 	void SetPlayer(Player* player);
-	virtual void Update() = 0;
+	virtual void Update(Tutorial* tutorial = nullptr) = 0;
 };
 
 
@@ -53,7 +54,7 @@ public:
 	void ChangeState(PlayerHandState* state);
 
 	void Initialize(Model* model, uint32_t* textureHandle, HandSkillManager* skillManager, HandStop* handStop, Wall* wall, Gravity* gravity);
-	void Update();
+	void Update(Tutorial* tutorial = nullptr);
 	void Draw(const ViewProjection& view);
 	//è‚ğL‚Î‚·
 	void ReachOut();
@@ -66,7 +67,7 @@ public:
 
 	void SetVelocity(Vector3 vec) { velocity = vec; }
 	Vector3 GetVelocity() { return velocity; }
-	Wall* GetWall() {return wall;}
+	Wall* GetWall() { return wall; }
 	Guide* GetGuid() { return guide; }
 
 	bool GetIsRush() { return isRush; }
@@ -85,7 +86,7 @@ class NoGrab : public PlayerHandState
 private:
 
 public:
-	void Update() override;
+	void Update(Tutorial* tutorial = nullptr) override;
 };
 
 //•Ğè‚Å‚P‚Â‚ğ‚Â‚©‚ñ‚Å‚¢‚éó‘Ô
@@ -95,7 +96,7 @@ private:
 	bool isNotHandRushAttack = false;
 
 public:
-	void Update() override;
+	void Update(Tutorial* tutorial = nullptr) override;
 };
 
 //•’Ê‚ÌUŒ‚‚µ‚Ä‚¢‚éó‘Ô
@@ -104,7 +105,7 @@ class OneHandAttack : public PlayerHandState
 private:
 
 public:
-	void Update() override;
+	void Update(Tutorial* tutorial = nullptr) override;
 };
 
 //ŠÑ’ÊUŒ‚‚Ì€”õó‘Ô
@@ -114,7 +115,7 @@ private:
 
 
 public:
-	void Update() override;
+	void Update(Tutorial* tutorial = nullptr) override;
 };
 //ŠÑ’ÊUŒ‚‚µ‚Ä‚¢‚éó‘Ô
 class OneHandRushAttack : public PlayerHandState
@@ -122,7 +123,7 @@ class OneHandRushAttack : public PlayerHandState
 private:
 
 public:
-	void Update() override;
+	void Update(Tutorial* tutorial = nullptr) override;
 };
 //ŠÑ’ÊUŒ‚‚µ‚Ä‚¢‚éó‘Ô2
 class OneHandRushAttack2 : public PlayerHandState
@@ -132,5 +133,5 @@ private:
 	const int maxTimer = 30;
 
 public:
-	void Update() override;
+	void Update(Tutorial* tutorial = nullptr) override;
 };

@@ -69,6 +69,7 @@
     </ClCompile>
     <ClCompile Include="Guide.cpp" />
     <ClCompile Include="Convert2D.cpp" />
+    <ClCompile Include="Tutorial.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="2d\DebugText.h" />
@@ -146,6 +147,7 @@
     </ClInclude>
     <ClInclude Include="Guide.h" />
     <ClInclude Include="Convert2D.h" />
+    <ClInclude Include="Tutorial.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\shaders\Obj.hlsli" />

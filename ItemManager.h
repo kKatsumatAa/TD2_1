@@ -38,7 +38,7 @@ public:
 
 
 	void Initialize(Player* player, Model* model, uint32_t* textureHandle, HandStop* handStop, EffectManager* effectManager, GameSystem* gameSystem);
-	void Update();
+	void Update(Tutorial* tutorial = nullptr);
 	void Draw(const ViewProjection& view);
 
 	//弾リストを取得(const参照)
@@ -58,6 +58,6 @@ public:
 	/// 敵発生コマンドの更新
 	/// </summary>
 	//void UpdateItemPopCommands();
-	void ItemGenerate(const Vector3& pos,int groupNum);
+	void ItemGenerate(const Vector3& pos, int groupNum);
 };
 
