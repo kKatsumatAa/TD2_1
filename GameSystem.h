@@ -3,6 +3,7 @@
 #include"DebugText.h"
 #include"SceneEffectManager.h"
 #include "Sprite.h"
+#include "Tutorial.h"
 
 class GameSystem;
 
@@ -14,7 +15,7 @@ protected:
 
 public:
 	void SetGameSystem(GameSystem* gameSystem);
-	virtual void Update() = 0;
+	virtual void Update(Tutorial* tutorial = nullptr) = 0;
 	virtual void Draw() = 0;
 };
 
@@ -64,7 +65,7 @@ public:
 
 	void initialize(SceneEffectManager* sceneEffect);
 
-	void Update();
+	void Update(Tutorial* tutorial = nullptr);
 	void Draw();
 
 	int GetStage() { return stage; }
@@ -90,7 +91,7 @@ public:
 	void SetBornusTime(int bornusTime) { this->bornusTime = bornusTime; }
 	void SetIsGameOver(bool isGameOver) { this->isGameOver = isGameOver; }
 	void SetIsGameClear(bool isGameClear) { this->isGameClear = isGameClear; }
-	void SetIsStageChange(bool is) { isStageChange=is; }
+	void SetIsStageChange(bool is) { isStageChange = is; }
 	void ResetSceneTime() {
 		sceneTime = SCENE_TIME;
 	}
@@ -118,7 +119,7 @@ class GamePlay : public GameSystemState
 private:
 
 public:
-	void Update() override;
+	void Update(Tutorial* tutorial = nullptr) override;
 	void Draw() override;
 };
 
@@ -128,7 +129,7 @@ class StageChange : public GameSystemState
 private:
 
 public:
-	void Update() override;
+	void Update(Tutorial* tutorial = nullptr) override;
 	void Draw() override;
 };
 
@@ -138,7 +139,7 @@ class GameOver : public GameSystemState
 private:
 
 public:
-	void Update() override;
+	void Update(Tutorial* tutorial = nullptr) override;
 	void Draw() override;
 };
 
@@ -148,7 +149,7 @@ class GameClear : public GameSystemState
 private:
 
 public:
-	void Update() override;
+	void Update(Tutorial* tutorial = nullptr) override;
 	void Draw() override;
 };
 

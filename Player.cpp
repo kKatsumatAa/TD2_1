@@ -24,7 +24,11 @@ void Player::Initialize(Model* model, uint32_t* textureHandle, HandSkillManager*
 	this->wall = wall;
 	this->gravity = gravity;
 	guide = new Guide;
+
+	guide->Initialize(model_, textureHandle_);
+
 	guide->Initialize(modelHand_,textureHandle_);
+
 
 	//シングルトンインスタンスを取得
 	input_ = Input::GetInstance();
@@ -49,7 +53,7 @@ void Player::Initialize(Model* model, uint32_t* textureHandle, HandSkillManager*
 	SetCollisionMask(kCollisionAttributeEnemy);
 }
 
-void Player::Update()
+void Player::Update(Tutorial* tutorial)
 {
 	if (isRush || isRush2) guide->SetIsLongPush(true);
 	else                   guide->SetIsLongPush(false);
@@ -72,7 +76,7 @@ void Player::Update()
 	//使ってないときプレイヤーと一緒に移動
 	if (!handR.GetIsUse()) handR.Update(worldTransform_.rotation_.z, worldTransform_.translation_);
 
-	state->Update();
+	state->Update(tutorial);
 }
 
 void Player::Draw(const ViewProjection& view)
@@ -115,7 +119,7 @@ void PlayerHandState::SetPlayer(Player* player)
 }
 
 //---------------------------------
-void NoGrab::Update()
+void NoGrab::Update(Tutorial* tutorial)
 {
 	player->SetIsRush(false);
 	player->SetIsRush2(false);
@@ -131,7 +135,7 @@ void NoGrab::Update()
 
 
 //---------------------------------
-void OneHandRushGrab::Update()
+void OneHandRushGrab::Update(Tutorial* tutorial)
 {
 	player->SetIsRush(true);
 
@@ -149,11 +153,14 @@ void OneHandRushGrab::Update()
 	if (!player->input_->PushKey(DIK_SPACE))
 	{
 		//player->gravity->SetSugitaIsGomi(false);
+
+		//if (tutorial != nullptr && tutorial->GetState() == LONG_PUSH) tutorial->AddStateNum();
+
 		player->ChangeState(new OneHandRushAttack);
 	}
 }
 
-void OneHandRushAttack::Update()
+void OneHandRushAttack::Update(Tutorial* tutorial)
 {
 	player->SetIsRush2(true);
 	player->SetIsRush(false);
@@ -177,7 +184,7 @@ void OneHandRushAttack::Update()
 	}
 }
 
-void OneHandRushAttack2::Update()
+void OneHandRushAttack2::Update(Tutorial* tutorial)
 {
 	bool isWallHit = false;
 
@@ -195,6 +202,9 @@ void OneHandRushAttack2::Update()
 
 	if (isWallHit)
 	{
+		if (tutorial != nullptr && 
+			(tutorial->GetState() == LONG_PUSH || tutorial->GetState() == RUSH || tutorial->GetState() == GRAVITY_OBJ)) tutorial->AddStateNum();
+
 		player->GetHandR()->ResetFlag();
 		player->ChangeState(new NoGrab);
 	}

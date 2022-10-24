@@ -115,6 +115,8 @@ void GameScene::Initialize() {
 	stageTexture_ = TextureManager::Load("stage.png");
 	stageSprite_ = Sprite::Create(stageTexture_, { 840,40 });
 
+	tutorial.Initialize();
+
 	//ワールドトランスフォームの初期化
 	worldTransform_.Initialize();
 }
@@ -150,7 +152,7 @@ void GameScene::TitleUpdateFunc() {
 	if (isStart == true) {
 		if (Start(0.4f) == true) {
 			wall_->Start();
-			scene_ = Scene::MainGame;
+			scene_ = Scene::Tutorial;
 		}
 	}
 
@@ -246,10 +248,129 @@ void GameScene::TitleDrawFunc() {
 /// チュートリアルアップデート
 /// </summary>
 void GameScene::TutorialUpdateFunc() {
+	tutorial.Update();
 
+	//アイテムのプロトタイプ切替
+	if (input_->TriggerKey(DIK_Z))
+	{
+		if (colliderManager->isItemMode) colliderManager->isItemMode = false;
+		else                             colliderManager->isItemMode = true;
+	}
+
+	gameSystem.Update(&tutorial);
+	wall_->Update();
+	enemyManager.Update();
+	player_->Update(&tutorial);
+	skillManager.Update();
+	itemManager.Update(&tutorial);
 	effectManager->Update();
+
+	grabityObj.Update();
 	sceneEffectManager->Update();
 
+
+	//一番近いobjの方をplayerが向くように
+	float length = NULL;
+	Vector3 vec;
+	std::list<Collider*> objs;
+	nearObj = nullptr;
+	if (!player_->GetIsRush2() && !player_->GetIsRush() && !gameSystem.GetIsStageChange())
+	{
+		const std::list<std::unique_ptr<Enemy>>& enemies = enemyManager.GetEnemies();
+		for (const std::unique_ptr<Enemy>& enemy : enemies)
+		{
+			objs.push_back(enemy.get());
+		}
+		const std::list<std::unique_ptr<Item>>& items = itemManager.GetItems();
+		for (const std::unique_ptr<Item>& item : items)
+		{
+			objs.push_back(item.get());
+		}
+
+		std::list<Collider*>::iterator itr = objs.begin();
+
+		for (int i = 0; i < objs.size(); i++)
+		{
+			vec = ((*itr)->GetWorldPos() - player_->GetWorldPos());
+
+			if (length > vec.GetLength() || length == NULL)
+			{
+				length = vec.GetLength();
+				nearObj = *itr;
+			}
+
+			(*itr)->SetIsTarget(false);
+
+			itr++;
+		}
+
+		if (nearObj != nullptr)
+		{
+			nearObj->SetIsTarget(true);
+
+			vec = nearObj->GetWorldPos() - player_->GetWorldPos();
+
+			pos = nearObj->GetWorldPos();
+
+			angle = ((atan2(vec.y, vec.x)) - pi / 2.0f);
+		}
+	}
+	if (player_->GetIsRush())
+	{
+		vec = pos - player_->GetWorldPos();
+
+		angle = ((atan2(vec.y, vec.x)) - pi / 2.0f);
+	}
+
+	{
+		player_->SetAngle(angle);
+	}
+
+	//colliderManager
+	{
+		colliderManager->ClearList();
+		colliderManager->SetListCollider(player_);
+		colliderManager->SetListCollider(&grabityObj);
+		const std::list<std::unique_ptr<Enemy>>& enemies = enemyManager.GetEnemies();
+		for (const std::unique_ptr<Enemy>& enemy : enemies)
+		{
+			colliderManager->SetListCollider(enemy.get());
+		}
+		const std::list<std::unique_ptr<HandSkill>>& skills = skillManager.GetSkills();
+		for (const std::unique_ptr<HandSkill>& skill : skills)
+		{
+			colliderManager->SetListCollider(skill.get());
+		}
+		const std::list<std::unique_ptr<Item>>& items = itemManager.GetItems();
+		for (const std::unique_ptr<Item>& item : items)
+		{
+			colliderManager->SetListCollider(item.get());
+		}
+
+		colliderManager->CheckAllCollisions();
+
+		//手との判定
+		{
+			colliderManager->ClearList();
+			colliderManager->SetListCollider(player_->GetHandR());
+			const std::list<std::unique_ptr<Enemy>>& enemies = enemyManager.GetEnemies();
+			for (const std::unique_ptr<Enemy>& enemy : enemies)
+			{
+				colliderManager->SetListCollider(enemy.get());
+			}
+			const std::list<std::unique_ptr<Item>>& items = itemManager.GetItems();
+			for (const std::unique_ptr<Item>& item : items)
+			{
+				colliderManager->SetListCollider(item.get());
+			}
+
+			colliderManager->CheckAllCollisions2();
+		}
+
+	}
+	viewProjection_.eye = Vector3(0, 0, -50) + effectManager->ShakePow();
+	viewProjection_.target = Vector3(0, 0, 0) + effectManager->ShakePow();
+	viewProjection_.UpdateMatrix();
 
 
 #ifdef _DEBUG
@@ -257,7 +378,7 @@ void GameScene::TutorialUpdateFunc() {
 	debugText_->Printf("Scene = Tutorial");
 	debugText_->SetPos(1100, 40);
 	debugText_->Printf("[P] = NextScene");
-	if (input_->TriggerKey(DIK_P)) {
+	if (input_->TriggerKey(DIK_P) || tutorial.GetIsEnd()) {
 		scene_ = Scene::MainGame;
 	}
 
@@ -300,7 +421,22 @@ void GameScene::TutorialDrawFunc() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
+	player_->Draw(viewProjection_);
+	enemyManager.Draw(viewProjection_);
+
+	skillManager.Draw(viewProjection_);
+	itemManager.Draw(viewProjection_);
+
+	wall_->Draw(viewProjection_);
+	grabityObj.Draw(viewProjection_);
+
 	effectManager->Draw(viewProjection_);
+
+	gameSystem.Draw();
+	//gravity_->Draw(viewProjection_);
+
+	debugText_->SetPos(10, 600);
+	debugText_->Printf("アイテムのプロト:%d", colliderManager->isItemMode);
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
@@ -313,9 +449,14 @@ void GameScene::TutorialDrawFunc() {
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
+	effectManager->SpriteDraw();
+	timer_->Draw({ 850,100 }, gameSystem.GetTime() / 60);
+	nolma_->Draw({ 1050,300 }, gameSystem.GetStageEnemyNorma());
+	kill_->Draw({ 850,300 }, gameSystem.GetStageEnemyDeath());
 	sceneEffectManager->Draw();
 	// デバッグテキストの描画
 	debugText_->DrawAll(commandList);
+	tutorial.Draw();
 	//
 	// スプライト描画後処理
 	Sprite::PostDraw();
