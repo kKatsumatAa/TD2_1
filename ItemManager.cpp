@@ -28,7 +28,7 @@ void ItemManager::ItemGenerate(const Vector3& pos, int groupNum)
 	items.push_back(std::move(item));
 }
 
-void ItemManager::Update()
+void ItemManager::Update(Tutorial* tutorial)
 {
 	//csv用
 	{
@@ -88,6 +88,8 @@ void ItemManager::Update()
 		{
 			//エフェクト
 			effectManager->ParticleGenerate(item.get()->GetWorldPos(), { 890,140 });
+
+			if (tutorial != nullptr && tutorial->GetState() == ITEM)tutorial->AddStateNum();
 		}
 	}
 	//消す

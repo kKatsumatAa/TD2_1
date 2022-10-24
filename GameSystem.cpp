@@ -22,9 +22,9 @@ void GameSystem::ChangeState(GameSystemState* state)
 	state->SetGameSystem(this);
 }
 
-void GameSystem::Update()
+void GameSystem::Update(Tutorial* tutorial)
 {
-	state->Update();
+	state->Update(tutorial);
 }
 
 void GameSystem::Draw()
@@ -49,7 +49,7 @@ void GameSystemState::SetGameSystem(GameSystem* gameSystem)
 }
 
 //-------------------------------------------------------------
-void StageChange::Update()
+void StageChange::Update(Tutorial* tutorial)
 {
 	//最後のステージだったら
 	if (gameSystem->GetStage() >= gameSystem->GetStageMax())
@@ -87,35 +87,38 @@ void StageChange::Draw()
 }
 
 //-------------------------------------------------------------
-void GamePlay::Update()
+void GamePlay::Update(Tutorial* tutorial)
 {
 	//時間減らす
 	if (gameSystem->GetTime() > 0) {
 		gameSystem->SetTime(gameSystem->GetTime() - 1);
 	}
 
-	//ノルマ達成したら
-	if (gameSystem->GetStageEnemyDeath() >= gameSystem->GetStageEnemyNorma())
+	if (tutorial == nullptr)
 	{
-		if (gameSystem->GetSceneTime() == gameSystem->SCENE_TIME) {
-			gameSystem->GetSceneEffect()->NormalSceneEffectGenerate();
+		//ノルマ達成したら
+		if (gameSystem->GetStageEnemyDeath() >= gameSystem->GetStageEnemyNorma())
+		{
+			if (gameSystem->GetSceneTime() == gameSystem->SCENE_TIME) {
+				gameSystem->GetSceneEffect()->NormalSceneEffectGenerate();
+			}
+			gameSystem->SubSceneTime();
+			if (gameSystem->GetSceneTime() < 0) {
+				gameSystem->ResetSceneTime();
+				gameSystem->ChangeState(new StageChange);
+			}
 		}
-		gameSystem->SubSceneTime();
-		if (gameSystem->GetSceneTime() < 0) {
-			gameSystem->ResetSceneTime();
-			gameSystem->ChangeState(new StageChange);
-		}
-	}
-	//制限時間終わったら
-	else if (gameSystem->GetTime() <= 0)
-	{
-		if (gameSystem->GetSceneTime() == gameSystem->SCENE_TIME) {
-			gameSystem->GetSceneEffect()->CheckGenerate();
-		}
-		gameSystem->SubSceneTime();
-		if (gameSystem->GetSceneTime() < 0) {
-			gameSystem->ResetSceneTime();
-			gameSystem->ChangeState(new GameOver);
+		//制限時間終わったら
+		else if (gameSystem->GetTime() <= 0)
+		{
+			if (gameSystem->GetSceneTime() == gameSystem->SCENE_TIME) {
+				gameSystem->GetSceneEffect()->CheckGenerate();
+			}
+			gameSystem->SubSceneTime();
+			if (gameSystem->GetSceneTime() < 0) {
+				gameSystem->ResetSceneTime();
+				gameSystem->ChangeState(new GameOver);
+			}
 		}
 	}
 }
@@ -125,7 +128,7 @@ void GamePlay::Draw()
 }
 
 //-------------------------------------------------------------
-void GameOver::Update()
+void GameOver::Update(Tutorial* tutorial)
 {
 	gameSystem->SubSceneTime();
 	if (gameSystem->GetSceneTime() <= 0) {
@@ -140,7 +143,7 @@ void GameOver::Draw()
 }
 
 //-------------------------------------------------------------
-void GameClear::Update()
+void GameClear::Update(Tutorial* tutorial)
 {
 	gameSystem->SubSceneTime();
 	if (gameSystem->GetSceneTime() <= 0) {

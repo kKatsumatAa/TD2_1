@@ -6,6 +6,7 @@ static enum TUTORIAL
 {
 	RUSH,
 	LONG_PUSH,
+	GRAVITY_OBJ,
 	ITEM,
 	UI,
 	SYSTEM,
@@ -17,6 +18,7 @@ class Tutorial;
 class TutorialState
 {
 protected:
+	int num = 0;
 	Tutorial* tutorial;
 	float count = 0;
 
@@ -53,7 +55,7 @@ public:
 
 	int GetState() { return state2; }
 	void AddState2() { state2++; }
-	void AddState() { state->AddNum(); }
+	void AddStateNum() { state->AddNum(); }
 
 	int GetStateNum() { return state->GetNum(); }
 	int GetStateNumMax() { return state->GetMaxNum(); }
@@ -75,7 +77,6 @@ public:
 class RushTutorial :public TutorialState
 {
 private:
-	int num = 0;
 	const int numMax = 2;
 	int texhandle[5];
 	Sprite* sprite[5];
@@ -92,16 +93,121 @@ public:
 	void Draw() override;
 };
 
+//’·‰Ÿ‚µ
 class LongPushTutorial : public TutorialState
 {
 private:
-	int num = 0;
 	const int numMax = 2;
 	int texhandle[5];
 	Sprite* sprite[5];
 
 public:
 	LongPushTutorial();
+
+
+	void AddNum()override { num++; }
+	int GetNum()override { return num; }
+	int GetMaxNum()override { return numMax; }
+
+	void Update(Input* input) override;
+	void Draw() override;
+};
+
+//
+class GravityObjTutorial : public TutorialState
+{
+private:
+
+	const int numMax = 2;
+	int texhandle[5];
+	Sprite* sprite[5];
+
+public:
+	GravityObjTutorial();
+
+
+	void AddNum()override { num++; }
+	int GetNum()override { return num; }
+	int GetMaxNum()override { return numMax; }
+
+	void Update(Input* input) override;
+	void Draw() override;
+};
+
+//
+class ItemTutorial : public TutorialState
+{
+private:
+
+	const int numMax = 2;
+	int texhandle[5];
+	Sprite* sprite[5];
+
+public:
+	ItemTutorial();
+
+
+	void AddNum()override { num++; }
+	int GetNum()override { return num; }
+	int GetMaxNum()override { return numMax; }
+
+	void Update(Input* input) override;
+	void Draw() override;
+};
+
+//
+class UITutorial : public TutorialState
+{
+private:
+
+	const int numMax = 4;
+	int texhandle[5];
+	Sprite* sprite[5];
+
+public:
+	UITutorial();
+
+
+	void AddNum()override { num++; }
+	int GetNum()override { return num; }
+	int GetMaxNum()override { return numMax; }
+
+	void Update(Input* input) override;
+	void Draw() override;
+};
+
+//
+class SystemTutorial : public TutorialState
+{
+private:
+
+	const int numMax = 4;
+	int texhandle[5];
+	Sprite* sprite[5];
+
+public:
+	SystemTutorial();
+
+
+	void AddNum()override { num++; }
+	int GetNum()override { return num; }
+	int GetMaxNum()override { return numMax; }
+
+	void Update(Input* input) override;
+	void Draw() override;
+};
+
+//
+class LastTutorial : public TutorialState
+{
+private:
+
+	const int numMax = 1;
+	int texhandle[5];
+	Sprite* sprite[5];
+
+public:
+	LastTutorial();
 
 
 	void AddNum()override { num++; }
