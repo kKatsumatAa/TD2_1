@@ -71,7 +71,7 @@ void Guide::Draw(ViewProjection view)
 {
 	for (int i = 0; i < Num; i++) {
 		if (!isLongPush)
-			model_->Draw(pos_[i], view);
+			model_->Draw(pos_[i], view,textureHandle_[0]);
 		else
 			model_->Draw(pos_[i], view, textureHandle_[2]);
 	}

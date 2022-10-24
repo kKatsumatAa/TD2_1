@@ -321,7 +321,6 @@ void GameScene::TutorialUpdateFunc() {
 
 		angle = ((atan2(vec.y, vec.x)) - pi / 2.0f);
 	}
-
 	{
 		player_->SetAngle(angle);
 	}
