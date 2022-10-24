@@ -27,4 +27,7 @@ private:
 	Vector3 wallStart_[4];
 	Vector3 wallEnd_[4];
 	Model* model_;
+
+	uint32_t texture_;
+	uint32_t textNum_[Num];
 };
