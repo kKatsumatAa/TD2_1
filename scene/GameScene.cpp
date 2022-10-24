@@ -4,11 +4,24 @@
 
 GameScene::GameScene() {}
 
-GameScene::~GameScene() {
-	delete wall_;
-	delete set_;
-	delete effectManager;
-	delete sceneEffectManager;
+GameScene::~GameScene() {}
+
+void GameScene::DeleteGameScene() {
+	SafeDelete(wall_);
+	SafeDelete(set_);
+	SafeDelete(effectManager);
+	SafeDelete(sceneEffectManager);
+	SafeDelete(player_);
+	SafeDelete(gravity_);
+	SafeDelete(timer_);
+	SafeDelete(nolma_);
+	SafeDelete(kill_);
+	SafeDelete(stage_);
+}
+
+void GameScene::ResetGameScene() {
+	DeleteGameScene();
+	Initialize();
 }
 
 void (GameScene::* GameScene::sceneUpdateFuncTable[])() = {
@@ -153,6 +166,7 @@ void GameScene::TitleUpdateFunc() {
 		if (Start(0.4f) == true) {
 			wall_->Start();
 			scene_ = Scene::Tutorial;
+			ResetGameScene();
 		}
 	}
 
@@ -183,8 +197,10 @@ void GameScene::TitleUpdateFunc() {
 	if (input_->TriggerKey(DIK_P)) {
 		scene_ = Scene::Tutorial;
 		wall_->Start();
+		ResetGameScene();
 		viewProjection_.eye = { 0,0,-50 };
 		viewProjection_.UpdateMatrix();
+		
 	}
 #endif
 }
@@ -368,7 +384,7 @@ void GameScene::TutorialUpdateFunc() {
 		}
 
 	}
-	viewProjection_.eye = Vector3(0, 0, -50) + effectManager->ShakePow();
+	viewProjection_.eye = Vector3(0, 0, -49) + effectManager->ShakePow();
 	viewProjection_.target = Vector3(0, 0, 0) + effectManager->ShakePow();
 	viewProjection_.UpdateMatrix();
 
@@ -380,6 +396,7 @@ void GameScene::TutorialUpdateFunc() {
 	debugText_->Printf("[P] = NextScene");
 	if (input_->TriggerKey(DIK_P) || tutorial.GetIsEnd()) {
 		scene_ = Scene::MainGame;
+		ResetGameScene();
 	}
 
 	if (input_->TriggerKey(DIK_1)) {
@@ -421,7 +438,7 @@ void GameScene::TutorialDrawFunc() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
-	player_->Draw(viewProjection_);
+	
 	enemyManager.Draw(viewProjection_);
 
 	skillManager.Draw(viewProjection_);
@@ -433,6 +450,9 @@ void GameScene::TutorialDrawFunc() {
 	effectManager->Draw(viewProjection_);
 
 	gameSystem.Draw();
+
+	UI_back_->Draw(UITrans_, viewProjection_);
+	player_->Draw(viewProjection_);
 	//gravity_->Draw(viewProjection_);
 
 	debugText_->SetPos(10, 600);
