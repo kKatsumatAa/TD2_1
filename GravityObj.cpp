@@ -35,7 +35,7 @@ void GravityObj::Update()
 
 void GravityObj::Draw(const ViewProjection& view)
 {
-	model_->Draw(worldTransform_, view, textureHandle_[0]);
+	model_->Draw(worldTransform_, view);
 }
 
 Vector3 GravityObj::GetWorldPos()

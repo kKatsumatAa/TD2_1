@@ -18,11 +18,12 @@ void Number::Update()
 
 }
 
-void Number::Draw(Vector2 pos, uint32_t num)
+void Number::Draw(Vector2 pos,Vector4 color, uint32_t num)
 {
 	for (int i = 0; i < 10; i++) {
 		for (int j = 0; j < 5; j++) {
 			sprite_[j][i]->SetPosition(pos);
+			sprite_[j][i]->SetColor(color);
 		}
 	}
 	if (num < 10) {

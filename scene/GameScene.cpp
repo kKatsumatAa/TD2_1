@@ -47,8 +47,11 @@ void GameScene::Initialize() {
 
 	//3Dモデルの生成
 	model_ = Model::Create();
-	playerModel_ = Model::CreateFromOBJ("arm", true);
-	enemyModel_ = Model::CreateFromOBJ("enemy", true);
+	playerModel_ = Model::CreateFromOBJ("ufo", true);
+	enemyModel_ = Model::CreateFromOBJ("meteorite", true);
+	itemModel_ = Model::Create();
+	gravityBlock_ = Model::CreateFromOBJ("gravity", true);
+
 	titleBord_ = Model::Create();
 	titleBordTrans_.Initialize();
 	titleBordTrans_.translation_.y = -22;
@@ -59,6 +62,12 @@ void GameScene::Initialize() {
 	titleBordTrans2_.translation_.y = 22;
 	titleBordTrans2_.scale_ = { 50,1,20 };
 	titleBordTrans2_.UpdateMatrix();
+
+	UI_back_ = Model::CreateFromOBJ("ui_back", true);
+	UITrans_.Initialize();
+	UITrans_.scale_ = { 15,30,1 };
+	UITrans_.translation_ = { 22,0,0 };
+	UITrans_.UpdateMatrix();
 
 	effectManager = new EffectManager();
 	effectManager->Initialize();
@@ -74,7 +83,7 @@ void GameScene::Initialize() {
 	player_ = new Player();
 	player_->Initialize(playerModel_, textureHandle_, &skillManager, &handStop, wall_, gravity_);
 
-	enemyManager.Initialize(player_, model_, textureHandle_, effectManager, &gameSystem, &itemManager);
+	enemyManager.Initialize(player_, enemyModel_, textureHandle_, effectManager, &gameSystem, &itemManager);
 
 
 
@@ -82,7 +91,7 @@ void GameScene::Initialize() {
 
 	itemManager.Initialize(player_, model_, textureHandle_, &handStop, effectManager, &gameSystem);
 
-	grabityObj.Initialize(model_, textureHandle_, gravity_);
+	grabityObj.Initialize(gravityBlock_, textureHandle_, gravity_);
 
 	set_ = new Setting();
 	set_->Initialize();
@@ -93,6 +102,18 @@ void GameScene::Initialize() {
 	nolma_->Initialize();
 	kill_ = new Number();
 	kill_->Initialize();
+	stage_ = new Number();
+	stage_->Initialize();
+
+	timerTexture_ = TextureManager::Load("Timer.png");
+	timerSprite_ = Sprite::Create(timerTexture_, { 880,250 });
+	timerSprite_->SetSize({ 300, 300});
+	slashTexture_ = TextureManager::Load("slash.png");
+	slashSprite_ = Sprite::Create(slashTexture_, { 1010,150 });
+	spaceTexture_ = TextureManager::Load("space.png");
+	spaceSprite_ = Sprite::Create(spaceTexture_, { 900,600 });
+	stageTexture_ = TextureManager::Load("stage.png");
+	stageSprite_ = Sprite::Create(stageTexture_, { 840,40 });
 
 	tutorial.Initialize();
 
@@ -246,6 +267,7 @@ void GameScene::TutorialUpdateFunc() {
 
 	grabityObj.Update();
 	sceneEffectManager->Update();
+
 
 	//一番近いobjの方をplayerが向くように
 	float length = NULL;
@@ -448,7 +470,7 @@ void GameScene::TutorialDrawFunc() {
 /// メインゲームアップデート
 /// </summary>
 void GameScene::MainGameUpdateFunc() {
-	
+
 	//アイテムのプロトタイプ切替
 	if (input_->TriggerKey(DIK_Z))
 	{
@@ -566,7 +588,7 @@ void GameScene::MainGameUpdateFunc() {
 		}
 
 	}
-	viewProjection_.eye = Vector3(0, 0, -50) + effectManager->ShakePow();
+	viewProjection_.eye = Vector3(0, 0, -49) + effectManager->ShakePow();
 	viewProjection_.target = Vector3(0, 0, 0) + effectManager->ShakePow();
 	viewProjection_.UpdateMatrix();
 
@@ -628,6 +650,8 @@ void GameScene::MainGameDrawFunc() {
 	effectManager->Draw(viewProjection_);
 
 	gameSystem.Draw();
+
+	UI_back_->Draw(UITrans_, viewProjection_);
 	//gravity_->Draw(viewProjection_);
 
 	debugText_->SetPos(10, 600);
@@ -645,9 +669,14 @@ void GameScene::MainGameDrawFunc() {
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
 	effectManager->SpriteDraw();
-	timer_->Draw({ 850,100 }, gameSystem.GetTime() / 60);
-	nolma_->Draw({ 1050,300 }, gameSystem.GetStageEnemyNorma());
-	kill_->Draw({ 850,300 }, gameSystem.GetStageEnemyDeath());
+	timerSprite_->Draw();
+	timer_->Draw({ 985,370 }, {0,0,0,255}, gameSystem.GetTime() / 60);
+	nolma_->Draw({ 1100,150 }, { 255,255,255,255 }, gameSystem.GetStageEnemyNorma());
+	kill_->Draw({ 900,150 }, { 255,255,255,255 }, gameSystem.GetStageEnemyDeath());
+	stage_->Draw({ 1150,40 }, { 255,255,255,255 }, gameSystem.GetStage());
+	slashSprite_->Draw();
+	spaceSprite_->Draw();
+	stageSprite_->Draw();
 	sceneEffectManager->Draw();
 
 	// デバッグテキストの描画
@@ -676,7 +705,7 @@ void GameScene::GameoverUpdateFunc() {
 	if (input_->TriggerKey(DIK_P)) {
 		scene_ = Scene::GameClear;
 	}
-	
+
 #endif
 }
 /// <summary>

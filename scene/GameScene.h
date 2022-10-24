@@ -99,6 +99,15 @@ private: // メンバ変数
 	Number* timer_ = nullptr;
 	Number* nolma_ = nullptr;
 	Number* kill_ = nullptr;
+	Number* stage_ = nullptr;
+	Sprite* timerSprite_;
+	uint32_t timerTexture_;
+	Sprite* slashSprite_;
+	uint32_t slashTexture_;
+	Sprite* spaceSprite_;
+	uint32_t spaceTexture_;
+	Sprite* stageSprite_;
+	uint32_t stageTexture_;
 
 	EffectManager* effectManager = nullptr;
 	SceneEffectManager* sceneEffectManager = nullptr;
@@ -116,6 +125,10 @@ private: // メンバ変数
 	Model* model_ = nullptr;
 	Model* playerModel_ = nullptr;
 	Model* enemyModel_ = nullptr;
+	Model* itemModel_ = nullptr;
+	Model* gravityBlock_ = nullptr;
+	Model* UI_back_ = nullptr;
+
 	Model* titleBord_ = nullptr;
 	Model* titleBord2_ = nullptr;
 
@@ -126,6 +139,8 @@ private: // メンバ変数
 
 	WorldTransform titleBordTrans_;
 	WorldTransform titleBordTrans2_;
+
+	WorldTransform UITrans_;
 
 	//シーン
 	Scene scene_ = Scene::Title;

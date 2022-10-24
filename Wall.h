@@ -21,6 +21,7 @@ public:
 private:
 	//Žl•û‚Ì•Ç
 	Model* wall_[5];
+	Model* floor_ = nullptr;
 	WorldTransform wallTrans_[5];
 	Gravity* gravity_;
 	uint32_t texture_;
