@@ -60,7 +60,7 @@ void GameScene::Initialize() {
 
 	//3Dモデルの生成
 	model_ = Model::Create();
-	playerModel_ = Model::CreateFromOBJ("ufo", true);
+	playerModel_ = Model::CreateFromOBJ("ufo_", true);
 	enemyModel_ = Model::CreateFromOBJ("meteorite", true);
 	itemModel_ = Model::Create();
 	gravityBlock_ = Model::CreateFromOBJ("gravity", true);
