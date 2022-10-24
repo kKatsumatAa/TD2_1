@@ -47,6 +47,9 @@ public: // メンバ関数
 	/// </summary>
 	~GameScene();
 
+	void DeleteGameScene();
+
+	void ResetGameScene();
 	/// <summary>
 	/// 初期化
 	/// </summary>
