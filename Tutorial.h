@@ -45,9 +45,9 @@ private:
 	Input* input = nullptr;
 
 	unsigned int texhandle[10];
-	Sprite* sprite[5];
-public:
 	
+public:
+	Sprite* sprite[5];
 
 	void Initialize();
 	void Update();

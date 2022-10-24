@@ -9,12 +9,10 @@ void Tutorial::Initialize()
 	input = Input::GetInstance();
 
 	texhandle[0] = TextureManager::Load("tutorial/test.png");
-	//texhandle[1] = TextureManager::Load("tutorial/test.png");
+	texhandle[1] = TextureManager::Load("tutorial/next.png");
 
 	sprite[0] = Sprite::Create(texhandle[0], { 10,10 });
-	//sprite[1] = Sprite::Create(texhandle[2], { 10,100 });
-
-
+	sprite[1] = Sprite::Create(texhandle[1], { 10,100 });
 }
 
 void Tutorial::Update()
@@ -29,10 +27,11 @@ void Tutorial::Draw()
 	count += 0.1f;
 	//チュートリアル中の表示
 	sprite[0]->SetSize({ 100,50 });
-	sprite[0]->SetPosition({ 870, (float)380 + sinf(count) * 3.0f });
-	//sprite[1]->SetPosition({ 110, (float)160 + sinf(count) * 5.0f });
+	sprite[1]->SetSize({ 150,50 });
+	sprite[0]->SetPosition({ 920, (float)320 + sinf(count) * 3.0f });
+	sprite[1]->SetPosition({ 920, (float)380 + sinf(count) * 3.0f });
 
-	sprite[0]->Draw();
+	//sprite[0]->Draw();
 	//sprite[1]->Draw();
 
 }
@@ -50,7 +49,9 @@ RushTutorial::RushTutorial()
 
 void RushTutorial::Update(Input* input)
 {
-	if (num >= numMax)
+	if (num >= numMax)num = numMax - 1;
+
+	if (input->TriggerKey(DIK_Z))
 	{
 		tutorial->AddStateNum();
 		tutorial->AddState2();
@@ -64,6 +65,9 @@ void RushTutorial::Draw()
 
 	if (num < numMax)
 	{
+		//next
+		if (num == 1) tutorial->sprite[1]->Draw();
+
 		sprite[num]->SetPosition({ 800 , 450 + sinf(count) * 5.0f });
 		sprite[num]->Draw();
 	}
@@ -110,7 +114,9 @@ GravityObjTutorial::GravityObjTutorial()
 
 void GravityObjTutorial::Update(Input* input)
 {
-	if (num >= numMax)
+	if (num >= numMax)num = numMax - 1;
+
+	if (input->TriggerKey(DIK_Z))
 	{
 		tutorial->AddStateNum();
 		tutorial->AddState2();
@@ -124,6 +130,9 @@ void GravityObjTutorial::Draw()
 
 	if (num < numMax)
 	{
+		//next
+		if (num == 1) tutorial->sprite[1]->Draw();
+
 		sprite[num]->SetPosition({ 800 , 450 + sinf(count) * 5.0f });
 		sprite[num]->Draw();
 	}
