@@ -450,9 +450,14 @@ void GameScene::TutorialDrawFunc() {
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
 	effectManager->SpriteDraw();
-	timer_->Draw({ 850,100 }, gameSystem.GetTime() / 60);
-	nolma_->Draw({ 1050,300 }, gameSystem.GetStageEnemyNorma());
-	kill_->Draw({ 850,300 }, gameSystem.GetStageEnemyDeath());
+	timerSprite_->Draw();
+	timer_->Draw({ 985,370 }, { 0,0,0,255 }, gameSystem.GetTime() / 60);
+	nolma_->Draw({ 1100,150 }, { 255,255,255,255 }, gameSystem.GetStageEnemyNorma());
+	kill_->Draw({ 900,150 }, { 255,255,255,255 }, gameSystem.GetStageEnemyDeath());
+	stage_->Draw({ 1150,40 }, { 255,255,255,255 }, gameSystem.GetStage());
+	slashSprite_->Draw();
+	spaceSprite_->Draw();
+	stageSprite_->Draw();
 	sceneEffectManager->Draw();
 	// デバッグテキストの描画
 	debugText_->DrawAll(commandList);
