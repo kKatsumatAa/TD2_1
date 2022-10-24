@@ -5,6 +5,7 @@ void HandSkillManager::Initialize(Model* model, uint32_t* textureHandle)
 {
 	assert(model);
 
+	skills.clear();
 	model_ = model;
 	textureHandle_ = textureHandle;
 }

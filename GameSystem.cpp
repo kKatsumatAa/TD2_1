@@ -8,18 +8,23 @@ void GameSystem::initialize(SceneEffectManager* sceneEffect)
 	debugText_ = DebugText::GetInstance();
 	sceneEffect_ = sceneEffect;
 	//現在のステージが何番目か
-	int stage = 0;
+	stage = 0;
 	//ステージ切り替え時にノルマを入れる
-	int stageEnemyNorma = 0;
+	stageEnemyNorma = 0;
 	//今のステージでどんだけ倒したか
-	int stageEnemyDeath = 0;
+	stageEnemyDeath = 0;
 	//残り時間
-	int time = 0;
+	time = 0;
 	//前ステージからの繰り越しの時間
-	int bornusTime = 0;
+	bornusTime = 0;
 
-	bool isGameOver = false;
-	bool isGameClear = false;
+	isGameOver = false;
+	isGameClear = false;
+
+	//外部で使用するためのステージ変更したフラグ
+	isStageChange = false;
+
+	sceneTime = SCENE_TIME;
 
 	LoadStageSystemData();
 
@@ -209,6 +214,11 @@ void GameSystem::UpdateStageSystemCommands()
 
 void GameSystem::LoadStageSystemData()
 {
+	////敵発生コマンド
+// バッファをクリアします。
+	stageSystemCommands.str("");
+	// 状態をクリアします。
+	stageSystemCommands.clear(std::stringstream::goodbit);
 	//ファイル開く
 	std::ifstream file;
 	file.open("Resources/stageDatas/stageTimeNormaData.txt");

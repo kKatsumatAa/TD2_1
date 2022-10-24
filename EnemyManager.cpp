@@ -14,6 +14,13 @@ void EnemyManager::Initialize(Player* player, Model* model, uint32_t* textureHan
 	//待機
 	isWait = false;
 
+	//出現している敵の番号を保管
+	for (int i = 0; i < _countof(aliveEnemyNumber); i++)
+	{
+		aliveEnemyNumber[i] = NULL;
+	}
+	 groupCount = 0;
+
 	enemies.clear();
 
 	this->itemManager = itemManager;

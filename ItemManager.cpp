@@ -7,6 +7,14 @@ void ItemManager::Initialize(Player* player, Model* model, uint32_t* textureHand
 {
 	assert(model);
 
+	for (int i = 0; i < _countof(aliveItemNumber); i++)
+	{
+		aliveItemNumber[i] = NULL;
+	}
+
+	 groupCountI = 0;
+	 items.clear();
+
 	model_ = model;
 	textureHandle_ = textureHandle;
 	this->player = player;

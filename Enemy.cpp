@@ -7,6 +7,8 @@ void Enemy::Initialize(Model* model, uint32_t* textureHandle, const Vector3& pos
 	model_ = model;
 	textureHandle_ = textureHandle;
 
+	aliveNum = NULL;
+
 	debugText_ = DebugText::GetInstance();
 
 	this->effectManager = effectManager;

@@ -8,6 +8,11 @@ void Tutorial::Initialize()
 
 	input = Input::GetInstance();
 
+	//外部から今行ってるチュートリアルが分かるようにした変数
+	state2 = RUSH;
+	isEnd = false;
+	count = 0;
+
 	texhandle[0] = TextureManager::Load("tutorial/test.png");
 	texhandle[1] = TextureManager::Load("tutorial/next.png");
 

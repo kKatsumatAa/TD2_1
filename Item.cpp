@@ -18,6 +18,11 @@ void Item::Initialize(Model* model, uint32_t* textureHandle, const Vector3& pos,
 
 	this->handStop = handStop;
 
+	bonusTime = 0;
+	timer = 0;
+	aliveNum = NULL;
+	useHandCount = 0;
+
 	worldTransform_.Initialize();
 	worldTransform_.translation_ = pos;
 	worldTransform_.UpdateMatrix();

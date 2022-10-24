@@ -13,6 +13,15 @@ void Player::Initialize(Model* model, uint32_t* textureHandle, HandSkillManager*
 {
 	assert(model);
 
+	velocity = { 0,0,0 };
+
+	//角度
+	angle = 0.0f;
+
+	//貫通攻撃かどうか
+	isRush = false;
+	isRush2 = false;
+
 	model_ = model;
 	modelHand_ = Model::Create();
 	textureHandle_ = textureHandle;
@@ -27,7 +36,7 @@ void Player::Initialize(Model* model, uint32_t* textureHandle, HandSkillManager*
 
 	guide->Initialize(model_, textureHandle_);
 
-	guide->Initialize(modelHand_,textureHandle_);
+	guide->Initialize(modelHand_, textureHandle_);
 
 
 	//シングルトンインスタンスを取得
@@ -36,7 +45,7 @@ void Player::Initialize(Model* model, uint32_t* textureHandle, HandSkillManager*
 
 	worldTransform_.Initialize();
 	worldTransform_.scale_ = { 1.0f,1.0f,1.0f };
-	worldTransform_.rotation_ = {0,0,pi / 2};
+	worldTransform_.rotation_ = { 0,0,pi / 2 };
 	worldTransform_.UpdateMatrix();
 	worldTransformHand_.Initialize();
 	//worldTransformHand_.scale_ = { 1.0f,1.0f,1.0f };
@@ -202,7 +211,7 @@ void OneHandRushAttack2::Update(Tutorial* tutorial)
 
 	if (isWallHit)
 	{
-		if (tutorial != nullptr && 
+		if (tutorial != nullptr &&
 			(tutorial->GetState() == LONG_PUSH || tutorial->GetState() == RUSH || tutorial->GetState() == GRAVITY_OBJ)) tutorial->AddStateNum();
 
 		player->GetHandR()->ResetFlag();

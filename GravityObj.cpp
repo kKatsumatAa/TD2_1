@@ -18,6 +18,8 @@ void GravityObj::Initialize(Model* model, uint32_t* textureHandle, Gravity* grav
 
 	radius_ = 3.5f;
 
+	velocity = { 0,0,0 };
+
 	worldTransform_.Initialize();
 	worldTransform_.scale_ = { radius_,radius_,1.0f };
 	worldTransform_.translation_ = { -10,5,0 };
