@@ -536,6 +536,7 @@ void GameScene::TutorialDrawFunc() {
 	slashSprite_->Draw();
 	spaceSprite_->Draw();
 	stageSprite_->Draw();
+	itemManager.DrawSprite();
 	sceneEffectManager->Draw();
 	// デバッグテキストの描画
 	debugText_->DrawAll(commandList);
@@ -764,6 +765,7 @@ void GameScene::MainGameDrawFunc() {
 	slashSprite_->Draw();
 	spaceSprite_->Draw();
 	stageSprite_->Draw();
+	itemManager.DrawSprite();
 	sceneEffectManager->Draw();
 
 

@@ -116,3 +116,9 @@ void ItemManager::Draw(const ViewProjection& view)
 	}
 }
 
+void ItemManager::DrawSprite() {
+	for (std::unique_ptr<Item>& item : items)
+	{
+		item->DrawSprite();
+	}
+}

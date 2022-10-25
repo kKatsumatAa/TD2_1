@@ -30,6 +30,9 @@ void Item::Initialize(Model* model, uint32_t* textureHandle, const Vector3& pos,
 	//Õ“Ë‘®«
 	SetCollisionAttribute(kCollisionAttributeEnemy);
 	SetCollisionMask(kCollisionAttributePlayer);
+
+	bonusTime_ = new Number();
+	bonusTime_->Initialize(textureHandle_[10]);
 }
 
 void Item::Update()
@@ -48,6 +51,10 @@ void Item::Draw(const ViewProjection& view)
 
 	debugText_->SetPos(10, 100);
 	debugText_->Printf("bonusTime:%d", bonusTime);
+}
+
+void Item::DrawSprite() {
+	bonusTime_->Draw(Convert2D(worldTransform_.translation_), { 0,0,0,255 }, bonusTime);
 }
 
 Vector3 Item::GetWorldPos()
