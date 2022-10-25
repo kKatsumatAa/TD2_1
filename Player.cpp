@@ -29,6 +29,7 @@ void Player::Initialize(Model* model,Model* guideM, uint32_t* textureHandle, Han
 	isPlayer = true;
 
 	this->skillManager = skillManager;
+	this->handStop = handStop;
 
 	this->wall = wall;
 	this->gravity = gravity;
@@ -128,7 +129,7 @@ void NoGrab::Update(Tutorial* tutorial)
 	player->SetIsRush2(false);
 
 	//重力を適応
-	player->SetWorldPos(player->gravity->Move(player->GetWorldPos(), 0.2f, 0.15f));
+	player->SetWorldPos(player->gravity->Move(player->GetWorldPos(), 0.2f, 0.23f));
 
 	if (player->input_->TriggerKey(DIK_SPACE))
 	{
@@ -147,15 +148,17 @@ void OneHandRushGrab::Update(Tutorial* tutorial)
 	if (player->input_->PushKey(DIK_SPACE))
 	{
 		player->gravity->SetSugitaIsGomi(true);
+		player->handStop->SetIsStop(true);
 	}
 
 	//重力を適応
-	player->SetWorldPos(player->gravity->Move(player->GetWorldPos(), 0.2f, 0.15f));
+	player->SetWorldPos(player->gravity->Move(player->GetWorldPos(), 0.2f, 0.23f));
 
 	//掴んでいる状態でspace離したら
 	if (!player->input_->PushKey(DIK_SPACE))
 	{
 		//player->gravity->SetSugitaIsGomi(false);
+		player->handStop->SetIsStop(false);
 
 		//if (tutorial != nullptr && tutorial->GetState() == LONG_PUSH) tutorial->AddStateNum();
 
@@ -195,11 +198,11 @@ void OneHandRushAttack2::Update(Tutorial* tutorial)
 	player->SetWorldPos(player->GetWall()->isCollisionWall(player->GetWorldPos(), player->GetVelocity() * 1.5f, &isWallHit));
 
 
-	//三回小さい範囲こうげき
-	if (timer % (maxTimer / 5) == 0)
-	{
-		player->GetSkillManager()->SkillGenerate(player->GetWorldPos(), 1.0f);
-	}
+	////三回小さい範囲こうげき
+	//if (timer % (maxTimer / 5) == 0)
+	//{
+	//	player->GetSkillManager()->SkillGenerate(player->GetWorldPos(), 1.0f);
+	//}
 
 	timer++;
 
