@@ -195,11 +195,11 @@ void OneHandRushAttack2::Update(Tutorial* tutorial)
 	player->SetWorldPos(player->GetWall()->isCollisionWall(player->GetWorldPos(), player->GetVelocity() * 1.5f, &isWallHit));
 
 
-	//三回小さい範囲こうげき
-	if (timer % (maxTimer / 5) == 0)
-	{
-		player->GetSkillManager()->SkillGenerate(player->GetWorldPos(), 1.0f);
-	}
+	////三回小さい範囲こうげき
+	//if (timer % (maxTimer / 5) == 0)
+	//{
+	//	player->GetSkillManager()->SkillGenerate(player->GetWorldPos(), 1.0f);
+	//}
 
 	timer++;
 
