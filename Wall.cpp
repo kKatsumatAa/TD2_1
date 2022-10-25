@@ -82,7 +82,7 @@ void Wall::Initialize(Gravity* gravity, EffectManager* effect,Model* wall,Model*
 	wallTrans_[3].translation_ = { 0,  -20,0 };
 	wallTrans_[3].scale_ = { 35,1,3 };
 	wallTrans_[4].translation_ = { 0,0,2 };
-	wallTrans_[4].scale_ = { 40,20,0 };
+	wallTrans_[4].scale_ = { 35,20,0 };
 
 	//座標をアップデート
 	for (WorldTransform wallTrans : wallTrans_) {

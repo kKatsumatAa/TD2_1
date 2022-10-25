@@ -50,6 +50,7 @@ public:
 	Input* input_ = nullptr;
 	Gravity* gravity;
 	Guide* guide = nullptr;
+	HandStop* handStop = nullptr;
 
 	void ChangeState(PlayerHandState* state);
 

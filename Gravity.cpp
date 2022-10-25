@@ -20,6 +20,10 @@ void Gravity::Draw(ViewProjection view)
 
 Vector3 Gravity::Move(Vector3 pos, float gavitySpeed, float playerSprrd)
 {
+	if (sugitaIsGomi) {
+		playerSprrd *= 0.5f;
+	}
+
 	if (axis == Axis::DOWN) {
 		pos.y -= gavitySpeed;
 		if (pos.y < -18) {
