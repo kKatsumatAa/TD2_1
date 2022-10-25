@@ -1,5 +1,8 @@
 #pragma once
 #include "Player.h"
+#include "Number.h"
+#include "Convert2D.h"
+#include "Model.h"
 
 class Item : public Collider
 {
@@ -15,6 +18,7 @@ private:
 	GameSystem* gameSystem = nullptr;
 
 	int bonusTime = 0;
+	Number* bonusTime_ = nullptr;
 	int timer = 0;
 
 	int aliveNum = NULL;
@@ -28,6 +32,7 @@ public:
 		GameSystem* gameSystem);
 	void Update();
 	void Draw(const ViewProjection& view);
+	void DrawSprite();
 
 	int GetBonusTime() { return bonusTime; }
 

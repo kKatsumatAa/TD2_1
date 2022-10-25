@@ -117,7 +117,6 @@ void GameScene::Initialize() {
 	model_ = Model::Create();
 	playerModel_ = Model::CreateFromOBJ("ufo_", true);
 	enemyModel_ = Model::CreateFromOBJ("meteorite", true);
-	itemModel_ = Model::Create();
 	gravityBlock_ = Model::CreateFromOBJ("gravity", true);
 	aimModel_ = Model::CreateFromOBJ("aim", true);
 	wallModel_ = Model::CreateFromOBJ("wall_3", true);
@@ -140,6 +139,8 @@ void GameScene::Initialize() {
 	UITrans_.translation_ = { 22,0,0 };
 	UITrans_.UpdateMatrix();
 
+	itemModel_ = Model::CreateFromOBJ("item", true);
+
 	effectManager = new EffectManager();
 	effectManager->Initialize(textureHandle_);
 	sceneEffectManager = new SceneEffectManager();
@@ -156,11 +157,9 @@ void GameScene::Initialize() {
 
 	enemyManager.Initialize(player_, enemyModel_, textureHandle_, effectManager, &gameSystem, &itemManager);
 
-
-
 	skillManager.Initialize(model_, textureHandle_);
 
-	itemManager.Initialize(player_, model_, textureHandle_, &handStop, effectManager, &gameSystem);
+	itemManager.Initialize(player_, itemModel_, textureHandle_, &handStop, effectManager, &gameSystem);
 
 	grabityObj.Initialize(gravityBlock_, textureHandle_, gravity_);
 
@@ -536,6 +535,7 @@ void GameScene::TutorialDrawFunc() {
 	slashSprite_->Draw();
 	spaceSprite_->Draw();
 	stageSprite_->Draw();
+	itemManager.DrawSprite();
 	sceneEffectManager->Draw();
 	// デバッグテキストの描画
 	debugText_->DrawAll(commandList);
@@ -764,6 +764,7 @@ void GameScene::MainGameDrawFunc() {
 	slashSprite_->Draw();
 	spaceSprite_->Draw();
 	stageSprite_->Draw();
+	itemManager.DrawSprite();
 	sceneEffectManager->Draw();
 
 

@@ -40,6 +40,7 @@ public:
 	void Initialize(Player* player, Model* model, uint32_t* textureHandle, HandStop* handStop, EffectManager* effectManager, GameSystem* gameSystem);
 	void Update(Tutorial* tutorial = nullptr);
 	void Draw(const ViewProjection& view);
+	void DrawSprite();
 
 	//’eƒŠƒXƒg‚ğæ“¾(constQÆ)
 	const std::list<std::unique_ptr<Item>>& GetItems()
