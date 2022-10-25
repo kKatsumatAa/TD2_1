@@ -5,9 +5,11 @@
 
 
 void EnemyManager::Initialize(Player* player, Model* model, uint32_t* textureHandle, EffectManager* effectManager, GameSystem* gameSystem,
-	ItemManager* itemManager)
+	ItemManager* itemManager, Tutorial* tutorial)
 {
 	this->gameSystem = gameSystem;
+
+	this->tutorial = tutorial;
 
 	LoadEnemyPopData();
 
@@ -19,7 +21,7 @@ void EnemyManager::Initialize(Player* player, Model* model, uint32_t* textureHan
 	{
 		aliveEnemyNumber[i] = NULL;
 	}
-	 groupCount = 0;
+	groupCount = 0;
 
 	enemies.clear();
 
@@ -49,8 +51,6 @@ void EnemyManager::EnemyGenerate(const Vector3& pos, int groupNum)
 
 void EnemyManager::Update()
 {
-	
-
 	//スクリプト発生処理
 	UpdateEnemyPopCommands();
 
@@ -94,25 +94,31 @@ void EnemyManager::LoadEnemyPopData()
 
 	//ファイル開く
 	std::ifstream file;
-	switch (gameSystem->GetStage())
+
+	//チュートリアル用
+	if (tutorial != nullptr) file.open("Resources/enemyPopDatas/tutorial.csv");
+
+	else
 	{
-	case 1:
-  		file.open("Resources/enemyPopDatas/enemyPop1.csv");
-		break;
-	case 2:
- 		file.open("Resources/enemyPopDatas/enemyPop2.csv");
-		break;
-	case 3:
-		file.open("Resources/enemyPopDatas/enemyPop3.csv");
-		break;
-	case 4:
-		file.open("Resources/enemyPopDatas/enemyPop4.csv");
-		break;
-	case 5:
-		file.open("Resources/enemyPopDatas/enemyPop5.csv");
-		break;
+		switch (gameSystem->GetStage())
+		{
+		case 1:
+			file.open("Resources/enemyPopDatas/enemyPop1.csv");
+			break;
+		case 2:
+			file.open("Resources/enemyPopDatas/enemyPop2.csv");
+			break;
+		case 3:
+			file.open("Resources/enemyPopDatas/enemyPop3.csv");
+			break;
+		case 4:
+			file.open("Resources/enemyPopDatas/enemyPop4.csv");
+			break;
+		case 5:
+			file.open("Resources/enemyPopDatas/enemyPop5.csv");
+			break;
+		}
 	}
-	
 	assert(file.is_open());
 
 	//ファイルの内容を文字列ストリームにコピー
@@ -124,7 +130,7 @@ void EnemyManager::LoadEnemyPopData()
 
 void EnemyManager::UpdateEnemyPopCommands()
 {
-	
+
 	//ステージ変わったら敵消す
 	if (gameSystem->GetIsStageChange())
 	{
@@ -183,20 +189,26 @@ void EnemyManager::UpdateEnemyPopCommands()
 				getline(line_stream, word, ',');
 				float z = (float)std::atof(word.c_str());
 
+				//同じのがないか全部調べて
 				for (int i = 0; i < _countof(aliveEnemyNumber); i++)
 				{
 					if (aliveEnemyNumber[i] == groupNum && !isOnaji[0]) isOnaji[1] = true;
 					if (isOnaji[1]) break;
-
-					if (aliveEnemyNumber[i] == 0 && !isOnaji[0])
-					{
-						aliveEnemyNumber[i] = groupNum;
-						groupCount++;
-						break;
-					}
 				}
+				if (!isOnaji[1])
+				{
+					for (int i = 0; i < _countof(aliveEnemyNumber); i++)
+					{
+						if (aliveEnemyNumber[i] == 0 && !isOnaji[0])
+						{
+							aliveEnemyNumber[i] = groupNum;
+							groupCount++;
+							break;
+						}
+					}
 
-				if(!isOnaji[1]) EnemyGenerate({x,y,z}, groupNum);
+					EnemyGenerate({ x,y,z }, groupNum);
+				}
 
 				isOnaji[0] = true;
 			}
@@ -228,23 +240,27 @@ void EnemyManager::UpdateEnemyPopCommands()
 				getline(line_stream, word, ',');
 				float z = (float)std::atof(word.c_str());
 
+				//同じのがないか全部調べて
 				for (int i = 0; i < _countof(itemManager->aliveItemNumber); i++)
 				{
 					if (itemManager->aliveItemNumber[i] == groupNum && !isOnaji[0]) isOnaji[1] = true;
 					if (isOnaji[1]) break;
-
-					if (itemManager->aliveItemNumber[i] == 0 && !isOnaji[0])
+				}
+				if (!isOnaji[1])
+				{
+					for (int i = 0; i < _countof(itemManager->aliveItemNumber); i++)
 					{
-						itemManager->aliveItemNumber[i] = groupNum;
-						itemManager->groupCountI++;
-						break;
+						if (itemManager->aliveItemNumber[i] == 0 && !isOnaji[0])
+						{
+							itemManager->aliveItemNumber[i] = groupNum;
+							break;
+						}
 					}
+
+					itemManager->ItemGenerate({ x,y,z }, groupNum);
 				}
 
-				if (!isOnaji[1]) itemManager->ItemGenerate({ x,y,z }, groupNum);
-
 				isOnaji[0] = true;
-
 			}
 			//ENDコマンド
 			else if (word.find("END") == 0)
@@ -260,15 +276,16 @@ void EnemyManager::UpdateEnemyPopCommands()
 		}
 	}
 
-	int count[5] = { NULL };
+	static const int aho = 114514;
+	int count[5] = { aho,aho,aho,aho,aho };
 
 	for (std::unique_ptr<Enemy>& enemy : enemies)
 	{
-		for (int i = 0; i < _countof(aliveEnemyNumber); i++)
+		for (int i = 0; i < groupCount; i++)
 		{
 			if (enemy.get()->GetAliveNum() == aliveEnemyNumber[i] && aliveEnemyNumber[i] != 0)
 			{
-				if (count[i] == NULL)
+				if (count[i] == aho)
 				{
 					count[i] = 0;
 				}
@@ -278,31 +295,21 @@ void EnemyManager::UpdateEnemyPopCommands()
 	}
 
 	//前に詰める
-	for (int i = 0; i < _countof(aliveEnemyNumber)-2; i++)
+	for (int i = 0; i < _countof(aliveEnemyNumber); i++)
 	{
-		if (count[i] == 0)
+		if (count[i] == aho)
 		{
-			if (aliveEnemyNumber[i + 1] != 0)
+			aliveEnemyNumber[i] = 0;
+			if (i >= _countof(aliveEnemyNumber) && aliveEnemyNumber[i + 1] != 0)
+			{
 				aliveEnemyNumber[i] = aliveEnemyNumber[i + 1];
-			else aliveEnemyNumber[i] = 0;
-
-			if (aliveEnemyNumber[i + 2] == 0)
-			{
 				aliveEnemyNumber[i + 1] = 0;
-			}
-			if (count[i + 1] != 0)
-				count[i] = count[i + 1];
-
-			if (count[i + 2] == 0)
-			{
-				count[i + 1] = 0;
-				break;
 			}
 		}
 	}
 	for (int i = 0; i < groupCount; i++)
 	{
-		if (count[i] == NULL && isWait)
+		if (count[i] == aho && isWait)
 		{
 
 			isWait = false;
@@ -311,4 +318,5 @@ void EnemyManager::UpdateEnemyPopCommands()
 			break;
 		}
 	}
+
 }

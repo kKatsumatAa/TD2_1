@@ -19,7 +19,7 @@ void GameScene::DeleteGameScene() {
 	SafeDelete(stage_);
 }
 
-void GameScene::ResetGameScene() {
+void GameScene::ResetGameScene(bool isTutorial) {
 	SafeDelete(effectManager);
 	SafeDelete(sceneEffectManager);
 	SafeDelete(player_);
@@ -41,7 +41,7 @@ void GameScene::ResetGameScene() {
 	sceneEffectManager = new SceneEffectManager();
 	sceneEffectManager->Initialize(textureHandle_);
 
-	gameSystem.initialize(sceneEffectManager);
+	gameSystem.initialize(sceneEffectManager,&handStop);
 
 	gravity_ = new Gravity();
 	//gravity_->Initialize(model_);
@@ -50,7 +50,10 @@ void GameScene::ResetGameScene() {
 	player_ = new Player();
 	player_->Initialize(playerModel_, aimModel_, textureHandle_, &skillManager, &handStop, wall_, gravity_);
 
-	enemyManager.Initialize(player_, enemyModel_, textureHandle_, effectManager, &gameSystem, &itemManager);
+	if (isTutorial)
+		enemyManager.Initialize(player_, enemyModel_, textureHandle_, effectManager, &gameSystem, &itemManager, &tutorial);
+	else
+		enemyManager.Initialize(player_, enemyModel_, textureHandle_, effectManager, &gameSystem, &itemManager);
 
 	skillManager.Initialize(model_, textureHandle_);
 
@@ -117,7 +120,6 @@ void GameScene::Initialize() {
 	model_ = Model::Create();
 	playerModel_ = Model::CreateFromOBJ("ufo_", true);
 	enemyModel_ = Model::CreateFromOBJ("meteorite", true);
-	itemModel_ = Model::Create();
 	gravityBlock_ = Model::CreateFromOBJ("gravity", true);
 	aimModel_ = Model::CreateFromOBJ("aim", true);
 	wallModel_ = Model::CreateFromOBJ("wall_3", true);
@@ -140,12 +142,14 @@ void GameScene::Initialize() {
 	UITrans_.translation_ = { 22,0,0 };
 	UITrans_.UpdateMatrix();
 
+	itemModel_ = Model::CreateFromOBJ("item", true);
+
 	effectManager = new EffectManager();
 	effectManager->Initialize(textureHandle_);
 	sceneEffectManager = new SceneEffectManager();
 	sceneEffectManager->Initialize(textureHandle_);
 
-	gameSystem.initialize(sceneEffectManager);
+	gameSystem.initialize(sceneEffectManager, &handStop);
 
 	gravity_ = new Gravity();
 	//gravity_->Initialize(model_);
@@ -156,11 +160,9 @@ void GameScene::Initialize() {
 
 	enemyManager.Initialize(player_, enemyModel_, textureHandle_, effectManager, &gameSystem, &itemManager);
 
-
-
 	skillManager.Initialize(model_, textureHandle_);
 
-	itemManager.Initialize(player_, model_, textureHandle_, &handStop, effectManager, &gameSystem);
+	itemManager.Initialize(player_, itemModel_, textureHandle_, &handStop, effectManager, &gameSystem);
 
 	grabityObj.Initialize(gravityBlock_, textureHandle_, gravity_);
 
@@ -224,7 +226,7 @@ void GameScene::TitleUpdateFunc() {
 		if (Start(0.4f) == true) {
 			wall_->Start();
 			scene_ = Scene::Tutorial;
-			ResetGameScene();
+			ResetGameScene(true);
 		}
 	}
 
@@ -255,7 +257,7 @@ void GameScene::TitleUpdateFunc() {
 	if (input_->TriggerKey(DIK_P)) {
 		scene_ = Scene::Tutorial;
 		wall_->Start();
-		ResetGameScene();
+		ResetGameScene(true);
 		viewProjection_.eye = { 0,0,-50 };
 		viewProjection_.UpdateMatrix();
 		
@@ -445,7 +447,10 @@ void GameScene::TutorialUpdateFunc() {
 	viewProjection_.target = Vector3(0, 0, 0) + effectManager->ShakePow();
 	viewProjection_.UpdateMatrix();
 
-
+	if (tutorial.GetIsEnd()) {
+		scene_ = Scene::MainGame;
+		ResetGameScene();
+	}
 #ifdef _DEBUG
 	debugText_->SetPos(1100, 20);
 	debugText_->Printf("Scene = Tutorial");
@@ -536,6 +541,7 @@ void GameScene::TutorialDrawFunc() {
 	slashSprite_->Draw();
 	spaceSprite_->Draw();
 	stageSprite_->Draw();
+	itemManager.DrawSprite();
 	sceneEffectManager->Draw();
 	// デバッグテキストの描画
 	debugText_->DrawAll(commandList);
@@ -675,6 +681,16 @@ void GameScene::MainGameUpdateFunc() {
 	viewProjection_.target = Vector3(0, 0, 0) + effectManager->ShakePow();
 	viewProjection_.UpdateMatrix();
 
+
+	if (gameSystem.GetIsGameClear()) {
+		scene_ = Scene::GameClear;
+		ResetGameScene();
+	}
+	else if (gameSystem.GetIsGameOver()) {
+		scene_ = Scene::Gameover;
+		ResetGameScene();
+	}
+
 #ifdef _DEBUG
 	debugText_->SetPos(1100, 20);
 	debugText_->Printf("Scene = MainGame");
@@ -764,6 +780,7 @@ void GameScene::MainGameDrawFunc() {
 	slashSprite_->Draw();
 	spaceSprite_->Draw();
 	stageSprite_->Draw();
+	itemManager.DrawSprite();
 	sceneEffectManager->Draw();
 
 
@@ -795,6 +812,12 @@ void GameScene::GameoverUpdateFunc() {
 	}
 
 #endif
+
+	if (input_->TriggerKey(DIK_SPACE))
+	{
+		scene_ = Scene::Title;
+		ResetGameScene();
+	}
 }
 /// <summary>
 /// ゲームオーバー描画
@@ -861,6 +884,12 @@ void GameScene::GameClearUpdateFunc() {
 		scene_ = Scene::Title;
 	}
 #endif
+
+	if (input_->TriggerKey(DIK_SPACE))
+	{
+		scene_ = Scene::Title;
+		ResetGameScene();
+	}
 }
 /// <summary>
 /// ゲームクリア描画

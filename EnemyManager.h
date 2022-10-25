@@ -27,19 +27,20 @@ private:
 	bool isWait = false;
 	int groupCount = 0;
 
+	Tutorial* tutorial = nullptr;
 
 	/// <summary>
 	/// 敵発生コマンドの更新
 	/// </summary>
 	void UpdateEnemyPopCommands();
-	void EnemyGenerate(const Vector3& pos,int groupNum);
+	void EnemyGenerate(const Vector3& pos, int groupNum);
 
 
 public:
 	std::list<std::unique_ptr<Enemy>> enemies;
-	
-	void Initialize(Player* player, Model* model,  uint32_t* textureHandle,
-		EffectManager* effectManager, GameSystem* gameSystem, ItemManager* itemManager);
+
+	void Initialize(Player* player, Model* model, uint32_t* textureHandle,
+		EffectManager* effectManager, GameSystem* gameSystem, ItemManager* itemManager, Tutorial* tutorial = nullptr);
 	void Update();
 	void Draw(const ViewProjection& view);
 

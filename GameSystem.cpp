@@ -3,7 +3,7 @@
 #include<cassert>
 #include <fstream>
 
-void GameSystem::initialize(SceneEffectManager* sceneEffect)
+void GameSystem::initialize(SceneEffectManager* sceneEffect, HandStop* handStop)
 {
 	debugText_ = DebugText::GetInstance();
 	sceneEffect_ = sceneEffect;
@@ -17,6 +17,8 @@ void GameSystem::initialize(SceneEffectManager* sceneEffect)
 	time = 0;
 	//前ステージからの繰り越しの時間
 	bornusTime = 0;
+
+	this->handStop = handStop;
 
 	isGameOver = false;
 	isGameClear = false;
@@ -109,7 +111,10 @@ void GamePlay::Update(Tutorial* tutorial)
 {
 	//時間減らす
 	if (gameSystem->GetTime() > 0) {
-		gameSystem->SetTime(gameSystem->GetTime() - 1);
+		if (gameSystem->handStop->GetIsStop())
+			gameSystem->SetTime(gameSystem->GetTime() - 0.2f);
+		else
+			gameSystem->SetTime(gameSystem->GetTime() - 1.0f);
 	}
 
 	if (tutorial == nullptr)
