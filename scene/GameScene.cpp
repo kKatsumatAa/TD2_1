@@ -107,7 +107,7 @@ void GameScene::Initialize() {
 	textureHandle_[5] = TextureManager::Load("particle.png");
 	textureHandle_[6] = TextureManager::Load("meteorite_2.png");
 	textureHandle_[7] = TextureManager::Load("nextStage.png");
-	textureHandle_[8] = TextureManager::Load("gameover.png");
+	textureHandle_[8] = TextureManager::Load("timeover.png");
 	textureHandle_[9] = TextureManager::Load("dotline2.png");
 	textureHandle_[10] = TextureManager::Load("number.png");
 	textureHandle_[11] = TextureManager::Load("back/back.png");
@@ -703,11 +703,11 @@ void GameScene::MainGameUpdateFunc() {
 
 	if (gameSystem.GetIsGameClear()) {
 		scene_ = Scene::GameClear;
-		ResetGameScene();
+		//ResetGameScene();
 	}
 	else if (gameSystem.GetIsGameOver()) {
 		scene_ = Scene::Gameover;
-		ResetGameScene();
+		//ResetGameScene();
 	}
 
 #ifdef _DEBUG
@@ -820,6 +820,9 @@ void GameScene::MainGameDrawFunc() {
 void GameScene::GameoverUpdateFunc() {
 
 	sceneEffectManager->Update();
+	playerTrans_.translation_ = { 0,0,0 };
+	playerTrans_.rotation_ = { pi / 2,0,0 };
+	playerTrans_.UpdateMatrix();
 
 #ifdef _DEBUG
 	debugText_->SetPos(1100, 20);
@@ -867,7 +870,7 @@ void GameScene::GameoverDrawFunc() {
 	/// </summary>
 	
 	backModel_->Draw(backTrans_, viewProjection_, textureHandle_[11]);
-
+	playerModel_->Draw(playerTrans_, viewProjection_);
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();

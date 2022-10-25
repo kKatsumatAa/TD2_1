@@ -138,7 +138,7 @@ void GamePlay::Update(Tutorial* tutorial)
 				gameSystem->GetSceneEffect()->CheckGenerate();
 			}
 			gameSystem->SubSceneTime();
-			if (gameSystem->GetSceneTime() < 0) {
+			if (gameSystem->GetSceneTime() < 150) {
 				gameSystem->ResetSceneTime();
 				gameSystem->ChangeState(new GameOver);
 			}
