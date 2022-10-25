@@ -206,7 +206,7 @@ void OneHandRushAttack2::Update(Tutorial* tutorial)
 	if (isWallHit)
 	{
 		if (tutorial != nullptr &&
-			(tutorial->GetState() == LONG_PUSH || tutorial->GetState() == RUSH || tutorial->GetState() == GRAVITY_OBJ)) tutorial->AddStateNum();
+			(tutorial->GetState() == LONG_PUSH || tutorial->GetState() == RUSH)) tutorial->AddStateNum();
 
 		player->GetHandR()->ResetFlag();
 		player->ChangeState(new NoGrab);
