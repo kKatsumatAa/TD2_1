@@ -11,7 +11,7 @@
 class Wall
 {
 public:
-	void Initialize(Gravity* gravity, EffectManager* effect);
+	void Initialize(Gravity* gravity, EffectManager* effect, Model* wall, Model* floor);
 	void Update();
 	void Draw(ViewProjection viewProjection);
 

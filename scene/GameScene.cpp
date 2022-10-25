@@ -20,8 +20,57 @@ void GameScene::DeleteGameScene() {
 }
 
 void GameScene::ResetGameScene() {
-	DeleteGameScene();
-	Initialize();
+	SafeDelete(effectManager);
+	SafeDelete(sceneEffectManager);
+	SafeDelete(player_);
+	SafeDelete(gravity_);
+	SafeDelete(timer_);
+	SafeDelete(nolma_);
+	SafeDelete(kill_);
+	SafeDelete(stage_);
+
+
+	//ビュープロジェクションの初期化
+	viewProjection_.Initialize();
+	viewProjection_.eye = { 0,-49,-1 };
+	viewProjection_.UpdateMatrix();
+
+	//3Dモデルの生成
+	effectManager = new EffectManager();
+	effectManager->Initialize(textureHandle_);
+	sceneEffectManager = new SceneEffectManager();
+	sceneEffectManager->Initialize(textureHandle_);
+
+	gameSystem.initialize(sceneEffectManager);
+
+	gravity_ = new Gravity();
+	//gravity_->Initialize(model_);
+	wall_ = new Wall();
+	wall_->Initialize(gravity_, effectManager, wallModel_, floorModel_);
+	player_ = new Player();
+	player_->Initialize(playerModel_, aimModel_, textureHandle_, &skillManager, &handStop, wall_, gravity_);
+
+	enemyManager.Initialize(player_, enemyModel_, textureHandle_, effectManager, &gameSystem, &itemManager);
+
+	skillManager.Initialize(model_, textureHandle_);
+
+	itemManager.Initialize(player_, model_, textureHandle_, &handStop, effectManager, &gameSystem);
+
+	grabityObj.Initialize(gravityBlock_, textureHandle_, gravity_);
+
+	timer_ = new Number();
+	timer_->Initialize(textureHandle_[10]);
+	nolma_ = new Number();
+	nolma_->Initialize(textureHandle_[10]);
+	kill_ = new Number();
+	kill_->Initialize(textureHandle_[10]);
+	stage_ = new Number();
+	stage_->Initialize(textureHandle_[10]);
+
+	tutorial.Initialize();
+
+	//ワールドトランスフォームの初期化
+	worldTransform_.Initialize();
 }
 
 void (GameScene::* GameScene::sceneUpdateFuncTable[])() = {
@@ -52,6 +101,12 @@ void GameScene::Initialize() {
 	textureHandle_[2] = TextureManager::Load("cube/cube.jpg");
 	textureHandle_[3] = TextureManager::Load("axis/axis.jpg");
 	textureHandle_[4] = TextureManager::Load("sample.png");
+	textureHandle_[5] = TextureManager::Load("particle.png");
+	textureHandle_[6] = TextureManager::Load("meteorite_2.png");
+	textureHandle_[7] = TextureManager::Load("nextStage.png");
+	textureHandle_[8] = TextureManager::Load("gameover.png");
+	textureHandle_[9] = TextureManager::Load("dotline2.png");
+	textureHandle_[10] = TextureManager::Load("number.png");
 
 	//ビュープロジェクションの初期化
 	viewProjection_.Initialize();
@@ -64,6 +119,9 @@ void GameScene::Initialize() {
 	enemyModel_ = Model::CreateFromOBJ("meteorite", true);
 	itemModel_ = Model::Create();
 	gravityBlock_ = Model::CreateFromOBJ("gravity", true);
+	aimModel_ = Model::CreateFromOBJ("aim", true);
+	wallModel_ = Model::CreateFromOBJ("wall_3", true);
+	floorModel_ = Model::CreateFromOBJ("floor", true);
 
 	titleBord_ = Model::Create();
 	titleBordTrans_.Initialize();
@@ -83,18 +141,18 @@ void GameScene::Initialize() {
 	UITrans_.UpdateMatrix();
 
 	effectManager = new EffectManager();
-	effectManager->Initialize();
+	effectManager->Initialize(textureHandle_);
 	sceneEffectManager = new SceneEffectManager();
-	sceneEffectManager->Initialize();
+	sceneEffectManager->Initialize(textureHandle_);
 
 	gameSystem.initialize(sceneEffectManager);
 
 	gravity_ = new Gravity();
 	//gravity_->Initialize(model_);
 	wall_ = new Wall();
-	wall_->Initialize(gravity_, effectManager);
+	wall_->Initialize(gravity_, effectManager, wallModel_, floorModel_);
 	player_ = new Player();
-	player_->Initialize(playerModel_, textureHandle_, &skillManager, &handStop, wall_, gravity_);
+	player_->Initialize(playerModel_,aimModel_, textureHandle_, &skillManager, &handStop, wall_, gravity_);
 
 	enemyManager.Initialize(player_, enemyModel_, textureHandle_, effectManager, &gameSystem, &itemManager);
 
@@ -110,13 +168,13 @@ void GameScene::Initialize() {
 	set_->Initialize();
 
 	timer_ = new Number();
-	timer_->Initialize();
+	timer_->Initialize(textureHandle_[10]);
 	nolma_ = new Number();
-	nolma_->Initialize();
+	nolma_->Initialize(textureHandle_[10]);
 	kill_ = new Number();
-	kill_->Initialize();
+	kill_->Initialize(textureHandle_[10]);
 	stage_ = new Number();
-	stage_->Initialize();
+	stage_->Initialize(textureHandle_[10]);
 
 	timerTexture_ = TextureManager::Load("Timer.png");
 	timerSprite_ = Sprite::Create(timerTexture_, { 880,250 });
@@ -452,6 +510,7 @@ void GameScene::TutorialDrawFunc() {
 
 	UI_back_->Draw(UITrans_, viewProjection_);
 	player_->Draw(viewProjection_);
+	player_->guide->Draw(viewProjection_);
 	//gravity_->Draw(viewProjection_);
 
 	debugText_->SetPos(10, 600);
@@ -678,6 +737,7 @@ void GameScene::MainGameDrawFunc() {
 
 	UI_back_->Draw(UITrans_, viewProjection_);
 	player_->Draw(viewProjection_);
+	player_->guide->Draw(viewProjection_);
 	//gravity_->Draw(viewProjection_);
 
 	debugText_->SetPos(10, 600);
@@ -708,7 +768,7 @@ void GameScene::MainGameDrawFunc() {
 
 
 	// デバッグテキストの描画
-	debugText_->DrawAll(commandList);
+	//debugText_->DrawAll(commandList);
 	//
 	// スプライト描画後処理
 	Sprite::PostDraw();

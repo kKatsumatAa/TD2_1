@@ -3,8 +3,8 @@
 void Guide::Initialize(Model* model, uint32_t* textureHandle_)
 {
 	this->textureHandle_ = textureHandle_;
-	model_ = Model::CreateFromOBJ("aim");
-	texture_ = TextureManager::Load("dotline2.png");
+	model_ = model;
+	texture_ = textureHandle_[9];
 
 	for (int i = 0; i < Num; i++) {
 		pos_[i].Initialize();

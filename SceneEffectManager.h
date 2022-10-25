@@ -8,7 +8,7 @@
 class SceneEffectManager
 {
 public:
-	void Initialize();
+	void Initialize(uint32_t* texture);
 	void Update();
 	void Draw();
 

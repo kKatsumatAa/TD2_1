@@ -43,5 +43,5 @@ void Burst::Update() {
 }
 
 void Burst::Draw(ViewProjection viewProjection) {
-	model_->Draw(worldTransform_, viewProjection/*, texture_*/);
+	model_->Draw(worldTransform_, viewProjection, texture_);
 }
