@@ -49,7 +49,7 @@ public: // メンバ関数
 
 	void DeleteGameScene();
 
-	void ResetGameScene();
+	void ResetGameScene(bool isTutorial = false);
 	/// <summary>
 	/// 初期化
 	/// </summary>

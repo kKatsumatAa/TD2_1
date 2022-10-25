@@ -4,6 +4,7 @@
 #include"SceneEffectManager.h"
 #include "Sprite.h"
 #include "Tutorial.h"
+#include "HandStop.h"
 
 class GameSystem;
 
@@ -32,7 +33,7 @@ private:
 	//今のステージでどんだけ倒したか
 	int stageEnemyDeath = 0;
 	//残り時間
-	int time = 0;
+	float time = 0;
 	//前ステージからの繰り越しの時間
 	int bornusTime = 0;
 
@@ -57,13 +58,14 @@ public:
 	//シーン遷移の時間
 	static const int SCENE_TIME = 150;
 	int sceneTime = SCENE_TIME;
+	HandStop* handStop = nullptr;
 private:
 
 
 public:
 	void ChangeState(GameSystemState* state);
 
-	void initialize(SceneEffectManager* sceneEffect);
+	void initialize(SceneEffectManager* sceneEffect, HandStop* handStop);
 
 	void Update(Tutorial* tutorial = nullptr);
 	void Draw();
@@ -72,7 +74,7 @@ public:
 	int GetStageMax() { return stageMax; }
 	int GetStageEnemyNorma() { return stageEnemyNorma; }
 	int GetStageEnemyDeath() { return stageEnemyDeath; }
-	int GetTime() { return time; }
+	float GetTime() { return time; }
 	int GetBornusTime() { return bornusTime; }
 	bool GetIsGameOver() { return isGameOver; }
 	bool GetIsGameClear() { return isGameClear; }
@@ -87,7 +89,7 @@ public:
 	void SetStage(int stage) { this->stage = stage; }
 	void SetStageEnemyNorma(int stageEnemyNorma) { this->stageEnemyNorma = stageEnemyNorma; }
 	void SetStageEnemyDeath(int stageEnemyDeath) { this->stageEnemyDeath = stageEnemyDeath; }
-	void SetTime(int time) { this->time = time; }
+	void SetTime(float time) { this->time = time; }
 	void SetBornusTime(int bornusTime) { this->bornusTime = bornusTime; }
 	void SetIsGameOver(bool isGameOver) { this->isGameOver = isGameOver; }
 	void SetIsGameClear(bool isGameClear) { this->isGameClear = isGameClear; }

@@ -58,7 +58,7 @@ void ItemManager::Update(Tutorial* tutorial)
 		}
 
 		//前に詰める
-		for (int i = 0; i < _countof(aliveItemNumber) - 2; i++)
+		for (int i = 0; i < _countof(aliveItemNumber)-2; i++)
 		{
 			if (count[i] == 0)
 			{
