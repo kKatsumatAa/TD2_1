@@ -41,7 +41,7 @@ void GameScene::ResetGameScene(bool isTutorial) {
 	sceneEffectManager = new SceneEffectManager();
 	sceneEffectManager->Initialize(textureHandle_);
 
-	gameSystem.initialize(sceneEffectManager);
+	gameSystem.initialize(sceneEffectManager,&handStop);
 
 	gravity_ = new Gravity();
 	//gravity_->Initialize(model_);
@@ -148,7 +148,7 @@ void GameScene::Initialize() {
 	sceneEffectManager = new SceneEffectManager();
 	sceneEffectManager->Initialize(textureHandle_);
 
-	gameSystem.initialize(sceneEffectManager);
+	gameSystem.initialize(sceneEffectManager, &handStop);
 
 	gravity_ = new Gravity();
 	//gravity_->Initialize(model_);
