@@ -128,7 +128,7 @@ void NoGrab::Update(Tutorial* tutorial)
 	player->SetIsRush2(false);
 
 	//重力を適応
-	player->SetWorldPos(player->gravity->Move(player->GetWorldPos(), 0.2f, 0.25f));
+	player->SetWorldPos(player->gravity->Move(player->GetWorldPos(), 0.2f, 0.15f));
 
 	if (player->input_->TriggerKey(DIK_SPACE))
 	{
@@ -150,7 +150,7 @@ void OneHandRushGrab::Update(Tutorial* tutorial)
 	}
 
 	//重力を適応
-	player->SetWorldPos(player->gravity->Move(player->GetWorldPos(), 0.2f, 0.25f));
+	player->SetWorldPos(player->gravity->Move(player->GetWorldPos(), 0.2f, 0.15f));
 
 	//掴んでいる状態でspace離したら
 	if (!player->input_->PushKey(DIK_SPACE))
