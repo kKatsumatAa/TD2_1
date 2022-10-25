@@ -1,11 +1,11 @@
 #include "Number.h"
 #include "TextureManager.h"
 
-void Number::Initialize()
+void Number::Initialize(uint32_t texture)
 {
+	numTexture_ = texture;
 	for (int i = 0; i < 10; i++) {
 		for (int j = 0; j < 5; j++) {
-			numTexture_ = TextureManager::Load("number.png");
 			sprite_[j][i] = Sprite::Create(numTexture_, { 0,0 });
 			sprite_[j][i]->SetTextureRect({ (float)48 * i,0 }, { 48,64 });
 			sprite_[j][i]->SetSize({ 48,64 });

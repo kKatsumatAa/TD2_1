@@ -25,7 +25,7 @@ private:
 	WorldTransform worldTransformHand2_;
 	//モデル
 	Model* model_ = nullptr;
-	Model* modelHand_ = nullptr;
+	Model* modelGuide_ = nullptr;
 	//テクスチャハンドル
 	uint32_t* textureHandle_;
 	DebugText* debugText_ = nullptr;
@@ -53,7 +53,7 @@ public:
 
 	void ChangeState(PlayerHandState* state);
 
-	void Initialize(Model* model, uint32_t* textureHandle, HandSkillManager* skillManager, HandStop* handStop, Wall* wall, Gravity* gravity);
+	void Initialize(Model* model, Model* guideM, uint32_t* textureHandle, HandSkillManager* skillManager, HandStop* handStop, Wall* wall, Gravity* gravity);
 	void Update(Tutorial* tutorial = nullptr);
 	void Draw(const ViewProjection& view);
 	//手を伸ばす

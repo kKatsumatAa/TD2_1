@@ -86,7 +86,7 @@ public: // メンバ関数
 
 private: // メンバ変数
 	//テクスチャハンドル
-	uint32_t textureHandle_[10];
+	uint32_t textureHandle_[20];
 
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
@@ -134,6 +134,9 @@ private: // メンバ変数
 
 	Model* titleBord_ = nullptr;
 	Model* titleBord2_ = nullptr;
+	Model* aimModel_ = nullptr;
+	Model* wallModel_ = nullptr;
+	Model* floorModel_ = nullptr;
 
 	//ワールドトランスフォーム
 	WorldTransform worldTransform_;

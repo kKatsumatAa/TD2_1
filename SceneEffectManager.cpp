@@ -1,10 +1,10 @@
 #include "SceneEffectManager.h"
 
-void SceneEffectManager::Initialize()
+void SceneEffectManager::Initialize(uint32_t* texture)
 {
-	sceneTexture_ = TextureManager::Load("nextStage.png");
-	fishTexture_ = TextureManager::Load("particle.png");
-	gameovertexture_ = TextureManager::Load("gameover.png");
+	sceneTexture_ = texture[7];
+	fishTexture_ = texture[5];
+	gameovertexture_ = texture[8];
 }
 
 void SceneEffectManager::Update()

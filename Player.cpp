@@ -8,7 +8,7 @@ void Player::ChangeState(PlayerHandState* state)
 }
 
 //----------------------------------------------------------------------
-void Player::Initialize(Model* model, uint32_t* textureHandle, HandSkillManager* skillManager, HandStop* handStop,
+void Player::Initialize(Model* model,Model* guideM, uint32_t* textureHandle, HandSkillManager* skillManager, HandStop* handStop,
 	Wall* wall, Gravity* gravity)
 {
 	assert(model);
@@ -23,7 +23,7 @@ void Player::Initialize(Model* model, uint32_t* textureHandle, HandSkillManager*
 	isRush2 = false;
 
 	model_ = model;
-	modelHand_ = Model::Create();
+	modelGuide_ = guideM;
 	textureHandle_ = textureHandle;
 
 	isPlayer = true;
@@ -34,10 +34,7 @@ void Player::Initialize(Model* model, uint32_t* textureHandle, HandSkillManager*
 	this->gravity = gravity;
 	guide = new Guide;
 
-	guide->Initialize(model_, textureHandle_);
-
-	guide->Initialize(modelHand_, textureHandle_);
-
+	guide->Initialize(modelGuide_, textureHandle_);
 
 	//シングルトンインスタンスを取得
 	input_ = Input::GetInstance();
@@ -52,7 +49,7 @@ void Player::Initialize(Model* model, uint32_t* textureHandle, HandSkillManager*
 	worldTransformHand2_.Initialize();
 	//worldTransformHand2_.scale_ = { 1.0f,1.0f,1.0f };
 
-	handR.Initialize(modelHand_, textureHandle, wall);
+	handR.Initialize(model_, textureHandle, wall);
 
 	state = new NoGrab;
 	state->SetPlayer(this);
@@ -93,9 +90,6 @@ void Player::Draw(const ViewProjection& view)
 	model_->Draw(worldTransform_, view);
 	//modelHand_->Draw(worldTransformHand_, view, textureHandle_[0]);
 	//modelHand_->Draw(worldTransformHand2_, view, textureHandle_[0]);
-
-	guide->Draw(view);
-
 	debugText_->SetPos(10, 400);
 	debugText_->Printf("isRush:%d", isRush);
 

@@ -12,7 +12,7 @@
 class EffectManager
 {
 public:
-	void Initialize();
+	void Initialize(uint32_t* texture);
 	void Update();
 	void Draw(ViewProjection viewProjection);
 	void SpriteDraw();
@@ -35,4 +35,5 @@ private:
 
 	uint32_t particleR_ = 16;
 	uint32_t particleTexture_ = 0;
+	uint64_t burstTexture_;
 };

@@ -4,7 +4,7 @@
 class Number
 {
 public:
-	void Initialize();
+	void Initialize(uint32_t texture);
 	void Update();
 	void Draw(Vector2 pos, Vector4 color, uint32_t num);
 

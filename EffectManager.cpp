@@ -1,9 +1,10 @@
 #include "EffectManager.h"
 
-void EffectManager::Initialize()
+void EffectManager::Initialize(uint32_t* texture)
 {
 	model_ = Model::Create();
-	particleTexture_ = TextureManager::Load("particle.png");
+	particleTexture_ = texture[5];
+	burstTexture_ = texture[6];
 }
 
 void EffectManager::Update()
@@ -40,7 +41,7 @@ void EffectManager::BurstGenerate(Vector3 pos, uint32_t num, float range, float 
 {
 	for (int i = 0; i < num; i++) {
 		std::unique_ptr<Burst> newBurst = std::make_unique<Burst>();
-		newBurst->Initialize(model_, NULL, pos, range, pow);
+		newBurst->Initialize(model_, burstTexture_, pos, range, pow);
 		burst_.push_back(std::move(newBurst));
 	}
 }

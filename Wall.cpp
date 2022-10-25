@@ -1,7 +1,7 @@
 #include "Wall.h"
 static const float PI = 3.14159265f;
 
-void Wall::Initialize(Gravity* gravity, EffectManager* effect)
+void Wall::Initialize(Gravity* gravity, EffectManager* effect,Model* wall,Model* floor)
 {
 	gravity_ = gravity;
 	effect_ = effect;
@@ -14,8 +14,8 @@ void Wall::Initialize(Gravity* gravity, EffectManager* effect)
 
 	//Šp“x
 	for (int i = 0; i < 80; i++) {
-		model_[i] = Model::CreateFromOBJ("wall_3", true);
-		floor_ = Model::CreateFromOBJ("floor", true);
+		model_[i] = wall;
+		floor_ = floor;
 		modelTrans_[i].Initialize();
 		if (i <= 20) {
 			if (i % 2 == 0) {
