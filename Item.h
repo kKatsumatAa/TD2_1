@@ -2,6 +2,7 @@
 #include "Player.h"
 #include "Number.h"
 #include "Convert2D.h"
+#include "Model.h"
 
 class Item : public Collider
 {

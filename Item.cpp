@@ -6,7 +6,7 @@ void Item::Initialize(Model* model, uint32_t* textureHandle, const Vector3& pos,
 {
 	assert(model);
 
-	model_ = model;
+	model_ = Model::CreateFromOBJ("item", true);
 	textureHandle_ = textureHandle;
 
 	this->effectManager = effectManager;
@@ -25,6 +25,7 @@ void Item::Initialize(Model* model, uint32_t* textureHandle, const Vector3& pos,
 
 	worldTransform_.Initialize();
 	worldTransform_.translation_ = pos;
+	worldTransform_.rotation_ = {pi / 2,0,0};
 	worldTransform_.UpdateMatrix();
 
 	//Õ“Ë‘®«
@@ -47,7 +48,7 @@ void Item::Update()
 
 void Item::Draw(const ViewProjection& view)
 {
-	model_->Draw(worldTransform_, view, textureHandle_[4]);
+	model_->Draw(worldTransform_, view);
 
 	debugText_->SetPos(10, 100);
 	debugText_->Printf("bonusTime:%d", bonusTime);
