@@ -267,7 +267,7 @@ void GameScene::TutorialUpdateFunc() {
 	tutorial.Update();
 
 	//アイテムのプロトタイプ切替
-	if (input_->TriggerKey(DIK_Z))
+	if (input_->TriggerKey(DIK_1))
 	{
 		if (colliderManager->isItemMode) colliderManager->isItemMode = false;
 		else                             colliderManager->isItemMode = true;
@@ -496,7 +496,7 @@ void GameScene::TutorialDrawFunc() {
 void GameScene::MainGameUpdateFunc() {
 
 	//アイテムのプロトタイプ切替
-	if (input_->TriggerKey(DIK_Z))
+	if (input_->TriggerKey(DIK_1))
 	{
 		if (colliderManager->isItemMode) colliderManager->isItemMode = false;
 		else                             colliderManager->isItemMode = true;
