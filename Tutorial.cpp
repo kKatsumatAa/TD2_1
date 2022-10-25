@@ -3,7 +3,7 @@
 
 void Tutorial::Initialize()
 {
-	state = new UITutorial;
+	state = new RushTutorial;
 	state->SetTutorial(this);
 
 	input = Input::GetInstance();
@@ -36,7 +36,7 @@ void Tutorial::Draw()
 	sprite[0]->SetSize({ 100,50 });
 	sprite[1]->SetSize({ 150,50 });
 	sprite[0]->SetPosition({ 920, (float)320 + sinf(count) * 3.0f });
-	sprite[1]->SetPosition({ 920, (float)380 + sinf(count) * 3.0f });
+	sprite[1]->SetPosition({ 730, (float)630 + sinf(count) * 3.0f });
 
 	//sprite[0]->Draw();
 	//sprite[1]->Draw();
@@ -72,11 +72,11 @@ void RushTutorial::Draw()
 
 	if (num < numMax)
 	{
-		//next
-		if (num == 1) tutorial->sprite[1]->Draw();
-
 		sprite[num]->SetPosition({ 800 , 450 + sinf(count) * 5.0f });
 		sprite[num]->Draw();
+
+		//next
+		if (num == 1) tutorial->sprite[1]->Draw();
 	}
 }
 
@@ -140,11 +140,11 @@ void GravityObjTutorial::Draw()
 
 	if (num < numMax)
 	{
-		//next
-		tutorial->sprite[1]->Draw();
-
 		sprite[num]->SetPosition({ 800 , 450 + sinf(count) * 5.0f });
 		sprite[num]->Draw();
+
+		//next
+		tutorial->sprite[1]->Draw();
 	}
 }
 
@@ -209,34 +209,35 @@ void UITutorial::Draw()
 
 	if (num < numMax)
 	{
-		//next
-		tutorial->sprite[1]->Draw();
-		sprite[num]->SetPosition({ 800 , 450 + sinf(count) * 5.0f });
-		sprite[num]->Draw();
-
 		switch (num)
 		{
 		case 0:
-			tutorial->sprite[2]->SetSize({ 500 ,120  });
-			tutorial->sprite[2]->SetPosition({ 770 + sinf(count) * 5.0f , 5  });
+			tutorial->sprite[2]->SetSize({ 500 ,120 });
+			tutorial->sprite[2]->SetPosition({ 770 + sinf(count) * 5.0f , 5 });
 			tutorial->sprite[2]->Draw();
 			break;
 		case 1:
-			tutorial->sprite[2]->SetSize({ 500 ,140  });
+			tutorial->sprite[2]->SetSize({ 500 ,140 });
 			tutorial->sprite[2]->SetPosition({ 770 + sinf(count) * 5.0f , 100 });
 			tutorial->sprite[2]->Draw();
 			break;
 		case 2:
-			tutorial->sprite[2]->SetSize({ 500 ,330  });
+			tutorial->sprite[2]->SetSize({ 500 ,330 });
 			tutorial->sprite[2]->SetPosition({ 770 + sinf(count) * 5.0f , 220 });
 			tutorial->sprite[2]->Draw();
 			break;
 		case 3:
-			tutorial->sprite[2]->SetSize({ 500 ,150  });
+			tutorial->sprite[2]->SetSize({ 500 ,150 });
 			tutorial->sprite[2]->SetPosition({ 800 + sinf(count) * 5.0f , 100 });
 			tutorial->sprite[2]->Draw();
 			break;
 		}
+
+
+		sprite[num]->SetPosition({ 800 , 450 + sinf(count) * 5.0f });
+		sprite[num]->Draw();
+		//next
+		tutorial->sprite[1]->Draw();
 	}
 }
 
@@ -303,9 +304,11 @@ void LastTutorial::Draw()
 
 	if (num < numMax)
 	{
-		//next
-		tutorial->sprite[1]->Draw();
+		
 		sprite[num]->SetPosition({ 800 , 450 + sinf(count) * 5.0f });
 		sprite[num]->Draw();
+
+		//next
+		tutorial->sprite[1]->Draw();
 	}
 }
