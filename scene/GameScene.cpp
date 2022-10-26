@@ -201,8 +201,11 @@ void GameScene::Initialize() {
 	bonus_->Initialize(textureHandle_[10]);
 
 	timerTexture_ = TextureManager::Load("Timer.png");
-	timerSprite_ = Sprite::Create(timerTexture_, { 880,250 });
-	timerSprite_->SetSize({ 300, 300});
+	timerSprite_ = Sprite::Create(timerTexture_, { 830,250 });
+	timerSprite_->SetSize({ 300, 300 });
+	timerTexture2_ = TextureManager::Load("Timer.png");
+	timerSprite2_ = Sprite::Create(timerTexture_, { 1130,430 });
+	timerSprite2_->SetColor({255,255,0,255});
 	slashTexture_ = TextureManager::Load("slash.png");
 	slashSprite_ = Sprite::Create(slashTexture_, { 1010,150 });
 	spaceTexture_ = TextureManager::Load("space.png");
@@ -475,7 +478,7 @@ void GameScene::TutorialUpdateFunc() {
 		}
 
 	}
-	viewProjection_.eye = Vector3(0, 0, -49) + effectManager->ShakePow();
+	viewProjection_.eye = Vector3(0, 0, -50) + effectManager->ShakePow();
 	viewProjection_.target = Vector3(0, 0, 0) + effectManager->ShakePow();
 	viewProjection_.UpdateMatrix();
 
@@ -567,11 +570,12 @@ void GameScene::TutorialDrawFunc() {
 	/// </summary>
 	effectManager->SpriteDraw();
 	timerSprite_->Draw();
-	timer_->Draw({ 985,370 }, { 0,0,0,255 }, gameSystem.GetTime() / 60);
+	timerSprite2_->Draw();
+	timer_->Draw({ 940,370 }, { 0,0,0,255 }, gameSystem.GetTime() / 60);
 	nolma_->Draw({ 1100,150 }, { 255,255,255,255 }, gameSystem.GetStageEnemyNorma());
 	kill_->Draw({ 900,150 }, { 255,255,255,255 }, gameSystem.GetStageEnemyDeath());
 	stage_->Draw({ 1150,40 }, { 255,255,255,255 }, gameSystem.GetStage());
-	bonus_->Draw({ 1100,370 }, { 0,0,0,255 }, gameSystem.GetBornusTime());
+	bonus_->Draw({ 1175,465 }, { 0,0,0,255 }, gameSystem.GetBornusTime(),14);
 	slashSprite_->Draw();
 	//spaceSprite_->Draw();
 	stageSprite_->Draw();
@@ -719,6 +723,9 @@ void GameScene::MainGameUpdateFunc() {
 
 	if (gameSystem.GetIsGameClear()) {
 		scene_ = Scene::GameClear;
+		playerTrans_.translation_ = { 0,0,0 };
+		playerTrans_.rotation_ = { pi / 2,0,0 };
+		playerTrans_.UpdateMatrix();
 		//ResetGameScene();
 	}
 	else if (gameSystem.GetIsGameOver()) {
@@ -854,6 +861,9 @@ void GameScene::GameoverUpdateFunc() {
 	debugText_->Printf("[P] = NextScene");
 	if (input_->TriggerKey(DIK_P)) {
 		scene_ = Scene::GameClear;
+		playerTrans_.translation_ = { 0,0,0 };
+		playerTrans_.rotation_ = { pi / 2,0,0 };
+		playerTrans_.UpdateMatrix();
 	}
 
 #endif
@@ -924,6 +934,11 @@ void GameScene::GameoverDrawFunc() {
 void GameScene::GameClearUpdateFunc() {
 
 	sceneEffectManager->Update();
+	playerTrans_.rotation_.z += 0.1f;
+	ufo_ += 0.03f;
+	playerTrans_.translation_.z += sin(ufo_) * 0.4f;
+	playerTrans_.translation_.x += cos(ufo_) * 0.8f;
+	playerTrans_.UpdateMatrix();
 
 #ifdef _DEBUG
 	debugText_->SetPos(1100, 20);
@@ -971,6 +986,7 @@ void GameScene::GameClearDrawFunc() {
 	/// </summary>
 	
 	backModel_->Draw(backTrans_, viewProjection_, textureHandle_[11]);
+	playerModel_->Draw(playerTrans_, viewProjection_);
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
