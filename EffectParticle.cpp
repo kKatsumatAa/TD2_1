@@ -12,7 +12,7 @@ void Particle::Initialize(Vector3 startPos, Vector2 endPos, uint32_t r, uint32_t
 	r_ = r;
 
 	//ベジエ曲線
-	p1_ = Vector2(startPos_.x + 200,startPos_.y + 200);
+	p1_ = Vector2(startPos_.x - 300,startPos_.y - 300);
 
 	//テクスチャ
 	texture_ = texture;

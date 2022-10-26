@@ -647,7 +647,7 @@ void GameScene::TutorialDrawFunc() {
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
-	effectManager->SpriteDraw();
+	
 	timerSprite_->Draw();
 	timerSprite2_->Draw();
 	timer_->Draw({ 960,370 }, { 0,0,0,255 }, gameSystem.GetTime() / 60);
@@ -660,6 +660,7 @@ void GameScene::TutorialDrawFunc() {
 	stageSprite_->Draw();
 	itemManager.DrawSprite();
 	sceneEffectManager->Draw();
+	effectManager->SpriteDraw();
 	// デバッグテキストの描画
 	debugText_->DrawAll(commandList);
 	tutorial.Draw();
@@ -905,7 +906,7 @@ void GameScene::MainGameDrawFunc() {
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
 	//player_->guide->DrawSprite();
-	effectManager->SpriteDraw();
+	
 	timerSprite_->Draw();
 	timerSprite2_->Draw();
 	timer_->Draw({ 960,370 }, { 0,0,0,255 }, gameSystem.GetTime() / 60);
@@ -918,6 +919,7 @@ void GameScene::MainGameDrawFunc() {
 	stageSprite_->Draw();
 	itemManager.DrawSprite();
 	sceneEffectManager->Draw();
+	effectManager->SpriteDraw();
 
 	if (handStop.GetIsStop())stopSprite_->Draw();
 	// デバッグテキストの描画
