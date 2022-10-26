@@ -40,10 +40,10 @@ void SceneEffectManager::Draw()
 	}
 }
 
-void SceneEffectManager::NormalSceneEffectGenerate()
+void SceneEffectManager::NormalSceneEffectGenerate(uint32_t texture)
 {
 	std::unique_ptr<NomalSceneEffect> newEffect = std::make_unique<NomalSceneEffect>();
-	newEffect->Initialize(sceneTexture_, audio, soundDataHandle, voiceHandle);
+	newEffect->Initialize(texture_[texture], audio, soundDataHandle, voiceHandle);
 	nomal_.push_back(std::move(newEffect));
 
 	voiceHandle[6] = audio->PlayWave(soundDataHandle[6], false, 2.0f);
