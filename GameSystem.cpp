@@ -135,7 +135,9 @@ void GamePlay::Update(Tutorial* tutorial)
 		if (gameSystem->GetStageEnemyDeath() >= gameSystem->GetStageEnemyNorma())
 		{
 			if (gameSystem->GetSceneTime() == gameSystem->SCENE_TIME) {
-				gameSystem->GetSceneEffect()->NormalSceneEffectGenerate();
+				if (gameSystem->GetStage() < gameSystem->GetStageMax()) {
+ 					gameSystem->GetSceneEffect()->NormalSceneEffectGenerate();
+				}
 			}
 			gameSystem->SubSceneTime();
 			if (gameSystem->GetSceneTime() < 0) {
