@@ -747,17 +747,19 @@ void GameScene::MainGameUpdateFunc() {
 
 	if (gameSystem.GetIsGameClear()) {
 		scene_ = Scene::GameClear;
-		playerTrans_.translation_ = { 0,0,0 };
-		playerTrans_.rotation_ = { pi / 2,0,0 };
+		playerTrans_.translation_ = { 0,50,-30 };
+		playerTrans_.scale_ = { 3,3,3 };
+		playerTrans_.rotation_ = { 0,0,0 };
 		playerTrans_.UpdateMatrix();
-		//ResetGameScene();
+		ufo_ = 0;
 	}
 	else if (gameSystem.GetIsGameOver()) {
 		scene_ = Scene::Gameover;
-		playerTrans_.translation_ = { 30,20,0 };
-		playerTrans_.rotation_ = { pi / 2,0,0 };
+		playerTrans_.translation_ = { 70,50,-100 };
+		playerTrans_.scale_ = { 3,3,3 };
+		playerTrans_.rotation_ = { 0,0,0 };
 		playerTrans_.UpdateMatrix();
-		//ResetGameScene();
+		ufo_ = 0;
 	}
 
 #ifdef _DEBUG
@@ -767,9 +769,11 @@ void GameScene::MainGameUpdateFunc() {
 	debugText_->Printf("[P] = NextScene");
 	if (input_->TriggerKey(DIK_P)) {
 		scene_ = Scene::Gameover;
-		playerTrans_.translation_ = { 30,20,0 };
-		playerTrans_.rotation_ = { pi / 2,0,0 };
+		playerTrans_.translation_ = { 70,50,-100 };
+		playerTrans_.scale_ = { 3,3,3 };
+		playerTrans_.rotation_ = { 0,0,0 };
 		playerTrans_.UpdateMatrix();
+		ufo_ = 0;
 	}
 	if (input_->TriggerKey(DIK_1)) {
 		effectManager->BurstGenerate(Vector3(0, 0, 0), 10, 2.5f, 2.0f);
@@ -875,7 +879,7 @@ void GameScene::MainGameDrawFunc() {
 /// </summary>
 void GameScene::GameoverUpdateFunc() {
 	sceneEffectManager->Update();
-	playerTrans_.translation_ += {-0.5f,-0.3f,0};
+	playerTrans_.translation_ += {-0.5f,0,0.4f};
 	playerTrans_.rotation_ += {0.3f,0.1f,0.2f};
 	playerTrans_.UpdateMatrix();
 	viewProjection_.eye = { 0,-49,-40 };
@@ -892,7 +896,8 @@ void GameScene::GameoverUpdateFunc() {
 	titleTrans_.UpdateMatrix();
 
 	ufo_ += 0.03f;
-	spaceT_.translation_.y += sin(ufo_);
+	spaceT_.scale_.x = X + sinf(ufo_) * 0.3f;
+	spaceT_.scale_.y = Y + sinf(ufo_) * 0.3f;
 	spaceT_.UpdateMatrix();
 	
 #ifdef _DEBUG
@@ -902,9 +907,11 @@ void GameScene::GameoverUpdateFunc() {
 	debugText_->Printf("[P] = NextScene");
 	if (input_->TriggerKey(DIK_P)) {
 		scene_ = Scene::GameClear;
-		playerTrans_.translation_ = { 0,0,0 };
-		playerTrans_.rotation_ = { pi / 2,0,0 };
+		playerTrans_.translation_ = { 0,50,-30 };
+		playerTrans_.scale_ = { 3,3,3 };
+		playerTrans_.rotation_ = { 0,0,0 };
 		playerTrans_.UpdateMatrix();
+		ufo_ = 0;
 	}
 
 #endif
@@ -973,8 +980,12 @@ void GameScene::GameoverDrawFunc() {
 /// ゲームクリアアップデート
 /// </summary>
 void GameScene::GameClearUpdateFunc() {
+	viewProjection_.eye = { 0,-49,-40 };
+	viewProjection_.target = { 0,0,-39 };
+	viewProjection_.UpdateMatrix();
 
 	sceneEffectManager->Update();
+
 	playerTrans_.rotation_.z += 0.1f;
 	ufo_ += 0.03f;
 	playerTrans_.translation_.z += sin(ufo_) * 0.4f;
@@ -990,7 +1001,8 @@ void GameScene::GameClearUpdateFunc() {
 	titleTrans_.rotation_.y += speed_;
 	titleTrans_.UpdateMatrix();
 
-	spaceT_.translation_.y += sin(ufo_);
+	spaceT_.scale_.x = X + sinf(ufo_) * 0.3f;
+	spaceT_.scale_.y = Y + sinf(ufo_) * 0.3f;
 	spaceT_.UpdateMatrix();
 
 #ifdef _DEBUG
