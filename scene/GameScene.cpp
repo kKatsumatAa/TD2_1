@@ -37,7 +37,7 @@ void GameScene::ResetGameScene(bool title, bool isTutorial, bool mainGame, bool 
 	viewProjection_.UpdateMatrix();
 
 	playerTrans_.Initialize();
-	playerTrans_.translation_ = { 0,50,-50 };
+	playerTrans_.translation_ = { 0,50,-30 };
 	playerTrans_.scale_ = { 3,3,3 };
 	playerTrans_.rotation_ = { 0,0,0 };
 	playerTrans_.UpdateMatrix();
@@ -176,7 +176,7 @@ void GameScene::Initialize() {
 	model_ = Model::Create();
 	playerModel_ = Model::CreateFromOBJ("ufo_", true);
 	playerTrans_.Initialize();
-	playerTrans_.translation_ = { 0,50,-50 };
+	playerTrans_.translation_ = { 0,50,-30 };
 	playerTrans_.scale_ = { 3,3,3 };
 	playerTrans_.UpdateMatrix();
 
@@ -189,9 +189,9 @@ void GameScene::Initialize() {
 
 	titleModel_ = Model::CreateFromOBJ("title", true);
 	titleTrans_.Initialize();
-	titleTrans_.translation_ = { 0,200,-50 };
-	titleTrans_.scale_ = { 7,7,7 };
-	titleTrans_.rotation_ = { pi / 2,pi,0 };
+	titleTrans_.translation_ = {0,200,-130};
+	titleTrans_.scale_ = { 3,3,3 };
+	titleTrans_.rotation_ = {pi / 2,pi,0};
 	titleTrans_.UpdateMatrix();
 
 	UI_back_ = Model::CreateFromOBJ("ui_back", true);
@@ -207,6 +207,12 @@ void GameScene::Initialize() {
 	backTrans_.scale_ = { 100,100,100 };
 	backTrans_.UpdateMatrix();
 
+	spaceModel_ = Model::CreateFromOBJ("space", true);
+	spaceT_.Initialize();
+	spaceT_.translation_ = {0,200,20};
+	spaceT_.scale_ = { 2,2,2 };
+	spaceT_.rotation_ = {pi / 2,0,0};
+	spaceT_.UpdateMatrix();
 
 	effectManager = new EffectManager();
 	effectManager->Initialize(textureHandle_);
@@ -308,7 +314,20 @@ void GameScene::TitleUpdateFunc() {
 	playerTrans_.translation_.x += cos(ufo_) * 0.8f;
 	playerTrans_.UpdateMatrix();
 
+	if (titleTrans_.rotation_.y >= pi) {
+		speed_ -= 0.0001f;
+	}
+	else {
+		speed_ += 0.0001f;
+	}
+
+	titleTrans_.rotation_.y += speed_;
 	titleTrans_.UpdateMatrix();
+
+	spaceT_.translation_.y += sin(ufo_);
+	spaceT_.UpdateMatrix();
+
+	
 
 #ifdef _DEBUG
 	if (isStart == false) {
@@ -374,8 +393,9 @@ void GameScene::TitleDrawFunc() {
 	backModel_->Draw(backTrans_, viewProjection_, textureHandle_[11]);
 	wall_->Draw(viewProjection_);
 	player_->Draw(viewProjection_);
-	titleModel_->Draw(titleTrans_, viewProjection_);
 	playerModel_->Draw(playerTrans_, viewProjection_);
+	spaceModel_->Draw(spaceT_, viewProjection_);
+	titleModel_->Draw(titleTrans_, viewProjection_);
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 #pragma endregion
@@ -898,7 +918,6 @@ void GameScene::MainGameDrawFunc() {
 /// ゲームオーバーアップデート
 /// </summary>
 void GameScene::GameoverUpdateFunc() {
-
 	sceneEffectManager->Update();
 	playerTrans_.translation_ += {-0.5f, -0.3f, 0};
 	playerTrans_.rotation_ += {0.3f, 0.1f, 0.2f};
@@ -951,7 +970,7 @@ void GameScene::GameoverDrawFunc() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
-
+	
 	backModel_->Draw(backTrans_, viewProjection_, textureHandle_[11]);
 	playerModel_->Draw(playerTrans_, viewProjection_);
 
