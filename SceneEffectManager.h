@@ -13,7 +13,7 @@ public:
 	void Update();
 	void Draw();
 
-	void NormalSceneEffectGenerate();
+	void NormalSceneEffectGenerate(uint32_t texture);
 	void SchoolOfFishGenerate();
 	void CheckGenerate(uint32_t texture);
 

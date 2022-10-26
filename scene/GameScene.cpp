@@ -158,7 +158,9 @@ void GameScene::Initialize() {
 	textureHandle_[10] = TextureManager::Load("number.png");
 	textureHandle_[12] = TextureManager::Load("stop.png");
 	textureHandle_[11] = TextureManager::Load("back/back.png");
-	textureHandle_[13] = TextureManager::Load("timeover.png");
+	textureHandle_[13] = TextureManager::Load("clear.png");
+	textureHandle_[14] = TextureManager::Load("finalStage.png");
+	textureHandle_[15] = TextureManager::Load("scene_change.png");
 
 	//サウンド読み込み
 	soundDataHandle[0] = audio_->LoadWave("sound/attack.mp3");
@@ -574,7 +576,7 @@ void GameScene::TutorialUpdateFunc() {
 	}
 
 	if (input_->TriggerKey(DIK_1)) {
-		sceneEffectManager->NormalSceneEffectGenerate();
+		sceneEffectManager->NormalSceneEffectGenerate(7);
 	}
 	if (input_->PushKey(DIK_2)) {
 		sceneEffectManager->SchoolOfFishGenerate();
@@ -642,7 +644,7 @@ void GameScene::TutorialDrawFunc() {
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
-	effectManager->SpriteDraw();
+	
 	timerSprite_->Draw();
 	timerSprite2_->Draw();
 	timer_->Draw({ 960,370 }, { 0,0,0,255 }, gameSystem.GetTime() / 60);
@@ -655,6 +657,7 @@ void GameScene::TutorialDrawFunc() {
 	stageSprite_->Draw();
 	itemManager.DrawSprite();
 	sceneEffectManager->Draw();
+	effectManager->SpriteDraw();
 	// デバッグテキストの描画
 	debugText_->DrawAll(commandList);
 	tutorial.Draw();
@@ -898,7 +901,7 @@ void GameScene::MainGameDrawFunc() {
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
 	//player_->guide->DrawSprite();
-	effectManager->SpriteDraw();
+	
 	timerSprite_->Draw();
 	timerSprite2_->Draw();
 	timer_->Draw({ 960,370 }, { 0,0,0,255 }, gameSystem.GetTime() / 60);
@@ -911,6 +914,7 @@ void GameScene::MainGameDrawFunc() {
 	stageSprite_->Draw();
 	itemManager.DrawSprite();
 	sceneEffectManager->Draw();
+	effectManager->SpriteDraw();
 
 	if (handStop.GetIsStop())stopSprite_->Draw();
 	// デバッグテキストの描画
