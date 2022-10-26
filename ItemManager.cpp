@@ -99,7 +99,7 @@ void ItemManager::Update(Tutorial* tutorial)
 		if (item.get()->GetIsDead())
 		{
 			//エフェクト
-			effectManager->ParticleGenerate(item.get()->GetWorldPos(), { 890,140 });
+			effectManager->ParticleGenerate(item.get()->GetWorldPos(), { 1200,500 });
 
 			if (tutorial != nullptr && tutorial->GetState() == ITEM && tutorial->GetStateNum() != 0)tutorial->AddStateNum();
 
