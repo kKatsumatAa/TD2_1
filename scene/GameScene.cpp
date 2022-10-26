@@ -571,7 +571,7 @@ void GameScene::TutorialDrawFunc() {
 	effectManager->SpriteDraw();
 	timerSprite_->Draw();
 	timerSprite2_->Draw();
-	timer_->Draw({ 940,370 }, { 0,0,0,255 }, gameSystem.GetTime() / 60);
+	timer_->Draw({ 960,370 }, { 0,0,0,255 }, gameSystem.GetTime() / 60);
 	nolma_->Draw({ 1100,150 }, { 255,255,255,255 }, gameSystem.GetStageEnemyNorma());
 	kill_->Draw({ 900,150 }, { 255,255,255,255 }, gameSystem.GetStageEnemyDeath());
 	stage_->Draw({ 1150,40 }, { 255,255,255,255 }, gameSystem.GetStage());
@@ -821,7 +821,8 @@ void GameScene::MainGameDrawFunc() {
 	//player_->guide->DrawSprite();
 	effectManager->SpriteDraw();
 	timerSprite_->Draw();
-	timer_->Draw({ 985,370 }, {0,0,0,255}, gameSystem.GetTime() / 60);
+	timerSprite2_->Draw();
+	timer_->Draw({ 960,370 }, { 0,0,0,255 }, gameSystem.GetTime() / 60);
 	nolma_->Draw({ 1100,150 }, { 255,255,255,255 }, gameSystem.GetStageEnemyNorma());
 	kill_->Draw({ 900,150 }, { 255,255,255,255 }, gameSystem.GetStageEnemyDeath());
 	stage_->Draw({ 1150,40 }, { 255,255,255,255 }, gameSystem.GetStage());
