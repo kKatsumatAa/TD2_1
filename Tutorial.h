@@ -13,6 +13,9 @@ static enum TUTORIAL
 	LAST
 };
 
+static float width = 768/2;
+static float height = 448;
+
 class Tutorial;
 
 class TutorialState
@@ -45,6 +48,9 @@ private:
 	Input* input = nullptr;
 
 	unsigned int texhandle[10];
+
+	int skipTimer = 0;
+	static const int skipMaxTime = 120;
 	
 public:
 	Sprite* sprite[5];

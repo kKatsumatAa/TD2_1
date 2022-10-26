@@ -8,7 +8,7 @@ void Player::ChangeState(PlayerHandState* state)
 }
 
 //----------------------------------------------------------------------
-void Player::Initialize(Model* model,Model* guideM, uint32_t* textureHandle, HandSkillManager* skillManager, HandStop* handStop,
+void Player::Initialize(Model* model, Model* guideM, uint32_t* textureHandle, HandSkillManager* skillManager, HandStop* handStop,
 	Wall* wall, Gravity* gravity)
 {
 	assert(model);
@@ -209,7 +209,8 @@ void OneHandRushAttack2::Update(Tutorial* tutorial)
 	if (isWallHit)
 	{
 		if (tutorial != nullptr &&
-			(tutorial->GetState() == LONG_PUSH || tutorial->GetState() == RUSH)) tutorial->AddStateNum();
+			((tutorial->GetState() == LONG_PUSH && tutorial->GetStateNum() == 0)
+				|| tutorial->GetState() == RUSH)) tutorial->AddStateNum();
 
 		player->GetHandR()->ResetFlag();
 		player->ChangeState(new NoGrab);

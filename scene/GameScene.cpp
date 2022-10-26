@@ -119,6 +119,7 @@ void GameScene::Initialize() {
 	textureHandle_[8] = TextureManager::Load("timeover.png");
 	textureHandle_[9] = TextureManager::Load("dotline2.png");
 	textureHandle_[10] = TextureManager::Load("number.png");
+	textureHandle_[12] = TextureManager::Load("stop.png");
 	textureHandle_[11] = TextureManager::Load("back/back.png");
 
 	//ビュープロジェクションの初期化
@@ -211,6 +212,8 @@ void GameScene::Initialize() {
 	spaceSprite_ = Sprite::Create(spaceTexture_, { 900,600 });
 	stageTexture_ = TextureManager::Load("stage.png");
 	stageSprite_ = Sprite::Create(stageTexture_, { 840,40 });
+
+	stopSprite_ = Sprite::Create(textureHandle_[12], { 0,0 });
 
 	tutorial.Initialize();
 
@@ -581,6 +584,7 @@ void GameScene::TutorialDrawFunc() {
 	// デバッグテキストの描画
 	debugText_->DrawAll(commandList);
 	tutorial.Draw();
+	if (handStop.GetIsStop())stopSprite_->Draw();
 	//
 	// スプライト描画後処理
 	Sprite::PostDraw();
@@ -827,6 +831,7 @@ void GameScene::MainGameDrawFunc() {
 	itemManager.DrawSprite();
 	sceneEffectManager->Draw();
 
+	if (handStop.GetIsStop())stopSprite_->Draw();
 	// デバッグテキストの描画
 	//debugText_->DrawAll(commandList);
 	//
