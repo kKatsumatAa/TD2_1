@@ -74,7 +74,14 @@ void StageChange::Update(Tutorial* tutorial)
 	//最後のステージだったら
 	if (gameSystem->GetStage() >= gameSystem->GetStageMax())
 	{
-		gameSystem->ChangeState(new GameClear);
+		if (gameSystem->GetSceneTime() == gameSystem->SCENE_TIME) {
+			gameSystem->GetSceneEffect()->CheckGenerate();
+		}
+		gameSystem->SubSceneTime();
+		if (gameSystem->GetSceneTime() < 150) {
+			gameSystem->ResetSceneTime();
+			gameSystem->ChangeState(new GameClear);
+		}
 	}
 	else
 	{
@@ -138,7 +145,7 @@ void GamePlay::Update(Tutorial* tutorial)
 				gameSystem->GetSceneEffect()->CheckGenerate();
 			}
 			gameSystem->SubSceneTime();
-			if (gameSystem->GetSceneTime() < 0) {
+			if (gameSystem->GetSceneTime() < 150) {
 				gameSystem->ResetSceneTime();
 				gameSystem->ChangeState(new GameOver);
 			}

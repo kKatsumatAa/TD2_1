@@ -103,6 +103,7 @@ private: // メンバ変数
 	Number* nolma_ = nullptr;
 	Number* kill_ = nullptr;
 	Number* stage_ = nullptr;
+	Number* bonus_ = nullptr;
 	Sprite* timerSprite_;
 	uint32_t timerTexture_;
 	Sprite* slashSprite_;

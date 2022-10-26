@@ -6,6 +6,7 @@ void Check::Initialize(uint32_t texture)
 	for (int i = 0; i < 16; i++) {
 		for (int j = 0; j < 9;j++) {
 			sprite_[(i * 9) + j] = Sprite::Create(texture, Vector2(pos_.x + i * 80, pos_.y + j * 80));
+			sprite_[(i * 9) + j]->SetTextureRect({ pos_.x + i * 80, pos_.y + j * 80 }, {80,80});
 		}
 	}
 	for (int i = 0; i < 144; i++) {
