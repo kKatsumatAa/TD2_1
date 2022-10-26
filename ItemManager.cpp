@@ -12,8 +12,8 @@ void ItemManager::Initialize(Player* player, Model* model, uint32_t* textureHand
 		aliveItemNumber[i] = NULL;
 	}
 
-	 groupCountI = 0;
-	 items.clear();
+	groupCountI = 0;
+	items.clear();
 
 	model_ = model;
 	textureHandle_ = textureHandle;
@@ -58,7 +58,7 @@ void ItemManager::Update(Tutorial* tutorial)
 		}
 
 		//前に詰める
-		for (int i = 0; i < _countof(aliveItemNumber)-2; i++)
+		for (int i = 0; i < _countof(aliveItemNumber) - 2; i++)
 		{
 			if (count[i] == 0)
 			{
@@ -97,7 +97,7 @@ void ItemManager::Update(Tutorial* tutorial)
 			//エフェクト
 			effectManager->ParticleGenerate(item.get()->GetWorldPos(), { 890,140 });
 
-			if (tutorial != nullptr && tutorial->GetState() == ITEM)tutorial->AddStateNum();
+			if (tutorial != nullptr && tutorial->GetState() == ITEM && tutorial->GetStateNum() != 0)tutorial->AddStateNum();
 		}
 	}
 	//消す
