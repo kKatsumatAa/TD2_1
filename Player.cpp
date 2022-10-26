@@ -42,6 +42,7 @@ void Player::Initialize(Model* model, Model* guideM, uint32_t* textureHandle, Ha
 	debugText_ = DebugText::GetInstance();
 
 	worldTransform_.Initialize();
+	worldTransform_.translation_ = {0,-15,0};
 	worldTransform_.scale_ = { 1.0f,1.0f,1.0f };
 	worldTransform_.rotation_ = { 0,0,pi / 2 };
 	worldTransform_.UpdateMatrix();

@@ -826,6 +826,7 @@ void GameScene::MainGameDrawFunc() {
 	nolma_->Draw({ 1100,150 }, { 255,255,255,255 }, gameSystem.GetStageEnemyNorma());
 	kill_->Draw({ 900,150 }, { 255,255,255,255 }, gameSystem.GetStageEnemyDeath());
 	stage_->Draw({ 1150,40 }, { 255,255,255,255 }, gameSystem.GetStage());
+	bonus_->Draw({ 1175,465 }, { 0,0,0,255 }, gameSystem.GetBornusTime(), 14);
 	slashSprite_->Draw();
 	spaceSprite_->Draw();
 	stageSprite_->Draw();
