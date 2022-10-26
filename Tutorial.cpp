@@ -163,10 +163,21 @@ void LongPushTutorial::Draw()
 //------------------------------------------------------------------
 GravityObjTutorial::GravityObjTutorial()
 {
-	texhandle[0] = TextureManager::Load("tutorial/3-1.png");
-	texhandle[1] = TextureManager::Load("tutorial/3-2.png");
+	texhandle[0] = TextureManager::Load("tutorial_5.png");
+	texhandle[1] = TextureManager::Load("tutorial_6.png");
 	sprite[0] = Sprite::Create(texhandle[0], { 10,100 });
-	sprite[1] = Sprite::Create(texhandle[1], { 10,100 });
+	sprite[0]->SetTextureRect({ 0,0 }, { width,height });
+	sprite[0]->SetSize({ 350, 300 });
+	sprite[1] = Sprite::Create(texhandle[0], { 10,100 });
+	sprite[1]->SetTextureRect({ width,0 }, { width,height });
+	sprite[1]->SetSize({ 350, 300 });
+	//
+	sprite[2] = Sprite::Create(texhandle[1], { 10,100 });
+	sprite[2]->SetTextureRect({ 0,0 }, { width,height });
+	sprite[2]->SetSize({ 350, 300 });
+	sprite[3] = Sprite::Create(texhandle[1], { 10,100 });
+	sprite[3]->SetTextureRect({ width,0 }, { width,height });
+	sprite[3]->SetSize({ 350, 300 });
 }
 
 void GravityObjTutorial::Update(Input* input)
@@ -188,24 +199,47 @@ void GravityObjTutorial::Draw()
 {
 	count += 0.1f;
 
-	if (num < numMax)
+	for (int i = 0; i < 4; i++)
 	{
-		sprite[num]->SetPosition({ 800 , 400 + sinf(count) * 5.0f });
-		sprite[num]->Draw();
+		sprite[i]->SetPosition({ 800 , 400 + sinf(count) * 5.0f });
+	}
+
+	if (num == 0)
+	{
+		if ((int)count % 10 >= 5) sprite[0]->Draw();
+		else                       sprite[1]->Draw();
+	}
+	if (num == 1)
+	{
+		if ((int)count % 10 >= 5) sprite[2]->Draw();
+		else                       sprite[3]->Draw();
 	}
 }
 
 //-----------------------------------------------------------------------
 ItemTutorial::ItemTutorial()
 {
-	texhandle[0] = TextureManager::Load("tutorial/4-1.png");
-	texhandle[1] = TextureManager::Load("tutorial/4-2.png");
+	texhandle[0] = TextureManager::Load("tutorial_7.png");
+	texhandle[1] = TextureManager::Load("tutorial_8.png");
 	sprite[0] = Sprite::Create(texhandle[0], { 10,100 });
-	sprite[1] = Sprite::Create(texhandle[1], { 10,100 });
+	sprite[0]->SetTextureRect({ 0,0 }, { width,height });
+	sprite[0]->SetSize({ 350, 300 });
+	sprite[1] = Sprite::Create(texhandle[0], { 10,100 });
+	sprite[1]->SetTextureRect({ width,0 }, { width,height });
+	sprite[1]->SetSize({ 350, 300 });
+	//
+	sprite[2] = Sprite::Create(texhandle[1], { 10,100 });
+	sprite[2]->SetTextureRect({ 0,0 }, { width,height });
+	sprite[2]->SetSize({ 350, 300 });
 }
 
 void ItemTutorial::Update(Input* input)
 {
+	if (input->TriggerKey(DIK_Z) && num == 0)
+	{
+		num++;
+	}
+
 	if (num >= numMax)
 	{
 		tutorial->AddStateNum();
@@ -218,10 +252,20 @@ void ItemTutorial::Draw()
 {
 	count += 0.1f;
 
-	if (num < numMax)
+	for (int i = 0; i < 3; i++)
 	{
-		sprite[num]->SetPosition({ 800 , 400 + sinf(count) * 5.0f });
-		sprite[num]->Draw();
+		sprite[i]->SetPosition({ 800 , 400 + sinf(count) * 5.0f });
+	}
+
+	if (num == 0)
+	{
+		if ((int)count % 10 >= 5) sprite[0]->Draw();
+		else                       sprite[1]->Draw();
+	}
+	if (num == 1)
+	{
+		sprite[2]->Draw();
+
 	}
 }
 
@@ -325,8 +369,13 @@ void SystemTutorial::Draw()
 //----------------------------------------------------------------------------
 LastTutorial::LastTutorial()
 {
-	texhandle[0] = TextureManager::Load("tutorial/7-1.png");
+	texhandle[0] = TextureManager::Load("tutorial_9.png");
 	sprite[0] = Sprite::Create(texhandle[0], { 10,100 });
+	sprite[0]->SetTextureRect({ 0,0 }, { width,height });
+	sprite[0]->SetSize({ 350, 300 });
+	sprite[1] = Sprite::Create(texhandle[0], { 10,100 });
+	sprite[1]->SetTextureRect({ width,0 }, { width,height });
+	sprite[1]->SetSize({ 350, 300 });
 }
 
 void LastTutorial::Update(Input* input)
@@ -345,9 +394,14 @@ void LastTutorial::Draw()
 {
 	count += 0.1f;
 
-	if (num < numMax)
+	for (int i = 0; i < 2; i++)
 	{
-		sprite[num]->SetPosition({ 800 , 400 + sinf(count) * 5.0f });
-		sprite[num]->Draw();
+		sprite[i]->SetPosition({ 800 , 400 + sinf(count) * 5.0f });
+	}
+
+	if (num == 0)
+	{
+		if ((int)count % 10 >= 5) sprite[0]->Draw();
+		else                       sprite[1]->Draw();
 	}
 }

@@ -14,7 +14,7 @@ static enum TUTORIAL
 };
 
 static float width = 768/2;
-static float height = 448;
+static float height = 319;
 
 class Tutorial;
 
