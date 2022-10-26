@@ -18,6 +18,11 @@ private:
 
 	EffectManager* effectManager = nullptr;
 
+	//sound
+	uint32_t* soundDataHandle = nullptr;
+	uint32_t* voiceHandle = nullptr;
+	Audio* audio = nullptr;
+
 	//oŒ»‚µ‚Ä‚¢‚é“G‚Ì”Ô†‚ğ•ÛŠÇ
 	int aliveEnemyNumber[5] = { NULL,NULL,NULL,NULL,NULL };
 
@@ -40,7 +45,8 @@ public:
 	std::list<std::unique_ptr<Enemy>> enemies;
 
 	void Initialize(Player* player, Model* model, uint32_t* textureHandle,
-		EffectManager* effectManager, GameSystem* gameSystem, ItemManager* itemManager, Tutorial* tutorial = nullptr);
+		EffectManager* effectManager, GameSystem* gameSystem, ItemManager* itemManager, 
+		Audio* audio, uint32_t* soundDataHandle, uint32_t* voiceHandle, Tutorial* tutorial = nullptr);
 	void Update();
 	void Draw(const ViewProjection& view);
 

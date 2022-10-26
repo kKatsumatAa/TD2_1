@@ -1,10 +1,14 @@
 #include "Tutorial.h"
 #include "TextureManager.h"
 
-void Tutorial::Initialize()
+void Tutorial::Initialize(Audio* audio, uint32_t* soundDataHandle, uint32_t* voiceHandle)
 {
 	state = new RushTutorial;
 	state->SetTutorial(this);
+
+	this->audio = audio;
+	this->soundDataHandle = soundDataHandle;
+	this->voiceHandle = voiceHandle;
 
 	input = Input::GetInstance();
 
@@ -33,6 +37,11 @@ void Tutorial::Update()
 		skipTimer = 0;
 
 	if (skipTimer >= skipMaxTime) isEnd = true;
+
+	if (input->TriggerKey(DIK_Z))
+	{
+		voiceHandle[7] = audio->PlayWave(soundDataHandle[7]);
+	}
 }
 
 void Tutorial::Draw()

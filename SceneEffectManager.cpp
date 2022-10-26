@@ -1,10 +1,13 @@
 #include "SceneEffectManager.h"
 
-void SceneEffectManager::Initialize(uint32_t* texture)
+void SceneEffectManager::Initialize(uint32_t* texture, Audio* audio, uint32_t* soundDataHandle, uint32_t* voiceHandle)
 {
 	sceneTexture_ = texture[7];
 	fishTexture_ = texture[5];
 	gameovertexture_ = texture[8];
+	this->audio = audio;
+	this->soundDataHandle = soundDataHandle;
+	this->voiceHandle = voiceHandle;
 }
 
 void SceneEffectManager::Update()
@@ -39,8 +42,10 @@ void SceneEffectManager::Draw()
 void SceneEffectManager::NormalSceneEffectGenerate()
 {
 	std::unique_ptr<NomalSceneEffect> newEffect = std::make_unique<NomalSceneEffect>();
-	newEffect->Initialize(sceneTexture_);
+	newEffect->Initialize(sceneTexture_, audio, soundDataHandle, voiceHandle);
 	nomal_.push_back(std::move(newEffect));
+
+	voiceHandle[6] = audio->PlayWave(soundDataHandle[6], false, 2.0f);
 }
 
 void SceneEffectManager::SchoolOfFishGenerate()

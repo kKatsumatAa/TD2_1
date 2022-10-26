@@ -5,11 +5,16 @@
 
 
 void EnemyManager::Initialize(Player* player, Model* model, uint32_t* textureHandle, EffectManager* effectManager, GameSystem* gameSystem,
-	ItemManager* itemManager, Tutorial* tutorial)
+	ItemManager* itemManager,
+	Audio* audio, uint32_t* soundDataHandle, uint32_t* voiceHandle, Tutorial* tutorial)
 {
 	this->gameSystem = gameSystem;
 
 	this->tutorial = tutorial;
+	this->audio = audio;
+	this->soundDataHandle = soundDataHandle;
+	this->voiceHandle = voiceHandle;
+
 
 	LoadEnemyPopData();
 
@@ -63,6 +68,8 @@ void EnemyManager::Update()
 			effectManager->BurstGenerate(enemy.get()->GetWorldPos(), 10);
 			//倒した数増やす
 			gameSystem->SetStageEnemyDeath(gameSystem->GetStageEnemyDeath() + 1);
+
+			voiceHandle[2] = audio->PlayWave(soundDataHandle[2], false, 0.5f);
 		}
 	}
 

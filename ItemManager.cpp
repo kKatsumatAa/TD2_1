@@ -3,7 +3,7 @@
 
 
 void ItemManager::Initialize(Player* player, Model* model, uint32_t* textureHandle, HandStop* handStop, EffectManager* effectManager,
-	GameSystem* gameSystem)
+	GameSystem* gameSystem, Audio* audio, uint32_t* soundDataHandle, uint32_t* voiceHandle)
 {
 	assert(model);
 
@@ -11,6 +11,10 @@ void ItemManager::Initialize(Player* player, Model* model, uint32_t* textureHand
 	{
 		aliveItemNumber[i] = NULL;
 	}
+
+	this->audio = audio;
+	this->soundDataHandle = soundDataHandle;
+	this->voiceHandle = voiceHandle;
 
 	groupCountI = 0;
 	items.clear();
@@ -98,6 +102,8 @@ void ItemManager::Update(Tutorial* tutorial)
 			effectManager->ParticleGenerate(item.get()->GetWorldPos(), { 890,140 });
 
 			if (tutorial != nullptr && tutorial->GetState() == ITEM && tutorial->GetStateNum() != 0)tutorial->AddStateNum();
+
+			voiceHandle[11] = audio->PlayWave(soundDataHandle[11]);
 		}
 	}
 	//消す

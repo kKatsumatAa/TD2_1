@@ -9,7 +9,7 @@ void Player::ChangeState(PlayerHandState* state)
 
 //----------------------------------------------------------------------
 void Player::Initialize(Model* model, Model* guideM, uint32_t* textureHandle, HandSkillManager* skillManager, HandStop* handStop,
-	Wall* wall, Gravity* gravity)
+	Wall* wall, Gravity* gravity, Audio* audio, uint32_t* soundDataHandle, uint32_t* voiceHandle)
 {
 	assert(model);
 
@@ -35,6 +35,10 @@ void Player::Initialize(Model* model, Model* guideM, uint32_t* textureHandle, Ha
 	this->gravity = gravity;
 	guide = new Guide;
 
+	this->audio = audio;
+	this->soundDataHandle = soundDataHandle;
+	this->voiceHandle = voiceHandle;
+
 	guide->Initialize(modelGuide_, textureHandle_);
 
 	//シングルトンインスタンスを取得
@@ -42,7 +46,7 @@ void Player::Initialize(Model* model, Model* guideM, uint32_t* textureHandle, Ha
 	debugText_ = DebugText::GetInstance();
 
 	worldTransform_.Initialize();
-	worldTransform_.translation_ = {0,-15,0};
+	worldTransform_.translation_ = { 0,-15,0 };
 	worldTransform_.scale_ = { 1.0f,1.0f,1.0f };
 	worldTransform_.rotation_ = { 0,0,pi / 2 };
 	worldTransform_.UpdateMatrix();
@@ -70,19 +74,19 @@ void Player::Update(GameSystem* gameSystem, Tutorial* tutorial)
 		switch (gameSystem->GetStage())
 		{
 		case 1:
-			worldTransform_.translation_ = {  stageLeftTop.x + 18, stageLeftTop.y + radius_,0 };
+			worldTransform_.translation_ = { stageLeftTop.x + 18, stageLeftTop.y + radius_,0 };
 			break;
 		case 2:
-			worldTransform_.translation_ = {  stageLeftTop.x + 18, stageLeftTop.y + radius_,0 };
+			worldTransform_.translation_ = { stageLeftTop.x + 18, stageLeftTop.y + radius_,0 };
 			break;
 		case 3:
-			worldTransform_.translation_ = {  stageLeftTop.x + 18, stageLeftTop.y + radius_,0 };
+			worldTransform_.translation_ = { stageLeftTop.x + 18, stageLeftTop.y + radius_,0 };
 			break;
 		case 4:
-			worldTransform_.translation_ = {  stageLeftTop.x + 18, stageLeftTop.y + radius_,0 };
+			worldTransform_.translation_ = { stageLeftTop.x + 18, stageLeftTop.y + radius_,0 };
 			break;
 		case 5:
-			worldTransform_.translation_ = {  stageLeftTop.x + 18, stageLeftTop.y + radius_,0 };
+			worldTransform_.translation_ = { stageLeftTop.x + 18, stageLeftTop.y + radius_,0 };
 			break;
 		}
 	}
@@ -186,6 +190,8 @@ void OneHandRushGrab::Update(Tutorial* tutorial)
 		player->handStop->SetIsStop(false);
 
 		//if (tutorial != nullptr && tutorial->GetState() == LONG_PUSH) tutorial->AddStateNum();
+
+		player->voiceHandle[0] = player->audio->PlayWave(player->soundDataHandle[0]);
 
 		player->ChangeState(new OneHandRushAttack);
 	}

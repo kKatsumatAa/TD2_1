@@ -5,10 +5,11 @@
 #include "SchoolOfFish.h"
 #include "Check.h"
 
+
 class SceneEffectManager
 {
 public:
-	void Initialize(uint32_t* texture);
+	void Initialize(uint32_t* texture, Audio* audio, uint32_t* soundDataHandle, uint32_t* voiceHandle);
 	void Update();
 	void Draw();
 
@@ -17,6 +18,10 @@ public:
 	void CheckGenerate();
 
 private:
+	//sound
+	uint32_t* soundDataHandle = nullptr;
+	uint32_t* voiceHandle = nullptr;
+	Audio* audio = nullptr;
 	uint32_t sceneTexture_ = 0;
 	uint32_t fishTexture_ = 0;
 	uint32_t gameovertexture_ = 0;

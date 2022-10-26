@@ -48,7 +48,7 @@ void GameScene::ResetGameScene(bool title, bool isTutorial, bool mainGame, bool 
 	effectManager = new EffectManager();
 	effectManager->Initialize(textureHandle_);
 	sceneEffectManager = new SceneEffectManager();
-	sceneEffectManager->Initialize(textureHandle_);
+	sceneEffectManager->Initialize(textureHandle_, audio_, soundDataHandle, voiceHandle);
 
 	gameSystem.initialize(sceneEffectManager, &handStop);
 
@@ -57,16 +57,19 @@ void GameScene::ResetGameScene(bool title, bool isTutorial, bool mainGame, bool 
 	wall_ = new Wall();
 	wall_->Initialize(gravity_, effectManager, wallModel_, floorModel_);
 	player_ = new Player();
-	player_->Initialize(playerModel_, aimModel_, textureHandle_, &skillManager, &handStop, wall_, gravity_);
+	player_->Initialize(playerModel_, aimModel_, textureHandle_, &skillManager, &handStop, wall_, gravity_, audio_, soundDataHandle,voiceHandle);
 
 	if (isTutorial)
-		enemyManager.Initialize(player_, enemyModel_, textureHandle_, effectManager, &gameSystem, &itemManager, &tutorial);
+		enemyManager.Initialize(player_, enemyModel_, textureHandle_, effectManager, &gameSystem, &itemManager
+			, audio_, soundDataHandle, voiceHandle, &tutorial);
 	else
-		enemyManager.Initialize(player_, enemyModel_, textureHandle_, effectManager, &gameSystem, &itemManager);
+		enemyManager.Initialize(player_, enemyModel_, textureHandle_, effectManager, &gameSystem
+			, &itemManager, audio_, soundDataHandle, voiceHandle);
 
 	skillManager.Initialize(model_, textureHandle_);
 
-	itemManager.Initialize(player_, model_, textureHandle_, &handStop, effectManager, &gameSystem);
+	itemManager.Initialize(player_, model_, textureHandle_, &handStop, effectManager, &gameSystem
+		, audio_, soundDataHandle, voiceHandle);
 
 	grabityObj.Initialize(gravityBlock_, textureHandle_, gravity_);
 
@@ -79,7 +82,7 @@ void GameScene::ResetGameScene(bool title, bool isTutorial, bool mainGame, bool 
 	stage_ = new Number();
 	stage_->Initialize(textureHandle_[10]);
 
-	tutorial.Initialize();
+	tutorial.Initialize(audio_, soundDataHandle, voiceHandle);
 
 	//ワールドトランスフォームの初期化
 	worldTransform_.Initialize();
@@ -88,32 +91,37 @@ void GameScene::ResetGameScene(bool title, bool isTutorial, bool mainGame, bool 
 	{
 		for (int i = 0; i < _countof(soundDataHandle); i++)
 		{
-			audio_->StopWave(soundDataHandle[i]);
+			audio_->StopWave(voiceHandle[i]);
 		}
 
-		audio_->PlayWave(soundDataHandle[1], true);
+		voiceHandle[1] = audio_->PlayWave(soundDataHandle[1], true);
 	}
-	else if (mainGame)
-	{
-
-	}
-	else if (clear)
+	if (mainGame)
 	{
 		for (int i = 0; i < _countof(soundDataHandle); i++)
 		{
-			audio_->StopWave(soundDataHandle[i]);
+			audio_->StopWave(voiceHandle[i]);
 		}
 
-		audio_->PlayWave(soundDataHandle[3]);
+		voiceHandle[8] = audio_->PlayWave(soundDataHandle[8], true);
 	}
-	else if (over)
+	if (clear)
 	{
 		for (int i = 0; i < _countof(soundDataHandle); i++)
 		{
-			audio_->StopWave(soundDataHandle[i]);
+			audio_->StopWave(voiceHandle[i]);
 		}
 
-		audio_->PlayWave(soundDataHandle[4]);
+		voiceHandle[3] = audio_->PlayWave(soundDataHandle[3]);
+	}
+	if (over)
+	{
+		for (int i = 0; i < _countof(soundDataHandle); i++)
+		{
+			audio_->StopWave(voiceHandle[i]);
+		}
+
+		voiceHandle[4] = audio_->PlayWave(soundDataHandle[4]);
 	}
 }
 
@@ -157,14 +165,18 @@ void GameScene::Initialize() {
 	//サウンド読み込み
 	soundDataHandle[0] = audio_->LoadWave("sound/attack.mp3");
 	soundDataHandle[1] = audio_->LoadWave("sound/bgm.mp3");
-	soundDataHandle[2] = audio_->LoadWave("sound/break.mp3");
+	soundDataHandle[2] = audio_->LoadWave("sound/break2.mp3");
 	soundDataHandle[3] = audio_->LoadWave("sound/clear.mp3");
 	soundDataHandle[4] = audio_->LoadWave("sound/gameover.mp3");
 	soundDataHandle[5] = audio_->LoadWave("sound/nextstage_down.mp3");
 	soundDataHandle[6] = audio_->LoadWave("sound/nextstage_up.mp3");
 	soundDataHandle[7] = audio_->LoadWave("sound/select.mp3");
+	soundDataHandle[8] = audio_->LoadWave("sound/bgm_main.mp3");
+	soundDataHandle[9] = audio_->LoadWave("sound/slow.mp3");
+	soundDataHandle[10] = audio_->LoadWave("sound/wall.mp3");
+	soundDataHandle[11] = audio_->LoadWave("sound/break3.mp3");
 
-	audio_->PlayWave(soundDataHandle[1], true);
+	voiceHandle[1] = audio_->PlayWave(soundDataHandle[1], true);
 
 	//ビュープロジェクションの初期化
 	viewProjection_.Initialize();
@@ -189,9 +201,9 @@ void GameScene::Initialize() {
 
 	titleModel_ = Model::CreateFromOBJ("title", true);
 	titleTrans_.Initialize();
-	titleTrans_.translation_ = {0,200,-130};
+	titleTrans_.translation_ = { 0,200,-130 };
 	titleTrans_.scale_ = { 3,3,3 };
-	titleTrans_.rotation_ = {pi / 2,pi,0};
+	titleTrans_.rotation_ = { pi / 2,pi,0 };
 	titleTrans_.UpdateMatrix();
 
 	UI_back_ = Model::CreateFromOBJ("ui_back", true);
@@ -209,15 +221,15 @@ void GameScene::Initialize() {
 
 	spaceModel_ = Model::CreateFromOBJ("space", true);
 	spaceT_.Initialize();
-	spaceT_.translation_ = {0,200,20};
+	spaceT_.translation_ = { 0,200,20 };
 	spaceT_.scale_ = { 2,2,2 };
-	spaceT_.rotation_ = {pi / 2,0,0};
+	spaceT_.rotation_ = { pi / 2,0,0 };
 	spaceT_.UpdateMatrix();
 
 	effectManager = new EffectManager();
 	effectManager->Initialize(textureHandle_);
 	sceneEffectManager = new SceneEffectManager();
-	sceneEffectManager->Initialize(textureHandle_);
+	sceneEffectManager->Initialize(textureHandle_, audio_, soundDataHandle, voiceHandle);
 
 	gameSystem.initialize(sceneEffectManager, &handStop);
 
@@ -226,13 +238,15 @@ void GameScene::Initialize() {
 	wall_ = new Wall();
 	wall_->Initialize(gravity_, effectManager, wallModel_, floorModel_);
 	player_ = new Player();
-	player_->Initialize(playerModel_, aimModel_, textureHandle_, &skillManager, &handStop, wall_, gravity_);
+	player_->Initialize(playerModel_, aimModel_, textureHandle_, &skillManager, &handStop, wall_, gravity_, audio_, soundDataHandle,voiceHandle);
 
-	enemyManager.Initialize(player_, enemyModel_, textureHandle_, effectManager, &gameSystem, &itemManager);
+	enemyManager.Initialize(player_, enemyModel_, textureHandle_, effectManager, &gameSystem, &itemManager
+		, audio_, soundDataHandle, voiceHandle);
 
 	skillManager.Initialize(model_, textureHandle_);
 
-	itemManager.Initialize(player_, itemModel_, textureHandle_, &handStop, effectManager, &gameSystem);
+	itemManager.Initialize(player_, itemModel_, textureHandle_, &handStop, effectManager, &gameSystem
+		, audio_, soundDataHandle, voiceHandle);
 
 	grabityObj.Initialize(gravityBlock_, textureHandle_, gravity_);
 
@@ -265,7 +279,7 @@ void GameScene::Initialize() {
 
 	stopSprite_ = Sprite::Create(textureHandle_[12], { 0,0 });
 
-	tutorial.Initialize();
+	tutorial.Initialize(audio_, soundDataHandle, voiceHandle);
 
 	//ワールドトランスフォームの初期化
 	worldTransform_.Initialize();
@@ -297,7 +311,7 @@ void GameScene::TitleUpdateFunc() {
 	if (set_->WaitFPS() == true) {
 		if (input_->TriggerKey(DIK_SPACE)) {
 			isStart = true;
-			audio_->PlayWave(soundDataHandle[7]);
+			voiceHandle[7]=audio_->PlayWave(soundDataHandle[7]);
 		}
 	}
 	if (isStart == true) {
@@ -327,7 +341,7 @@ void GameScene::TitleUpdateFunc() {
 	spaceT_.translation_.y += sin(ufo_);
 	spaceT_.UpdateMatrix();
 
-	
+
 
 #ifdef _DEBUG
 	if (isStart == false) {
@@ -359,7 +373,7 @@ void GameScene::TitleUpdateFunc() {
 		viewProjection_.eye = { 0,0,-50 };
 		viewProjection_.UpdateMatrix();
 
-}
+	}
 #endif
 }
 /// <summary>
@@ -457,11 +471,6 @@ void GameScene::TutorialUpdateFunc() {
 		for (const std::unique_ptr<Enemy>& enemy : enemies)
 		{
 			objs.push_back(enemy.get());
-		}
-		const std::list<std::unique_ptr<Item>>& items = itemManager.GetItems();
-		for (const std::unique_ptr<Item>& item : items)
-		{
-			objs.push_back(item.get());
 		}
 
 		std::list<Collider*>::iterator itr = objs.begin();
@@ -572,7 +581,7 @@ void GameScene::TutorialUpdateFunc() {
 		sceneEffectManager->CheckGenerate();
 	}
 #endif
-	}
+}
 
 /// <summary>
 /// チュートリアル描画
@@ -697,11 +706,6 @@ void GameScene::MainGameUpdateFunc() {
 		{
 			objs.push_back(enemy.get());
 		}
-		const std::list<std::unique_ptr<Item>>& items = itemManager.GetItems();
-		for (const std::unique_ptr<Item>& item : items)
-		{
-			objs.push_back(item.get());
-		}
 
 		std::list<Collider*>::iterator itr = objs.begin();
 
@@ -825,7 +829,7 @@ void GameScene::MainGameUpdateFunc() {
 		sceneEffectManager->CheckGenerate();
 	}
 #endif
-	}
+}
 /// <summary>
 /// メインゲーム描画
 /// </summary>
@@ -933,7 +937,7 @@ void GameScene::GameoverUpdateFunc() {
 		playerTrans_.translation_ = { 0,0,0 };
 		playerTrans_.rotation_ = { pi / 2,0,0 };
 		playerTrans_.UpdateMatrix();
-}
+	}
 
 #endif
 
@@ -970,7 +974,7 @@ void GameScene::GameoverDrawFunc() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
-	
+
 	backModel_->Draw(backTrans_, viewProjection_, textureHandle_[11]);
 	playerModel_->Draw(playerTrans_, viewProjection_);
 
