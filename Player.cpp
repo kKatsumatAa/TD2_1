@@ -65,8 +65,9 @@ void Player::Initialize(Model* model, Model* guideM, uint32_t* textureHandle, Ha
 	SetCollisionMask(kCollisionAttributeEnemy);
 }
 
-void Player::Update(GameSystem* gameSystem, Tutorial* tutorial)
+void Player::Update(GameSystem* gameSystem, bool isEffect, Tutorial* tutorial)
 {
+	this->isEffect = isEffect;
 	if (gameSystem->GetIsStageChange())
 	{
 		worldTransform_.translation_ = { stageLeftTop.x + 18, stageLeftTop.y + radius_,0 };
@@ -158,7 +159,7 @@ void NoGrab::Update(Tutorial* tutorial)
 	//重力を適応
 	player->SetWorldPos(player->gravity->Move(player->GetWorldPos(), 0.2f, 0.23f));
 
-	if (player->input_->TriggerKey(DIK_SPACE))
+	if (player->input_->TriggerKey(DIK_SPACE) && player->isEffect == false)
 	{
 		player->ChangeState(new OneHandRushGrab);
 	}

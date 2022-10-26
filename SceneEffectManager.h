@@ -30,4 +30,7 @@ private:
 	std::list<std::unique_ptr<NomalSceneEffect>> nomal_;
 	std::list<std::unique_ptr<SchoolOfFish>> fish_;
 	std::list<std::unique_ptr<Check>> fade_;
+
+public:
+	bool isEffect = false;
 };

@@ -454,7 +454,7 @@ void GameScene::TutorialUpdateFunc() {
 
 	wall_->Update(&gameSystem);
 	enemyManager.Update();
-	player_->Update(&gameSystem, &tutorial);
+	player_->Update(&gameSystem,sceneEffectManager->isEffect, &tutorial);
 	skillManager.Update();
 	itemManager.Update(&tutorial);
 	effectManager->Update();
@@ -686,7 +686,7 @@ void GameScene::MainGameUpdateFunc() {
 
 	wall_->Update(&gameSystem);
 	enemyManager.Update();
-	player_->Update(&gameSystem);
+	player_->Update(&gameSystem,sceneEffectManager->isEffect);
 	skillManager.Update();
 	itemManager.Update();
 	effectManager->Update();
@@ -971,7 +971,7 @@ void GameScene::GameoverUpdateFunc() {
 
 #endif
 
-	if (input_->TriggerKey(DIK_SPACE))
+	if (input_->TriggerKey(DIK_SPACE) && sceneEffectManager->isEffect == false)
 	{
 		scene_ = Scene::Title;
 		ResetGameScene(true, false, false, false, false);
@@ -1071,7 +1071,7 @@ void GameScene::GameClearUpdateFunc() {
 	}
 #endif
 
-	if (input_->TriggerKey(DIK_SPACE))
+	if (input_->TriggerKey(DIK_SPACE) && sceneEffectManager->isEffect == false)
 	{
 		scene_ = Scene::Title;
 		ResetGameScene(true, false, false, false, false);
