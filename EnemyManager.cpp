@@ -138,7 +138,6 @@ void EnemyManager::UpdateEnemyPopCommands()
 		isWait = false;
 		groupCount = 0;
 		LoadEnemyPopData();
-		gameSystem->SetIsStageChange(false);
 		enemies.clear();
 		aliveEnemyNumber[0] = 0;
 		aliveEnemyNumber[1] = 0;

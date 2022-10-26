@@ -7,12 +7,13 @@
 #include "Vector3.h"
 #include "Gravity.h"
 #include "EffectManager.h"
+#include "GameSystem.h"
 
 class Wall
 {
 public:
 	void Initialize(Gravity* gravity, EffectManager* effect, Model* wall, Model* floor);
-	void Update();
+	void Update(GameSystem* gameSystem);
 	void Draw(ViewProjection viewProjection);
 
 	Vector3 isCollisionWall(Vector3 pos, const Vector3& velocity, bool* flag = nullptr);

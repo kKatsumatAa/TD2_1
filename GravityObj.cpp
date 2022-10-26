@@ -29,8 +29,32 @@ void GravityObj::Initialize(Model* model, uint32_t* textureHandle, Gravity* grav
 	SetCollisionMask(kCollisionAttributeEnemy);
 }
 
-void GravityObj::Update()
+void GravityObj::Update(GameSystem* gameSystem)
 {
+	if (gameSystem->GetIsStageChange())
+	{
+		worldTransform_.translation_ = { stageLeftTop.x + radius_, stageLeftTop.y + radius_,0 };
+
+		switch (gameSystem->GetStage())
+		{
+		case 1:
+			worldTransform_.translation_ = { stageLeftTop.x + radius_, stageLeftTop.y + radius_,0 };
+			break;
+		case 2:
+			worldTransform_.translation_ = { stageLeftTop.x + radius_, stageLeftTop.y + radius_,0 };
+			break;
+		case 3:
+			worldTransform_.translation_ = { stageLeftTop.x + radius_, stageLeftTop.y + radius_,0 };
+			break;
+		case 4:
+			worldTransform_.translation_ = { stageLeftTop.x + radius_, stageLeftTop.y + radius_,0 };
+			break;
+		case 5:
+			worldTransform_.translation_ = { stageLeftTop.x + radius_, stageLeftTop.y + radius_,0 };
+			break;
+		}
+	}
+
 	SetWorldPos(gravity->ObjMove(worldTransform_, 0.5f));
 	worldTransform_.UpdateMatrix();
 }

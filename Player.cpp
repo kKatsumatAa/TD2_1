@@ -60,8 +60,32 @@ void Player::Initialize(Model* model, Model* guideM, uint32_t* textureHandle, Ha
 	SetCollisionMask(kCollisionAttributeEnemy);
 }
 
-void Player::Update(Tutorial* tutorial)
+void Player::Update(GameSystem* gameSystem, Tutorial* tutorial)
 {
+	if (gameSystem->GetIsStageChange())
+	{
+		worldTransform_.translation_ = { stageLeftTop.x + 18, stageLeftTop.y + radius_,0 };
+
+		switch (gameSystem->GetStage())
+		{
+		case 1:
+			worldTransform_.translation_ = {  stageLeftTop.x + 18, stageLeftTop.y + radius_,0 };
+			break;
+		case 2:
+			worldTransform_.translation_ = {  stageLeftTop.x + 18, stageLeftTop.y + radius_,0 };
+			break;
+		case 3:
+			worldTransform_.translation_ = {  stageLeftTop.x + 18, stageLeftTop.y + radius_,0 };
+			break;
+		case 4:
+			worldTransform_.translation_ = {  stageLeftTop.x + 18, stageLeftTop.y + radius_,0 };
+			break;
+		case 5:
+			worldTransform_.translation_ = {  stageLeftTop.x + 18, stageLeftTop.y + radius_,0 };
+			break;
+		}
+	}
+
 	if (isRush || isRush2) guide->SetIsLongPush(true);
 	else                   guide->SetIsLongPush(false);
 

@@ -166,7 +166,7 @@ class UITutorial : public TutorialState
 {
 private:
 
-	const int numMax = 4;
+	const int numMax = 2;
 	int texhandle[5];
 	Sprite* sprite[5];
 

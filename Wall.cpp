@@ -92,8 +92,13 @@ void Wall::Initialize(Gravity* gravity, EffectManager* effect,Model* wall,Model*
 	}
 }
 
-void Wall::Update()
+void Wall::Update(GameSystem* gameSystem)
 {
+	if (gameSystem->GetIsStageChange())
+	{
+		gravity_->axis = Gravity::Axis::DOWN;
+	}
+
 	float angle = 0;
 
 	switch (gravity_->axis)

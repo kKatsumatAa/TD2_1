@@ -116,6 +116,11 @@ void StageChange::Draw()
 //-------------------------------------------------------------
 void GamePlay::Update(Tutorial* tutorial)
 {
+	if (gameSystem->GetIsStageChange())
+	{
+		gameSystem->SetIsStageChange(false);
+	}
+
 	//ŽžŠÔŒ¸‚ç‚·
 	if (gameSystem->GetTime() > 0) {
 		if (gameSystem->handStop->GetIsStop())
