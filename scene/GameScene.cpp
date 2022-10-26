@@ -633,9 +633,6 @@ void GameScene::TutorialDrawFunc() {
 	player_->guide->Draw(viewProjection_);
 	//gravity_->Draw(viewProjection_);
 
-	debugText_->SetPos(10, 600);
-	debugText_->Printf("アイテムのプロト:%d", colliderManager->isItemMode);
-
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 #pragma endregion
@@ -890,8 +887,6 @@ void GameScene::MainGameDrawFunc() {
 	player_->guide->Draw(viewProjection_);
 	//gravity_->Draw(viewProjection_);
 
-	debugText_->SetPos(10, 600);
-	debugText_->Printf("アイテムのプロト:%d", colliderManager->isItemMode);
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();

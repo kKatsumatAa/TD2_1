@@ -39,8 +39,8 @@ void Setting::DrawFPS(Vector2 pos) {
 		old_ = now_;
 	}
 
-	debugText_->SetPos(pos.x, pos.y);
-	debugText_->Printf("FPS = %03.0f", showFPSCount_);
+	//debugText_->SetPos(pos.x, pos.y);
+	//debugText_->Printf("FPS = %03.0f", showFPSCount_);
 }
 
 bool Setting::WaitFPS()

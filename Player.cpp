@@ -120,8 +120,6 @@ void Player::Draw(const ViewProjection& view)
 	model_->Draw(worldTransform_, view);
 	//modelHand_->Draw(worldTransformHand_, view, textureHandle_[0]);
 	//modelHand_->Draw(worldTransformHand2_, view, textureHandle_[0]);
-	debugText_->SetPos(10, 400);
-	debugText_->Printf("isRush:%d", isRush);
 
 
 	//handR.Draw(view);
