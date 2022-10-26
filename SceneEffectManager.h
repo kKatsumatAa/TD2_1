@@ -15,7 +15,7 @@ public:
 
 	void NormalSceneEffectGenerate();
 	void SchoolOfFishGenerate();
-	void CheckGenerate();
+	void CheckGenerate(uint32_t texture);
 
 private:
 	//sound
@@ -25,6 +25,7 @@ private:
 	uint32_t sceneTexture_ = 0;
 	uint32_t fishTexture_ = 0;
 	uint32_t gameovertexture_ = 0;
+	uint32_t* texture_;
 
 	std::list<std::unique_ptr<NomalSceneEffect>> nomal_;
 	std::list<std::unique_ptr<SchoolOfFish>> fish_;

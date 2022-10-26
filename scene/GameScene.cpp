@@ -21,7 +21,6 @@ void GameScene::DeleteGameScene() {
 
 void GameScene::ResetGameScene(bool title, bool isTutorial, bool mainGame, bool clear, bool over) {
 	SafeDelete(effectManager);
-	SafeDelete(sceneEffectManager);
 	SafeDelete(player_);
 	SafeDelete(gravity_);
 	SafeDelete(timer_);
@@ -47,8 +46,6 @@ void GameScene::ResetGameScene(bool title, bool isTutorial, bool mainGame, bool 
 	//3Dモデルの生成
 	effectManager = new EffectManager();
 	effectManager->Initialize(textureHandle_);
-	sceneEffectManager = new SceneEffectManager();
-	sceneEffectManager->Initialize(textureHandle_, audio_, soundDataHandle, voiceHandle);
 
 	gameSystem.initialize(sceneEffectManager, &handStop);
 
@@ -161,6 +158,7 @@ void GameScene::Initialize() {
 	textureHandle_[10] = TextureManager::Load("number.png");
 	textureHandle_[12] = TextureManager::Load("stop.png");
 	textureHandle_[11] = TextureManager::Load("back/back.png");
+	textureHandle_[13] = TextureManager::Load("timeover.png");
 
 	//サウンド読み込み
 	soundDataHandle[0] = audio_->LoadWave("sound/attack.mp3");
@@ -582,7 +580,7 @@ void GameScene::TutorialUpdateFunc() {
 		sceneEffectManager->SchoolOfFishGenerate();
 	}
 	if (input_->TriggerKey(DIK_3)) {
-		sceneEffectManager->CheckGenerate();
+		sceneEffectManager->CheckGenerate(8);
 	}
 #endif
 }
@@ -809,12 +807,12 @@ void GameScene::MainGameUpdateFunc() {
 	}
 	else if (gameSystem.GetIsGameOver()) {
 		scene_ = Scene::Gameover;
-		playerTrans_.translation_ = { 70,50,-100 };
+		ResetGameScene(false, false, false, false, true);
+		playerTrans_.translation_ = { 110,50,-130 };
 		playerTrans_.scale_ = { 3,3,3 };
 		playerTrans_.rotation_ = { 0,0,0 };
 		playerTrans_.UpdateMatrix();
 		ufo_ = 0;
-		ResetGameScene(false, false, false, false, true);
 	}
 
 #ifdef _DEBUG
@@ -837,7 +835,7 @@ void GameScene::MainGameUpdateFunc() {
 		effectManager->ParticleGenerate(Vector3(-20, 20, 0), Vector2(1000, 100));
 	}
 	if (input_->TriggerKey(DIK_3)) {
-		sceneEffectManager->CheckGenerate();
+		sceneEffectManager->CheckGenerate(8);
 	}
 #endif
 }

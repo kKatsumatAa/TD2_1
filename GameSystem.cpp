@@ -73,7 +73,7 @@ void StageChange::Update(Tutorial* tutorial)
 	if (gameSystem->GetStage() >= gameSystem->GetStageMax())
 	{
 		if (gameSystem->GetSceneTime() == gameSystem->SCENE_TIME) {
-			gameSystem->GetSceneEffect()->CheckGenerate();
+			gameSystem->GetSceneEffect()->CheckGenerate(13);
 		}
 		gameSystem->SubSceneTime();
 		if (gameSystem->GetSceneTime() < 150) {
@@ -145,7 +145,7 @@ void GamePlay::Update(Tutorial* tutorial)
 		else if (gameSystem->GetTime() <= 0)
 		{
 			if (gameSystem->GetSceneTime() == gameSystem->SCENE_TIME) {
-				gameSystem->GetSceneEffect()->CheckGenerate();
+				gameSystem->GetSceneEffect()->CheckGenerate(8);
 			}
 			gameSystem->SubSceneTime();
 			if (gameSystem->GetSceneTime() < 150) {
