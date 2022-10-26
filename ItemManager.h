@@ -22,7 +22,10 @@ private:
 	////‘Ò‹@
 	//bool isWait = false;
 	//int  waitTimer = 0;
-
+		//sound
+	uint32_t* soundDataHandle = nullptr;
+	uint32_t* voiceHandle = nullptr;
+	Audio* audio = nullptr;
 
 public:
 	//csv—p
@@ -37,7 +40,8 @@ public:
 	//bool isBossDead = false;
 
 
-	void Initialize(Player* player, Model* model, uint32_t* textureHandle, HandStop* handStop, EffectManager* effectManager, GameSystem* gameSystem);
+	void Initialize(Player* player, Model* model, uint32_t* textureHandle, HandStop* handStop, EffectManager* effectManager, GameSystem* gameSystem
+	, Audio* audio, uint32_t* soundDataHandle, uint32_t* voiceHandle);
 	void Update(Tutorial* tutorial = nullptr);
 	void Draw(const ViewProjection& view);
 	void DrawSprite();

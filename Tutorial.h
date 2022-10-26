@@ -1,6 +1,7 @@
 #pragma once
 #include"Input.h"
 #include"Sprite.h"
+#include"Audio.h"
 
 static enum TUTORIAL
 {
@@ -53,9 +54,13 @@ private:
 	static const int skipMaxTime = 120;
 	
 public:
+	//sound
+	uint32_t* soundDataHandle = nullptr;
+	uint32_t* voiceHandle = nullptr;
+	Audio* audio = nullptr;
 	Sprite* sprite[5];
 
-	void Initialize();
+	void Initialize(Audio* audio, uint32_t* soundDataHandle, uint32_t* voiceHandle);
 	void Update();
 	void Draw();
 

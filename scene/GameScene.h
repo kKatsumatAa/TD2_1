@@ -89,6 +89,7 @@ private: // メンバ変数
 	uint32_t textureHandle_[20];
 	//サウンドデータ
 	uint32_t soundDataHandle[20];
+	uint32_t voiceHandle[20];
 
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;

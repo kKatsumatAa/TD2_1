@@ -4,6 +4,7 @@
 #include"Gravity.h"
 #include "Guide.h"
 #include "Tutorial.h"
+#include "Audio.h"
 
 class Player;
 
@@ -30,6 +31,7 @@ private:
 	uint32_t* textureHandle_;
 	DebugText* debugText_ = nullptr;
 	HandSkillManager* skillManager;
+	
 
 	Wall* wall = nullptr;
 
@@ -47,6 +49,10 @@ private:
 	bool isRush2 = false;
 
 public:
+	//sound
+	uint32_t* soundDataHandle = nullptr;
+	uint32_t* voiceHandle = nullptr;
+	Audio* audio = nullptr;
 	Input* input_ = nullptr;
 	Gravity* gravity;
 	Guide* guide = nullptr;
@@ -54,7 +60,8 @@ public:
 
 	void ChangeState(PlayerHandState* state);
 
-	void Initialize(Model* model, Model* guideM, uint32_t* textureHandle, HandSkillManager* skillManager, HandStop* handStop, Wall* wall, Gravity* gravity);
+	void Initialize(Model* model, Model* guideM, uint32_t* textureHandle, HandSkillManager* skillManager, HandStop* handStop, Wall* wall, Gravity* gravity,
+		Audio* audio,uint32_t * soundDataHandle,uint32_t* voiceHandle);
 	void Update(GameSystem* gameSystem,Tutorial* tutorial = nullptr);
 	void Draw(const ViewProjection& view);
 	//éËÇêLÇŒÇ∑
