@@ -12,6 +12,7 @@ void Tutorial::Initialize()
 	state2 = RUSH;
 	isEnd = false;
 	count = 0;
+	skipTimer = 0;
 
 	texhandle[0] = TextureManager::Load("tutorial/test.png");
 	texhandle[1] = TextureManager::Load("tutorial/next.png");
@@ -25,6 +26,13 @@ void Tutorial::Initialize()
 void Tutorial::Update()
 {
 	state->Update(input);
+
+	if (input->PushKey(DIK_Z))
+		skipTimer++;
+	else
+		skipTimer = 0;
+
+	if (skipTimer >= skipMaxTime) isEnd = true;
 }
 
 void Tutorial::Draw()
