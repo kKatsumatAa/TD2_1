@@ -42,9 +42,7 @@ void Tutorial::Draw()
 	count += 0.1f;
 	//チュートリアル中の表示
 	sprite[0]->SetSize({ 100,50 });
-	sprite[1]->SetSize({ 150,50 });
 	sprite[0]->SetPosition({ 920, (float)320 + sinf(count) * 3.0f });
-	sprite[1]->SetPosition({ 730, (float)630 + sinf(count) * 3.0f });
 
 	//sprite[0]->Draw();
 	//sprite[1]->Draw();
@@ -56,10 +54,21 @@ void Tutorial::Draw()
 RushTutorial::RushTutorial()
 {
 	//RushTutorial用
-	texhandle[0] = TextureManager::Load("tutorial/1-1.png");
-	texhandle[1] = TextureManager::Load("tutorial/1-2.png");
+	texhandle[0] = TextureManager::Load("tutorial/tutorial_1.png");
+	texhandle[1] = TextureManager::Load("tutorial/tutorial_2.png");
 	sprite[0] = Sprite::Create(texhandle[0], { 10,100 });
-	sprite[1] = Sprite::Create(texhandle[1], { 10,100 });
+	sprite[0]->SetTextureRect({ 0,0 }, { width,height });
+	sprite[0]->SetSize({ 350, 300 });
+	sprite[1] = Sprite::Create(texhandle[0], { 10,100 });
+	sprite[1]->SetTextureRect({ width,0 }, { width,height });
+	sprite[1]->SetSize({ 350, 300 });
+	//
+	sprite[2] = Sprite::Create(texhandle[1], { 10,100 });
+	sprite[2]->SetTextureRect({ 0,0 }, { width,height });
+	sprite[2]->SetSize({ 350, 300 });
+	sprite[3] = Sprite::Create(texhandle[1], { 10,100 });
+	sprite[3]->SetTextureRect({ width,0 }, { width,height });
+	sprite[3]->SetSize({ 350, 300 });
 }
 
 void RushTutorial::Update(Input* input)
@@ -78,27 +87,50 @@ void RushTutorial::Draw()
 {
 	count += 0.1f;
 
-	if (num < numMax)
+	for (int i = 0; i < 4; i++)
 	{
-		sprite[num]->SetPosition({ 800 , 450 + sinf(count) * 5.0f });
-		sprite[num]->Draw();
+		sprite[i]->SetPosition({ 800 , 400 + sinf(count) * 5.0f });
+	}
 
-		//next
-		if (num == 1) tutorial->sprite[1]->Draw();
+	if (num == 0)
+	{
+		if ((int)count % 10 >= 5) sprite[0]->Draw();
+		else                       sprite[1]->Draw();
+	}
+	if (num == 1)
+	{
+		if ((int)count % 10 >= 5) sprite[2]->Draw();
+		else                       sprite[3]->Draw();
 	}
 }
 
 //-------------------------------------------------------------------------------
 LongPushTutorial::LongPushTutorial()
 {
-	texhandle[0] = TextureManager::Load("tutorial/2-1.png");
-	texhandle[1] = TextureManager::Load("tutorial/2-2.png");
+	texhandle[0] = TextureManager::Load("tutorial/tutorial_3.png");
+	texhandle[1] = TextureManager::Load("tutorial/tutorial_4.png");
 	sprite[0] = Sprite::Create(texhandle[0], { 10,100 });
-	sprite[1] = Sprite::Create(texhandle[1], { 10,100 });
+	sprite[0]->SetTextureRect({ 0,0 }, { width,height });
+	sprite[0]->SetSize({ 350, 300 });
+	sprite[1] = Sprite::Create(texhandle[0], { 10,100 });
+	sprite[1]->SetTextureRect({ width,0 }, { width,height });
+	sprite[1]->SetSize({ 350, 300 });
+	//
+	sprite[2] = Sprite::Create(texhandle[1], { 10,100 });
+	sprite[2]->SetTextureRect({ 0,0 }, { width,height });
+	sprite[2]->SetSize({ 350, 300 });
+	sprite[3] = Sprite::Create(texhandle[1], { 10,100 });
+	sprite[3]->SetTextureRect({ width,0 }, { width,height });
+	sprite[3]->SetSize({ 350, 300 });
 }
 
 void LongPushTutorial::Update(Input* input)
 {
+	if (input->TriggerKey(DIK_Z) && num == 1)
+	{
+		num++;
+	}
+
 	if (num >= numMax)
 	{
 		tutorial->AddStateNum();
@@ -111,10 +143,20 @@ void LongPushTutorial::Draw()
 {
 	count += 0.1f;
 
-	if (num < numMax)
+	for (int i = 0; i < 4; i++)
 	{
-		sprite[num]->SetPosition({ 800 , 450 + sinf(count) * 5.0f });
-		sprite[num]->Draw();
+		sprite[i]->SetPosition({ 800 , 400 + sinf(count) * 5.0f });
+	}
+
+	if (num == 0)
+	{
+		if ((int)count % 10 >= 5) sprite[0]->Draw();
+		else                       sprite[1]->Draw();
+	}
+	if (num == 1)
+	{
+		if ((int)count % 10 >= 5) sprite[2]->Draw();
+		else                       sprite[3]->Draw();
 	}
 }
 
@@ -148,11 +190,8 @@ void GravityObjTutorial::Draw()
 
 	if (num < numMax)
 	{
-		sprite[num]->SetPosition({ 800 , 450 + sinf(count) * 5.0f });
+		sprite[num]->SetPosition({ 800 , 400 + sinf(count) * 5.0f });
 		sprite[num]->Draw();
-
-		//next
-		tutorial->sprite[1]->Draw();
 	}
 }
 
@@ -181,7 +220,7 @@ void ItemTutorial::Draw()
 
 	if (num < numMax)
 	{
-		sprite[num]->SetPosition({ 800 , 450 + sinf(count) * 5.0f });
+		sprite[num]->SetPosition({ 800 , 400 + sinf(count) * 5.0f });
 		sprite[num]->Draw();
 	}
 }
@@ -242,10 +281,8 @@ void UITutorial::Draw()
 		}
 
 
-		sprite[num]->SetPosition({ 800 , 450 + sinf(count) * 5.0f });
+		sprite[num]->SetPosition({ 800 , 400 + sinf(count) * 5.0f });
 		sprite[num]->Draw();
-		//next
-		tutorial->sprite[1]->Draw();
 	}
 }
 
@@ -280,9 +317,7 @@ void SystemTutorial::Draw()
 
 	if (num < numMax)
 	{
-		//next
-		tutorial->sprite[1]->Draw();
-		sprite[num]->SetPosition({ 800 , 450 + sinf(count) * 5.0f });
+		sprite[num]->SetPosition({ 800 , 400 + sinf(count) * 5.0f });
 		sprite[num]->Draw();
 	}
 }
@@ -312,11 +347,7 @@ void LastTutorial::Draw()
 
 	if (num < numMax)
 	{
-		
-		sprite[num]->SetPosition({ 800 , 450 + sinf(count) * 5.0f });
+		sprite[num]->SetPosition({ 800 , 400 + sinf(count) * 5.0f });
 		sprite[num]->Draw();
-
-		//next
-		tutorial->sprite[1]->Draw();
 	}
 }

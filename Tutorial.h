@@ -13,6 +13,9 @@ static enum TUTORIAL
 	LAST
 };
 
+static float width = 768/2;
+static float height = 448;
+
 class Tutorial;
 
 class TutorialState
