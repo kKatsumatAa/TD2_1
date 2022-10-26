@@ -142,6 +142,7 @@ private: // メンバ変数
 	Model* floorModel_ = nullptr;
 	Model* titleModel_ = nullptr;
 	Model* backModel_ = nullptr;
+	Model* spaceModel_ = nullptr;
 
 	//ワールドトランスフォーム
 	WorldTransform worldTransform_;
@@ -151,6 +152,7 @@ private: // メンバ変数
 	WorldTransform titleTrans_;
 	WorldTransform backTrans_;
 	WorldTransform playerTrans_;
+	WorldTransform spaceT_;
 
 	//シーン
 	Scene scene_ = Scene::Title;
@@ -170,6 +172,8 @@ private: // メンバ変数
 	Vector3 vec;
 	Vector3 pos;
 	float ufo_ = 0;
+	float speed_ = 0.005f;
+	bool way_ = 0;
 	Tutorial tutorial;
 	/// <summary>
 	/// ゲームシーン用
