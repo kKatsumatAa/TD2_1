@@ -90,7 +90,10 @@ void StageChange::Update(Tutorial* tutorial)
 		gameSystem->UpdateStageSystemCommands();
 
 		//制限時間にボーナスタイムを追加
-		gameSystem->SetTime(gameSystem->GetTime() + gameSystem->GetBornusTime());
+		int a = gameSystem->GetTime();
+		int b = gameSystem->GetBornusTime();
+		gameSystem->SetTime(gameSystem->GetTime() + gameSystem->GetBornusTime() * 60);
+		int c = gameSystem->GetTime();
 		gameSystem->SetBornusTime(0);
 
 		//倒した数をリセット
