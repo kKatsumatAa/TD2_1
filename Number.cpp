@@ -18,8 +18,14 @@ void Number::Update()
 
 }
 
-void Number::Draw(Vector2 pos,Vector4 color, uint32_t num)
+void Number::Draw(Vector2 pos,Vector4 color, uint32_t num, uint32_t size)
 {
+	for (int i = 0; i < 10; i++) {
+		for (int j = 0; j < 5; j++) {
+			sprite_[j][i]->SetSize({ (float)size * 3,(float)size * 4 });
+		}
+	}
+
 	for (int i = 0; i < 10; i++) {
 		for (int j = 0; j < 5; j++) {
 			sprite_[j][i]->SetPosition(pos);
@@ -31,7 +37,7 @@ void Number::Draw(Vector2 pos,Vector4 color, uint32_t num)
 	}
 	else if (num < 100) {
 		sprite_[0][num / 10]->Draw();
-		pos.x += 48;
+		pos.x += (float)size * 3;
 		for (int i = 0; i < 10; i++) {
 			for (int j = 0; j < 5; j++) {
 				sprite_[j][i]->SetPosition(pos);
@@ -41,14 +47,14 @@ void Number::Draw(Vector2 pos,Vector4 color, uint32_t num)
 	}
 	else if (num < 1000) {
 		sprite_[0][num / 100]->Draw();
-		pos.x += 48;
+		pos.x += (float)size * 3;
 		for (int i = 0; i < 10; i++) {
 			for (int j = 0; j < 5; j++) {
 				sprite_[j][i]->SetPosition(pos);
 			}
 		}
 		sprite_[1][num / 10 % 10]->Draw();
-		pos.x += 48;
+		pos.x += (float)size * 3;
 		for (int i = 0; i < 10; i++) {
 			for (int j = 0; j < 5; j++) {
 				sprite_[j][i]->SetPosition(pos);
@@ -58,21 +64,21 @@ void Number::Draw(Vector2 pos,Vector4 color, uint32_t num)
 	}
 	else if (num < 10000) {
 		sprite_[0][num / 1000]->Draw();
-		pos.x += 48;
+		pos.x += (float)size * 3;
 		for (int i = 0; i < 10; i++) {
 			for (int j = 0; j < 5; j++) {
 				sprite_[j][i]->SetPosition(pos);
 			}
 		}
 		sprite_[1][num / 100 % 10]->Draw();
-		pos.x += 48;
+		pos.x += (float)size * 3;
 		for (int i = 0; i < 10; i++) {
 			for (int j = 0; j < 5; j++) {
 				sprite_[j][i]->SetPosition(pos);
 			}
 		}
 		sprite_[2][num / 10 % 10]->Draw();
-		pos.x += 48;
+		pos.x += (float)size * 3;
 		for (int i = 0; i < 10; i++) {
 			for (int j = 0; j < 5; j++) {
 				sprite_[j][i]->SetPosition(pos);
@@ -82,28 +88,28 @@ void Number::Draw(Vector2 pos,Vector4 color, uint32_t num)
 	}
 	else if (num < 100000) {
 		sprite_[0][num / 10000]->Draw();
-		pos.x += 48;
+		pos.x += (float)size * 3;
 		for (int i = 0; i < 10; i++) {
 			for (int j = 0; j < 5; j++) {
 				sprite_[j][i]->SetPosition(pos);
 			}
 		}
 		sprite_[1][num / 1000 % 10]->Draw();
-		pos.x += 48;
+		pos.x += (float)size * 3;
 		for (int i = 0; i < 10; i++) {
 			for (int j = 0; j < 5; j++) {
 				sprite_[j][i]->SetPosition(pos);
 			}
 		}
 		sprite_[2][num / 100 % 10]->Draw();
-		pos.x += 48;
+		pos.x += (float)size * 3;
 		for (int i = 0; i < 10; i++) {
 			for (int j = 0; j < 5; j++) {
 				sprite_[j][i]->SetPosition(pos);
 			}
 		}
 		sprite_[3][num / 10 % 10]->Draw();
-		pos.x += 48;
+		pos.x += (float)size * 3;
 		for (int i = 0; i < 10; i++) {
 			for (int j = 0; j < 5; j++) {
 				sprite_[j][i]->SetPosition(pos);
