@@ -49,9 +49,6 @@ void Item::Update()
 void Item::Draw(const ViewProjection& view)
 {
 	model_->Draw(worldTransform_, view);
-
-	debugText_->SetPos(10, 100);
-	debugText_->Printf("bonusTime:%d", bonusTime);
 }
 
 void Item::DrawSprite() {

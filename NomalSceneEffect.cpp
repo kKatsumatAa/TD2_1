@@ -22,7 +22,7 @@ void NomalSceneEffect::Update()
 	}
 	if (timer_ <= 0 && !(oldTime <= 0))
 	{
-		voiceHandle[5] = audio->PlayWave(soundDataHandle[5], false, 2.0f);
+ 		voiceHandle[5] = audio->PlayWave(soundDataHandle[5], false, 2.0f);
 	}
 	if (back_ == true && timer_ <= 0) {
 		pos_.x -= speed_;

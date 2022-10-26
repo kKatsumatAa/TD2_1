@@ -42,18 +42,6 @@ void PlayerHand::Update(const float& angle, const Vector3& playerPos)
 void PlayerHand::Draw(const ViewProjection& viewProjection)
 {
 	model_->Draw(worldTransform_, viewProjection, textureHandle_[1]);
-	debugText_->SetPos(0, 0);
-	debugText_->Printf("%f,%f,%f", worldTransform_.translation_.x, worldTransform_.translation_.y, worldTransform_.translation_.z);
-	debugText_->SetPos(0, 10);
-	debugText_->Printf("isuse:%d", IsUse);
-	debugText_->SetPos(0, 25);
-	debugText_->Printf("isback:%d", IsBack);
-	debugText_->SetPos(0, 40);
-	debugText_->Printf("isGo:%d", IsGo);
-	debugText_->SetPos(0, 55);
-	debugText_->Printf("isGrab:%d", IsGrab);
-	debugText_->SetPos(0, 70);
-	debugText_->Printf("handCount%d", handCount);
 }
 
 Vector3 PlayerHand::GetWorldPos()

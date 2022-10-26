@@ -8,6 +8,7 @@ void SceneEffectManager::Initialize(uint32_t* texture, Audio* audio, uint32_t* s
 	this->audio = audio;
 	this->soundDataHandle = soundDataHandle;
 	this->voiceHandle = voiceHandle;
+	texture_ = texture;
 }
 
 void SceneEffectManager::Update()
@@ -55,10 +56,11 @@ void SceneEffectManager::SchoolOfFishGenerate()
 	fish_.push_back(std::move(newFish));
 }
 
-void SceneEffectManager::CheckGenerate()
+void SceneEffectManager::CheckGenerate(uint32_t texture)
 {
 	std::unique_ptr<Check> newFade = std::make_unique<Check>();
-	newFade->Initialize(gameovertexture_);
+	newFade->Initialize(texture_[texture], audio, soundDataHandle, voiceHandle);
 	fade_.push_back(std::move(newFade));
+	voiceHandle[6] = audio->PlayWave(soundDataHandle[6], false, 2.0f);
 }
 
