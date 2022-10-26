@@ -698,6 +698,10 @@ void GameScene::MainGameUpdateFunc() {
 
 	gameSystem.Update();
 
+	if (gameSystem.GetIsStageChange()) {
+		gravity_->playerWay = Gravity::Way::CLOCK;
+	}
+
 	//一番近いobjの方をplayerが向くように
 	float length = NULL;
 	Vector3 vec;
