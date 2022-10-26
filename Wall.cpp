@@ -81,8 +81,10 @@ void Wall::Initialize(Gravity* gravity, EffectManager* effect,Model* wall,Model*
 	wallTrans_[2].scale_ = { 35,1,3 };
 	wallTrans_[3].translation_ = { 0,  -20,0 };
 	wallTrans_[3].scale_ = { 35,1,3 };
-	wallTrans_[4].translation_ = { 0,0,2 };
-	wallTrans_[4].scale_ = { 35,20,0 };
+	wallTrans_[4].translation_ = { -15,0,2 };
+	wallTrans_[4].scale_ = { 21,21,0 };
+
+
 
 	//座標をアップデート
 	for (WorldTransform wallTrans : wallTrans_) {
@@ -92,6 +94,25 @@ void Wall::Initialize(Gravity* gravity, EffectManager* effect,Model* wall,Model*
 
 void Wall::Update()
 {
+	float angle = 0;
+
+	switch (gravity_->axis)
+	{
+	case Gravity::Axis::DOWN:
+		angle = 0;
+		break;
+	case Gravity::Axis::UP:
+		angle = -pi;
+		break;
+	case Gravity::Axis::LEFT:
+		angle = -pi / 2.0f;
+		break;
+	case Gravity::Axis::RIGHT:
+		angle = pi / 2.0f;
+		break;
+	}
+	wallTrans_[4].rotation_ = { 0,0,angle };
+
 	//座標をアップデート
 	for (WorldTransform wallTrans : wallTrans_) {
 		wallTrans.UpdateMatrix();

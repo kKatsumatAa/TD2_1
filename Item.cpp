@@ -25,7 +25,7 @@ void Item::Initialize(Model* model, uint32_t* textureHandle, const Vector3& pos,
 
 	worldTransform_.Initialize();
 	worldTransform_.translation_ = pos;
-	worldTransform_.rotation_ = {pi / 2,0,0};
+	worldTransform_.rotation_ = { pi / 2,0,0 };
 	worldTransform_.UpdateMatrix();
 
 	//衝突属性
@@ -72,6 +72,7 @@ void Item::OnCollision(Collider& collider)
 	{
 		//ボーナスタイム追加
 		gameSystem->SetBornusTime(gameSystem->GetBornusTime() + GetBonusTime());
+		gameSystem->SetTime((float)(gameSystem->GetTime() + GetBonusTime() * 60));
 	}
 }
 

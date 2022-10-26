@@ -50,7 +50,7 @@ void GameSystem::Update(Tutorial* tutorial)
 void GameSystem::Draw()
 {
 	debugText_->SetPos(500, 30);
-	debugText_->Printf("Stage:%d Time:%d kill:%d norma:%d bornusTime:%d", stage, time / 60, stageEnemyDeath, stageEnemyNorma, bornusTime);
+	debugText_->Printf("Stage:%d Time:%f kill:%d norma:%d bornusTime:%d", stage, time / 60.0f, stageEnemyDeath, stageEnemyNorma, bornusTime);
 
 	state->Draw();
 }
