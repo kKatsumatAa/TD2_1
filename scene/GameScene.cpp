@@ -368,16 +368,17 @@ void GameScene::TutorialUpdateFunc() {
 		else                             colliderManager->isItemMode = true;
 	}
 
-	gameSystem.Update(&tutorial);
-	wall_->Update();
+
+	wall_->Update(&gameSystem);
 	enemyManager.Update();
-	player_->Update(&tutorial);
+	player_->Update(&gameSystem,&tutorial);
 	skillManager.Update();
 	itemManager.Update(&tutorial);
 	effectManager->Update();
 
-	grabityObj.Update();
+	grabityObj.Update(&gameSystem);
 	sceneEffectManager->Update();
+	gameSystem.Update(&tutorial);
 
 
 	//一番近いobjの方をplayerが向くように
@@ -606,16 +607,18 @@ void GameScene::MainGameUpdateFunc() {
 		else                             colliderManager->isItemMode = true;
 	}
 
-	gameSystem.Update();
-	wall_->Update();
+
+	wall_->Update(&gameSystem);
 	enemyManager.Update();
-	player_->Update();
+	player_->Update(&gameSystem);
 	skillManager.Update();
 	itemManager.Update();
 	effectManager->Update();
 
-	grabityObj.Update();
+	grabityObj.Update(&gameSystem);
 	sceneEffectManager->Update();
+
+	gameSystem.Update();
 
 	//一番近いobjの方をplayerが向くように
 	float length = NULL;
@@ -826,6 +829,7 @@ void GameScene::MainGameDrawFunc() {
 	nolma_->Draw({ 1100,150 }, { 255,255,255,255 }, gameSystem.GetStageEnemyNorma());
 	kill_->Draw({ 900,150 }, { 255,255,255,255 }, gameSystem.GetStageEnemyDeath());
 	stage_->Draw({ 1150,40 }, { 255,255,255,255 }, gameSystem.GetStage());
+	bonus_->Draw({ 1175,465 }, { 0,0,0,255 }, gameSystem.GetBornusTime(), 14);
 	slashSprite_->Draw();
 	spaceSprite_->Draw();
 	stageSprite_->Draw();

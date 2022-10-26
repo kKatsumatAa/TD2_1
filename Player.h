@@ -55,7 +55,7 @@ public:
 	void ChangeState(PlayerHandState* state);
 
 	void Initialize(Model* model, Model* guideM, uint32_t* textureHandle, HandSkillManager* skillManager, HandStop* handStop, Wall* wall, Gravity* gravity);
-	void Update(Tutorial* tutorial = nullptr);
+	void Update(GameSystem* gameSystem,Tutorial* tutorial = nullptr);
 	void Draw(const ViewProjection& view);
 	//éËÇêLÇŒÇ∑
 	void ReachOut();

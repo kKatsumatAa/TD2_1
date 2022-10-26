@@ -18,12 +18,14 @@ private:
 
 	Vector3 velocity;
 
+
+
 public:
 	Input* input_ = nullptr;
 	Gravity* gravity;
 
 	void Initialize(Model* model, uint32_t* textureHandle, Gravity* gravity);
-	void Update();
+	void Update(GameSystem* gameSystem);
 	void Draw(const ViewProjection& view);
 
 	Vector3 GetWorldPos() override;
