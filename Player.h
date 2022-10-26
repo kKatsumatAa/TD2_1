@@ -48,6 +48,7 @@ private:
 	bool isRush = false;
 	bool isRush2 = false;
 
+	
 public:
 	//sound
 	uint32_t* soundDataHandle = nullptr;
@@ -58,11 +59,13 @@ public:
 	Guide* guide = nullptr;
 	HandStop* handStop = nullptr;
 
+	bool isEffect = false;
+
 	void ChangeState(PlayerHandState* state);
 
 	void Initialize(Model* model, Model* guideM, uint32_t* textureHandle, HandSkillManager* skillManager, HandStop* handStop, Wall* wall, Gravity* gravity,
 		Audio* audio,uint32_t * soundDataHandle,uint32_t* voiceHandle);
-	void Update(GameSystem* gameSystem,Tutorial* tutorial = nullptr);
+	void Update(GameSystem* gameSystem, bool isEffect,Tutorial* tutorial = nullptr);
 	void Draw(const ViewProjection& view);
 	//éËÇêLÇŒÇ∑
 	void ReachOut();
