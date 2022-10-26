@@ -32,9 +32,18 @@ void GameScene::ResetGameScene(bool isTutorial) {
 
 	//ビュープロジェクションの初期化
 	viewProjection_.Initialize();
-	viewProjection_.eye = { 0,-49,-1 };
+	viewProjection_.eye = { 0,-49,-40 };
+	viewProjection_.target = { 0,0,-39 };
 	viewProjection_.UpdateMatrix();
 
+	playerTrans_.Initialize();
+	playerTrans_.translation_ = { 0,50,-50 };
+	playerTrans_.scale_ = { 3,3,3 };
+	playerTrans_.rotation_ = { 0,0,0 };
+	playerTrans_.UpdateMatrix();
+
+	isStart = false;
+	ufo_ = 0;
 	//3Dモデルの生成
 	effectManager = new EffectManager();
 	effectManager->Initialize(textureHandle_);
@@ -187,6 +196,8 @@ void GameScene::Initialize() {
 	kill_->Initialize(textureHandle_[10]);
 	stage_ = new Number();
 	stage_->Initialize(textureHandle_[10]);
+	bonus_ = new Number();
+	bonus_->Initialize(textureHandle_[10]);
 
 	timerTexture_ = TextureManager::Load("Timer.png");
 	timerSprite_ = Sprite::Create(timerTexture_, { 880,250 });
@@ -552,11 +563,12 @@ void GameScene::TutorialDrawFunc() {
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
 	effectManager->SpriteDraw();
-	//timerSprite_->Draw();
-	//timer_->Draw({ 985,370 }, { 0,0,0,255 }, gameSystem.GetTime() / 60);
+	timerSprite_->Draw();
+	timer_->Draw({ 985,370 }, { 0,0,0,255 }, gameSystem.GetTime() / 60);
 	nolma_->Draw({ 1100,150 }, { 255,255,255,255 }, gameSystem.GetStageEnemyNorma());
 	kill_->Draw({ 900,150 }, { 255,255,255,255 }, gameSystem.GetStageEnemyDeath());
 	stage_->Draw({ 1150,40 }, { 255,255,255,255 }, gameSystem.GetStage());
+	bonus_->Draw({ 1100,370 }, { 0,0,0,255 }, gameSystem.GetBornusTime());
 	slashSprite_->Draw();
 	//spaceSprite_->Draw();
 	stageSprite_->Draw();
@@ -707,6 +719,9 @@ void GameScene::MainGameUpdateFunc() {
 	}
 	else if (gameSystem.GetIsGameOver()) {
 		scene_ = Scene::Gameover;
+		playerTrans_.translation_ = { 30,20,0 };
+		playerTrans_.rotation_ = { pi / 2,0,0 };
+		playerTrans_.UpdateMatrix();
 		//ResetGameScene();
 	}
 
@@ -717,6 +732,9 @@ void GameScene::MainGameUpdateFunc() {
 	debugText_->Printf("[P] = NextScene");
 	if (input_->TriggerKey(DIK_P)) {
 		scene_ = Scene::Gameover;
+		playerTrans_.translation_ = { 30,20,0 };
+		playerTrans_.rotation_ = { pi / 2,0,0 };
+		playerTrans_.UpdateMatrix();
 	}
 	if (input_->TriggerKey(DIK_1)) {
 		effectManager->BurstGenerate(Vector3(0, 0, 0), 10, 2.5f, 2.0f);
@@ -802,7 +820,6 @@ void GameScene::MainGameDrawFunc() {
 	itemManager.DrawSprite();
 	sceneEffectManager->Draw();
 
-
 	// デバッグテキストの描画
 	//debugText_->DrawAll(commandList);
 	//
@@ -813,6 +830,7 @@ void GameScene::MainGameDrawFunc() {
 }
 #pragma endregion
 
+
 #pragma region ゲームオーバー
 /// <summary>
 /// ゲームオーバーアップデート
@@ -820,8 +838,8 @@ void GameScene::MainGameDrawFunc() {
 void GameScene::GameoverUpdateFunc() {
 
 	sceneEffectManager->Update();
-	playerTrans_.translation_ = { 0,0,0 };
-	playerTrans_.rotation_ = { pi / 2,0,0 };
+	playerTrans_.translation_ += {-0.5f,-0.3f,0};
+	playerTrans_.rotation_ += {0.3f,0.1f,0.2f};
 	playerTrans_.UpdateMatrix();
 
 #ifdef _DEBUG
@@ -900,6 +918,8 @@ void GameScene::GameoverDrawFunc() {
 /// </summary>
 void GameScene::GameClearUpdateFunc() {
 
+	sceneEffectManager->Update();
+
 #ifdef _DEBUG
 	debugText_->SetPos(1100, 20);
 	debugText_->Printf("Scene = GameClear");
@@ -929,8 +949,7 @@ void GameScene::GameClearDrawFunc() {
 	/// <summary>
 	/// ここに背景スプライトの描画処理を追加できる
 	/// </summary>
-	
-	backModel_->Draw(backTrans_, viewProjection_, textureHandle_[11]);
+
 
 	// スプライト描画後処理
 	Sprite::PostDraw();
@@ -945,6 +964,8 @@ void GameScene::GameClearDrawFunc() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
+	
+	backModel_->Draw(backTrans_, viewProjection_, textureHandle_[11]);
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
@@ -957,6 +978,8 @@ void GameScene::GameClearDrawFunc() {
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
+	sceneEffectManager->Draw();
+
 
 	// デバッグテキストの描画
 	debugText_->DrawAll(commandList);
