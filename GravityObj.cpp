@@ -33,24 +33,24 @@ void GravityObj::Update(GameSystem* gameSystem)
 {
 	if (gameSystem->GetIsStageChange())
 	{
-		worldTransform_.translation_ = { stageLeftTop.x + radius_, stageLeftTop.y + radius_,0 };
+		worldTransform_.translation_ = { stageLeftTop.x + radius_ + 2, stageLeftTop.y + radius_ + 2,0 };
 
 		switch (gameSystem->GetStage())
 		{
 		case 1:
-			worldTransform_.translation_ = { stageLeftTop.x + radius_, stageLeftTop.y + radius_,0 };
+			worldTransform_.translation_ = { stageLeftTop.x + radius_ + 2, stageLeftTop.y + radius_ + 2,0 };
 			break;
 		case 2:
-			worldTransform_.translation_ = { stageLeftTop.x + radius_, stageLeftTop.y + radius_,0 };
+			worldTransform_.translation_ = { stageLeftTop.x + radius_ + 2, stageLeftTop.y + radius_ + 2,0 };
 			break;
 		case 3:
-			worldTransform_.translation_ = { stageLeftTop.x + radius_, stageLeftTop.y + radius_,0 };
+			worldTransform_.translation_ = { stageLeftTop.x + radius_ + 2, stageLeftTop.y + radius_ + 2,0 };
 			break;
 		case 4:
-			worldTransform_.translation_ = { stageLeftTop.x + radius_, stageLeftTop.y + radius_,0 };
+			worldTransform_.translation_ = { stageLeftTop.x + radius_ + 8, stageLeftTop.y + radius_ + 2,0 };
 			break;
 		case 5:
-			worldTransform_.translation_ = { stageLeftTop.x + radius_, stageLeftTop.y + radius_,0 };
+			worldTransform_.translation_ = { stageLeftTop.x + radius_ + 2, stageLeftTop.y + radius_ + 2,0 };
 			break;
 		}
 	}
