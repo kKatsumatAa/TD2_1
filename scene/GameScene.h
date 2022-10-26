@@ -106,6 +106,8 @@ private: // メンバ変数
 	Number* bonus_ = nullptr;
 	Sprite* timerSprite_;
 	uint32_t timerTexture_;
+	Sprite* timerSprite2_;
+	uint32_t timerTexture2_;
 	Sprite* slashSprite_;
 	uint32_t slashTexture_;
 	Sprite* spaceSprite_;

@@ -55,7 +55,7 @@ void Item::Draw(const ViewProjection& view)
 }
 
 void Item::DrawSprite() {
-	bonusTime_->Draw(Convert2D(worldTransform_.translation_), { 0,0,0,255 }, bonusTime);
+	bonusTime_->Draw(Convert2D(worldTransform_.translation_), { 0,0,0,255 }, bonusTime,8);
 }
 
 Vector3 Item::GetWorldPos()
