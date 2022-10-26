@@ -54,8 +54,8 @@ void Tutorial::Draw()
 RushTutorial::RushTutorial()
 {
 	//RushTutorial—p
-	texhandle[0] = TextureManager::Load("tutorial/tutorial_1.png");
-	texhandle[1] = TextureManager::Load("tutorial/tutorial_2.png");
+	texhandle[0] = TextureManager::Load("tutorial_1.png");
+	texhandle[1] = TextureManager::Load("tutorial_2.png");
 	sprite[0] = Sprite::Create(texhandle[0], { 10,100 });
 	sprite[0]->SetTextureRect({ 0,0 }, { width,height });
 	sprite[0]->SetSize({ 350, 300 });
@@ -107,8 +107,8 @@ void RushTutorial::Draw()
 //-------------------------------------------------------------------------------
 LongPushTutorial::LongPushTutorial()
 {
-	texhandle[0] = TextureManager::Load("tutorial/tutorial_3.png");
-	texhandle[1] = TextureManager::Load("tutorial/tutorial_4.png");
+	texhandle[0] = TextureManager::Load("tutorial_3.png");
+	texhandle[1] = TextureManager::Load("tutorial_4.png");
 	sprite[0] = Sprite::Create(texhandle[0], { 10,100 });
 	sprite[0]->SetTextureRect({ 0,0 }, { width,height });
 	sprite[0]->SetSize({ 350, 300 });
