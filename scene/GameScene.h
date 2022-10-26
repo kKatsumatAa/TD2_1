@@ -49,7 +49,7 @@ public: // メンバ関数
 
 	void DeleteGameScene();
 
-	void ResetGameScene(bool isTutorial = false);
+	void ResetGameScene(bool title, bool isTutorial, bool mainGame, bool clear, bool over);
 	/// <summary>
 	/// 初期化
 	/// </summary>
@@ -87,6 +87,8 @@ public: // メンバ関数
 private: // メンバ変数
 	//テクスチャハンドル
 	uint32_t textureHandle_[20];
+	//サウンドデータ
+	uint32_t soundDataHandle[20];
 
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;

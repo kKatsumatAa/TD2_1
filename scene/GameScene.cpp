@@ -19,7 +19,7 @@ void GameScene::DeleteGameScene() {
 	SafeDelete(stage_);
 }
 
-void GameScene::ResetGameScene(bool isTutorial) {
+void GameScene::ResetGameScene(bool title, bool isTutorial, bool mainGame, bool clear, bool over) {
 	SafeDelete(effectManager);
 	SafeDelete(sceneEffectManager);
 	SafeDelete(player_);
@@ -50,7 +50,7 @@ void GameScene::ResetGameScene(bool isTutorial) {
 	sceneEffectManager = new SceneEffectManager();
 	sceneEffectManager->Initialize(textureHandle_);
 
-	gameSystem.initialize(sceneEffectManager,&handStop);
+	gameSystem.initialize(sceneEffectManager, &handStop);
 
 	gravity_ = new Gravity();
 	//gravity_->Initialize(model_);
@@ -83,6 +83,38 @@ void GameScene::ResetGameScene(bool isTutorial) {
 
 	//ワールドトランスフォームの初期化
 	worldTransform_.Initialize();
+
+	if (title)
+	{
+		for (int i = 0; i < _countof(soundDataHandle); i++)
+		{
+			audio_->StopWave(soundDataHandle[i]);
+		}
+
+		audio_->PlayWave(soundDataHandle[1], true);
+	}
+	else if (mainGame)
+	{
+
+	}
+	else if (clear)
+	{
+		for (int i = 0; i < _countof(soundDataHandle); i++)
+		{
+			audio_->StopWave(soundDataHandle[i]);
+		}
+
+		audio_->PlayWave(soundDataHandle[3]);
+	}
+	else if (over)
+	{
+		for (int i = 0; i < _countof(soundDataHandle); i++)
+		{
+			audio_->StopWave(soundDataHandle[i]);
+		}
+
+		audio_->PlayWave(soundDataHandle[4]);
+	}
 }
 
 void (GameScene::* GameScene::sceneUpdateFuncTable[])() = {
@@ -121,6 +153,18 @@ void GameScene::Initialize() {
 	textureHandle_[10] = TextureManager::Load("number.png");
 	textureHandle_[12] = TextureManager::Load("stop.png");
 	textureHandle_[11] = TextureManager::Load("back/back.png");
+
+	//サウンド読み込み
+	soundDataHandle[0] = audio_->LoadWave("sound/attack.mp3");
+	soundDataHandle[1] = audio_->LoadWave("sound/bgm.mp3");
+	soundDataHandle[2] = audio_->LoadWave("sound/break.mp3");
+	soundDataHandle[3] = audio_->LoadWave("sound/clear.mp3");
+	soundDataHandle[4] = audio_->LoadWave("sound/gameover.mp3");
+	soundDataHandle[5] = audio_->LoadWave("sound/nextstage_down.mp3");
+	soundDataHandle[6] = audio_->LoadWave("sound/nextstage_up.mp3");
+	soundDataHandle[7] = audio_->LoadWave("sound/select.mp3");
+
+	audio_->PlayWave(soundDataHandle[1], true);
 
 	//ビュープロジェクションの初期化
 	viewProjection_.Initialize();
@@ -185,7 +229,7 @@ void GameScene::Initialize() {
 	wall_ = new Wall();
 	wall_->Initialize(gravity_, effectManager, wallModel_, floorModel_);
 	player_ = new Player();
-	player_->Initialize(playerModel_,aimModel_, textureHandle_, &skillManager, &handStop, wall_, gravity_);
+	player_->Initialize(playerModel_, aimModel_, textureHandle_, &skillManager, &handStop, wall_, gravity_);
 
 	enemyManager.Initialize(player_, enemyModel_, textureHandle_, effectManager, &gameSystem, &itemManager);
 
@@ -214,7 +258,7 @@ void GameScene::Initialize() {
 	timerSprite_->SetSize({ 300, 300 });
 	timerTexture2_ = TextureManager::Load("Timer.png");
 	timerSprite2_ = Sprite::Create(timerTexture_, { 1130,430 });
-	timerSprite2_->SetColor({255,255,0,255});
+	timerSprite2_->SetColor({ 255,255,0,255 });
 	slashTexture_ = TextureManager::Load("slash.png");
 	slashSprite_ = Sprite::Create(slashTexture_, { 1010,150 });
 	spaceTexture_ = TextureManager::Load("space.png");
@@ -256,13 +300,14 @@ void GameScene::TitleUpdateFunc() {
 	if (set_->WaitFPS() == true) {
 		if (input_->TriggerKey(DIK_SPACE)) {
 			isStart = true;
+			audio_->PlayWave(soundDataHandle[7]);
 		}
 	}
 	if (isStart == true) {
 		if (Start(0.4f) == true) {
 			wall_->Start();
 			scene_ = Scene::Tutorial;
-			ResetGameScene(true);
+			ResetGameScene(false, true, false, false, false);
 		}
 	}
 
@@ -314,11 +359,11 @@ void GameScene::TitleUpdateFunc() {
 	if (input_->TriggerKey(DIK_P)) {
 		scene_ = Scene::Tutorial;
 		wall_->Start();
-		ResetGameScene(true);
+		ResetGameScene(false, true, false, false, false);
 		viewProjection_.eye = { 0,0,-50 };
 		viewProjection_.UpdateMatrix();
-		
-	}
+
+}
 #endif
 }
 /// <summary>
@@ -349,7 +394,7 @@ void GameScene::TitleDrawFunc() {
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
 	UI_back_->Draw(UITrans_, viewProjection_);
-	backModel_->Draw(backTrans_, viewProjection_,textureHandle_[11]);
+	backModel_->Draw(backTrans_, viewProjection_, textureHandle_[11]);
 	wall_->Draw(viewProjection_);
 	player_->Draw(viewProjection_);
 	playerModel_->Draw(playerTrans_, viewProjection_);
@@ -392,16 +437,17 @@ void GameScene::TutorialUpdateFunc() {
 		else                             colliderManager->isItemMode = true;
 	}
 
-	gameSystem.Update(&tutorial);
-	wall_->Update();
+
+	wall_->Update(&gameSystem);
 	enemyManager.Update();
-	player_->Update(&tutorial);
+	player_->Update(&gameSystem, &tutorial);
 	skillManager.Update();
 	itemManager.Update(&tutorial);
 	effectManager->Update();
 
-	grabityObj.Update();
+	grabityObj.Update(&gameSystem);
 	sceneEffectManager->Update();
+	gameSystem.Update(&tutorial);
 
 
 	//一番近いobjの方をplayerが向くように
@@ -508,7 +554,7 @@ void GameScene::TutorialUpdateFunc() {
 
 	if (tutorial.GetIsEnd()) {
 		scene_ = Scene::MainGame;
-		ResetGameScene();
+		ResetGameScene(false, false, true, false, false);
 	}
 #ifdef _DEBUG
 	debugText_->SetPos(1100, 20);
@@ -517,7 +563,7 @@ void GameScene::TutorialUpdateFunc() {
 	debugText_->Printf("[P] = NextScene");
 	if (input_->TriggerKey(DIK_P) || tutorial.GetIsEnd()) {
 		scene_ = Scene::MainGame;
-		ResetGameScene();
+		ResetGameScene(false, false, true, false, false);
 	}
 
 	if (input_->TriggerKey(DIK_1)) {
@@ -530,7 +576,7 @@ void GameScene::TutorialUpdateFunc() {
 		sceneEffectManager->CheckGenerate();
 	}
 #endif
-}
+	}
 
 /// <summary>
 /// チュートリアル描画
@@ -559,8 +605,8 @@ void GameScene::TutorialDrawFunc() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
-	
-	backModel_->Draw(backTrans_, viewProjection_,textureHandle_[11]);
+
+	backModel_->Draw(backTrans_, viewProjection_, textureHandle_[11]);
 	enemyManager.Draw(viewProjection_);
 
 	skillManager.Draw(viewProjection_);
@@ -599,7 +645,7 @@ void GameScene::TutorialDrawFunc() {
 	nolma_->Draw({ 1100,150 }, { 255,255,255,255 }, gameSystem.GetStageEnemyNorma());
 	kill_->Draw({ 900,150 }, { 255,255,255,255 }, gameSystem.GetStageEnemyDeath());
 	stage_->Draw({ 1150,40 }, { 255,255,255,255 }, gameSystem.GetStage());
-	bonus_->Draw({ 1175,465 }, { 0,0,0,255 }, gameSystem.GetBornusTime(),14);
+	bonus_->Draw({ 1175,465 }, { 0,0,0,255 }, gameSystem.GetBornusTime(), 14);
 	slashSprite_->Draw();
 	//spaceSprite_->Draw();
 	stageSprite_->Draw();
@@ -630,16 +676,18 @@ void GameScene::MainGameUpdateFunc() {
 		else                             colliderManager->isItemMode = true;
 	}
 
-	gameSystem.Update();
-	wall_->Update();
+
+	wall_->Update(&gameSystem);
 	enemyManager.Update();
-	player_->Update();
+	player_->Update(&gameSystem);
 	skillManager.Update();
 	itemManager.Update();
 	effectManager->Update();
 
-	grabityObj.Update();
+	grabityObj.Update(&gameSystem);
 	sceneEffectManager->Update();
+
+	gameSystem.Update();
 
 	//一番近いobjの方をplayerが向くように
 	float length = NULL;
@@ -752,6 +800,7 @@ void GameScene::MainGameUpdateFunc() {
 		playerTrans_.rotation_ = { 0,0,0 };
 		playerTrans_.UpdateMatrix();
 		ufo_ = 0;
+		ResetGameScene(false, false, false, true, false);
 	}
 	else if (gameSystem.GetIsGameOver()) {
 		scene_ = Scene::Gameover;
@@ -760,6 +809,7 @@ void GameScene::MainGameUpdateFunc() {
 		playerTrans_.rotation_ = { 0,0,0 };
 		playerTrans_.UpdateMatrix();
 		ufo_ = 0;
+		ResetGameScene(false, false, false, false, true);
 	}
 
 #ifdef _DEBUG
@@ -785,7 +835,7 @@ void GameScene::MainGameUpdateFunc() {
 		sceneEffectManager->CheckGenerate();
 	}
 #endif
-}
+	}
 /// <summary>
 /// メインゲーム描画
 /// </summary>
@@ -820,7 +870,7 @@ void GameScene::MainGameDrawFunc() {
 	itemManager.Draw(viewProjection_);
 
 	wall_->Draw(viewProjection_);
-	
+
 	grabityObj.Draw(viewProjection_);
 
 	effectManager->Draw(viewProjection_);
@@ -919,7 +969,7 @@ void GameScene::GameoverUpdateFunc() {
 	if (input_->TriggerKey(DIK_SPACE))
 	{
 		scene_ = Scene::Title;
-		ResetGameScene();
+		ResetGameScene(true, false, false, false, false);
 	}
 }
 /// <summary>
@@ -949,6 +999,7 @@ void GameScene::GameoverDrawFunc() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
+	
 	backModel_->Draw(backTrans_, viewProjection_, textureHandle_[11]);
 	playerModel_->Draw(playerTrans_, viewProjection_);
 	spaceModel_->Draw(spaceT_, viewProjection_);
@@ -1018,7 +1069,7 @@ void GameScene::GameClearUpdateFunc() {
 	if (input_->TriggerKey(DIK_SPACE))
 	{
 		scene_ = Scene::Title;
-		ResetGameScene();
+		ResetGameScene(true, false, false, false, false);
 	}
 }
 /// <summary>
@@ -1049,7 +1100,7 @@ void GameScene::GameClearDrawFunc() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
-	
+
 	backModel_->Draw(backTrans_, viewProjection_, textureHandle_[11]);
 	playerModel_->Draw(playerTrans_, viewProjection_);
 	spaceModel_->Draw(spaceT_, viewProjection_);
