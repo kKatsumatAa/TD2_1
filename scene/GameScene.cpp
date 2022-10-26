@@ -110,39 +110,50 @@ void GameScene::Initialize() {
 	textureHandle_[8] = TextureManager::Load("gameover.png");
 	textureHandle_[9] = TextureManager::Load("dotline2.png");
 	textureHandle_[10] = TextureManager::Load("number.png");
+	textureHandle_[12] = TextureManager::Load("stop.png");
+	textureHandle_[11] = TextureManager::Load("back/back.png");
 
 	//ビュープロジェクションの初期化
 	viewProjection_.Initialize();
-	viewProjection_.eye = { 0,-49,-1 };
+	viewProjection_.eye = { 0,-49,-40 };
+	viewProjection_.target = { 0,0,-39 };
 	viewProjection_.UpdateMatrix();
 
 	//3Dモデルの生成
 	model_ = Model::Create();
 	playerModel_ = Model::CreateFromOBJ("ufo_", true);
+	playerTrans_.Initialize();
+	playerTrans_.translation_ = { 0,50,-50 };
+	playerTrans_.scale_ = { 3,3,3 };
+	playerTrans_.UpdateMatrix();
+
 	enemyModel_ = Model::CreateFromOBJ("meteorite", true);
+
 	gravityBlock_ = Model::CreateFromOBJ("gravity", true);
 	aimModel_ = Model::CreateFromOBJ("aim", true);
 	wallModel_ = Model::CreateFromOBJ("wall_3", true);
 	floorModel_ = Model::CreateFromOBJ("floor", true);
 
-	titleBord_ = Model::Create();
-	titleBordTrans_.Initialize();
-	titleBordTrans_.translation_.y = -22;
-	titleBordTrans_.scale_ = { 20,1,12 };
-	titleBordTrans_.UpdateMatrix();
-	titleBord2_ = Model::Create();
-	titleBordTrans2_.Initialize();
-	titleBordTrans2_.translation_.y = 22;
-	titleBordTrans2_.scale_ = { 50,1,20 };
-	titleBordTrans2_.UpdateMatrix();
+	titleModel_ = Model::CreateFromOBJ("title", true);
+	titleTrans_.Initialize();
+	titleTrans_.translation_ = {0,200,-50};
+	titleTrans_.scale_ = { 7,7,7 };
+	titleTrans_.rotation_ = {pi / 2,pi,0};
+	titleTrans_.UpdateMatrix();
 
 	UI_back_ = Model::CreateFromOBJ("ui_back", true);
 	UITrans_.Initialize();
-	UITrans_.scale_ = { 15,30,1 };
-	UITrans_.translation_ = { 22,0,0 };
+	UITrans_.scale_ = { 15,20,1 };
+	UITrans_.translation_ = { 22,0,1 };
 	UITrans_.UpdateMatrix();
 
 	itemModel_ = Model::CreateFromOBJ("item", true);
+
+	backModel_ = Model::CreateFromOBJ("back", true);
+	backTrans_.Initialize();
+	backTrans_.scale_ = { 100,100,100 };
+	backTrans_.UpdateMatrix();
+
 
 	effectManager = new EffectManager();
 	effectManager->Initialize(textureHandle_);
@@ -188,6 +199,8 @@ void GameScene::Initialize() {
 	stageTexture_ = TextureManager::Load("stage.png");
 	stageSprite_ = Sprite::Create(stageTexture_, { 840,40 });
 
+	stopSprite_ = Sprite::Create(textureHandle_[12], { 0,0 });
+
 	tutorial.Initialize();
 
 	//ワールドトランスフォームの初期化
@@ -230,6 +243,13 @@ void GameScene::TitleUpdateFunc() {
 		}
 	}
 
+	playerTrans_.rotation_.z += 0.1f;
+	ufo_ += 0.03f;
+	playerTrans_.translation_.z += sin(ufo_) * 0.4f;
+	playerTrans_.translation_.x += cos(ufo_) * 0.8f;
+	playerTrans_.UpdateMatrix();
+
+	titleTrans_.UpdateMatrix();
 
 #ifdef _DEBUG
 	if (isStart == false) {
@@ -291,11 +311,12 @@ void GameScene::TitleDrawFunc() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
+	UI_back_->Draw(UITrans_, viewProjection_);
+	backModel_->Draw(backTrans_, viewProjection_,textureHandle_[11]);
 	wall_->Draw(viewProjection_);
 	player_->Draw(viewProjection_);
-	titleBord_->Draw(titleBordTrans_, viewProjection_);
-	titleBord_->Draw(titleBordTrans2_, viewProjection_);
-
+	titleModel_->Draw(titleTrans_, viewProjection_);
+	playerModel_->Draw(playerTrans_, viewProjection_);
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 #pragma endregion
@@ -308,9 +329,9 @@ void GameScene::TitleDrawFunc() {
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
 	sceneEffectManager->Draw();
-
+	//spaceSprite_->Draw();
 	// デバッグテキストの描画
-	debugText_->DrawAll(commandList);
+	//debugText_->DrawAll(commandList);
 	//
 	// スプライト描画後処理
 	Sprite::PostDraw();
@@ -501,6 +522,7 @@ void GameScene::TutorialDrawFunc() {
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
 	
+	backModel_->Draw(backTrans_, viewProjection_,textureHandle_[11]);
 	enemyManager.Draw(viewProjection_);
 
 	skillManager.Draw(viewProjection_);
@@ -533,19 +555,20 @@ void GameScene::TutorialDrawFunc() {
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
 	effectManager->SpriteDraw();
-	timerSprite_->Draw();
-	timer_->Draw({ 985,370 }, { 0,0,0,255 }, gameSystem.GetTime() / 60);
+	//timerSprite_->Draw();
+	//timer_->Draw({ 985,370 }, { 0,0,0,255 }, gameSystem.GetTime() / 60);
 	nolma_->Draw({ 1100,150 }, { 255,255,255,255 }, gameSystem.GetStageEnemyNorma());
 	kill_->Draw({ 900,150 }, { 255,255,255,255 }, gameSystem.GetStageEnemyDeath());
 	stage_->Draw({ 1150,40 }, { 255,255,255,255 }, gameSystem.GetStage());
 	slashSprite_->Draw();
-	spaceSprite_->Draw();
+	//spaceSprite_->Draw();
 	stageSprite_->Draw();
 	itemManager.DrawSprite();
 	sceneEffectManager->Draw();
 	// デバッグテキストの描画
 	debugText_->DrawAll(commandList);
 	tutorial.Draw();
+	if (handStop.GetIsStop())stopSprite_->Draw();
 	//
 	// スプライト描画後処理
 	Sprite::PostDraw();
@@ -737,7 +760,7 @@ void GameScene::MainGameDrawFunc() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
-	
+	backModel_->Draw(backTrans_, viewProjection_, textureHandle_[11]);
 	enemyManager.Draw(viewProjection_);
 
 	skillManager.Draw(viewProjection_);
@@ -783,6 +806,7 @@ void GameScene::MainGameDrawFunc() {
 	itemManager.DrawSprite();
 	sceneEffectManager->Draw();
 
+	if (handStop.GetIsStop())stopSprite_->Draw();
 
 	// デバッグテキストの描画
 	//debugText_->DrawAll(commandList);
@@ -846,6 +870,9 @@ void GameScene::GameoverDrawFunc() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
+	
+	backModel_->Draw(backTrans_, viewProjection_, textureHandle_[11]);
+
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
@@ -904,6 +931,8 @@ void GameScene::GameClearDrawFunc() {
 	/// <summary>
 	/// ここに背景スプライトの描画処理を追加できる
 	/// </summary>
+	
+	backModel_->Draw(backTrans_, viewProjection_, textureHandle_[11]);
 
 	// スプライト描画後処理
 	Sprite::PostDraw();
@@ -944,7 +973,11 @@ void GameScene::GameClearDrawFunc() {
 //プロトタイプ関数
 bool GameScene::Start(float speed) {
 	if (viewProjection_.eye.y >= 0) {
-		return true;
+		viewProjection_.eye.z += speed;
+		viewProjection_.UpdateMatrix();
+		if (viewProjection_.eye.z >= -49) {
+			return true;
+		}
 	}
 	else {
 		viewProjection_.eye.y += speed;

@@ -112,6 +112,8 @@ private: // メンバ変数
 	Sprite* stageSprite_;
 	uint32_t stageTexture_;
 
+	Sprite* stopSprite_;
+
 	EffectManager* effectManager = nullptr;
 	SceneEffectManager* sceneEffectManager = nullptr;
 
@@ -132,21 +134,20 @@ private: // メンバ変数
 	Model* gravityBlock_ = nullptr;
 	Model* UI_back_ = nullptr;
 
-	Model* titleBord_ = nullptr;
-	Model* titleBord2_ = nullptr;
 	Model* aimModel_ = nullptr;
 	Model* wallModel_ = nullptr;
 	Model* floorModel_ = nullptr;
+	Model* titleModel_ = nullptr;
+	Model* backModel_ = nullptr;
 
 	//ワールドトランスフォーム
 	WorldTransform worldTransform_;
 	//ビュープロジェクション
 	ViewProjection viewProjection_;
-
-	WorldTransform titleBordTrans_;
-	WorldTransform titleBordTrans2_;
-
 	WorldTransform UITrans_;
+	WorldTransform titleTrans_;
+	WorldTransform backTrans_;
+	WorldTransform playerTrans_;
 
 	//シーン
 	Scene scene_ = Scene::Title;
@@ -165,7 +166,7 @@ private: // メンバ変数
 	float angle = 0;
 	Vector3 vec;
 	Vector3 pos;
-
+	float ufo_ = 0;
 	Tutorial tutorial;
 	/// <summary>
 	/// ゲームシーン用
