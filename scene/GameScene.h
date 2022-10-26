@@ -143,6 +143,8 @@ private: // メンバ変数
 	Model* titleModel_ = nullptr;
 	Model* backModel_ = nullptr;
 	Model* spaceModel_ = nullptr;
+	Model* gameoverModel_ = nullptr;
+	Model* gameClearModel_ = nullptr;
 
 	//ワールドトランスフォーム
 	WorldTransform worldTransform_;
@@ -175,6 +177,9 @@ private: // メンバ変数
 	float speed_ = 0.005f;
 	bool way_ = 0;
 	Tutorial tutorial;
+
+	const float X = 2.0f;
+	const float Y = 2.0f;
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>

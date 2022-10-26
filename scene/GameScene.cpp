@@ -35,7 +35,7 @@ void GameScene::ResetGameScene(bool isTutorial) {
 	viewProjection_.eye = { 0,-49,-40 };
 	viewProjection_.target = { 0,0,-39 };
 	viewProjection_.UpdateMatrix();
-
+	
 	playerTrans_.Initialize();
 	playerTrans_.translation_ = { 0,50,-30 };
 	playerTrans_.scale_ = { 3,3,3 };
@@ -142,7 +142,7 @@ void GameScene::Initialize() {
 	aimModel_ = Model::CreateFromOBJ("aim", true);
 	wallModel_ = Model::CreateFromOBJ("wall_3", true);
 	floorModel_ = Model::CreateFromOBJ("floor", true);
-
+	
 	titleModel_ = Model::CreateFromOBJ("title", true);
 	titleTrans_.Initialize();
 	titleTrans_.translation_ = {0,200,-130};
@@ -169,6 +169,9 @@ void GameScene::Initialize() {
 	spaceT_.scale_ = { 2,2,2 };
 	spaceT_.rotation_ = {pi / 2,0,0};
 	spaceT_.UpdateMatrix();
+
+	gameoverModel_ = Model::CreateFromOBJ("gameover", true);
+	gameClearModel_ = Model::CreateFromOBJ("gameClear", true);
 
 	effectManager = new EffectManager();
 	effectManager->Initialize(textureHandle_);
@@ -279,7 +282,8 @@ void GameScene::TitleUpdateFunc() {
 	titleTrans_.rotation_.y += speed_;
 	titleTrans_.UpdateMatrix();
 
-	spaceT_.translation_.y += sin(ufo_);
+	spaceT_.scale_.x = X + sinf(ufo_) * 0.3f;
+	spaceT_.scale_.y = Y + sinf(ufo_) * 0.3f;
 	spaceT_.UpdateMatrix();
 
 	
@@ -874,7 +878,23 @@ void GameScene::GameoverUpdateFunc() {
 	playerTrans_.translation_ += {-0.5f,-0.3f,0};
 	playerTrans_.rotation_ += {0.3f,0.1f,0.2f};
 	playerTrans_.UpdateMatrix();
+	viewProjection_.eye = { 0,-49,-40 };
+	viewProjection_.target = { 0,0,-39 };
+	viewProjection_.UpdateMatrix();
+	if (titleTrans_.rotation_.y >= pi) {
+		speed_ -= 0.0001f;
+	}
+	else {
+		speed_ += 0.0001f;
+	}
 
+	titleTrans_.rotation_.y += speed_;
+	titleTrans_.UpdateMatrix();
+
+	ufo_ += 0.03f;
+	spaceT_.translation_.y += sin(ufo_);
+	spaceT_.UpdateMatrix();
+	
 #ifdef _DEBUG
 	debugText_->SetPos(1100, 20);
 	debugText_->Printf("Scene = GameOver");
@@ -924,7 +944,8 @@ void GameScene::GameoverDrawFunc() {
 	/// </summary>
 	backModel_->Draw(backTrans_, viewProjection_, textureHandle_[11]);
 	playerModel_->Draw(playerTrans_, viewProjection_);
-
+	spaceModel_->Draw(spaceT_, viewProjection_);
+	gameoverModel_->Draw(titleTrans_, viewProjection_);
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 #pragma endregion
@@ -959,6 +980,18 @@ void GameScene::GameClearUpdateFunc() {
 	playerTrans_.translation_.z += sin(ufo_) * 0.4f;
 	playerTrans_.translation_.x += cos(ufo_) * 0.8f;
 	playerTrans_.UpdateMatrix();
+	if (titleTrans_.rotation_.y >= pi) {
+		speed_ -= 0.0001f;
+	}
+	else {
+		speed_ += 0.0001f;
+	}
+
+	titleTrans_.rotation_.y += speed_;
+	titleTrans_.UpdateMatrix();
+
+	spaceT_.translation_.y += sin(ufo_);
+	spaceT_.UpdateMatrix();
 
 #ifdef _DEBUG
 	debugText_->SetPos(1100, 20);
@@ -1007,7 +1040,8 @@ void GameScene::GameClearDrawFunc() {
 	
 	backModel_->Draw(backTrans_, viewProjection_, textureHandle_[11]);
 	playerModel_->Draw(playerTrans_, viewProjection_);
-
+	spaceModel_->Draw(spaceT_, viewProjection_);
+	gameClearModel_->Draw(titleTrans_, viewProjection_);
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 #pragma endregion
