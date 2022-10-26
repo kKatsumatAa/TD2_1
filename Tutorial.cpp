@@ -18,8 +18,8 @@ void Tutorial::Initialize(Audio* audio, uint32_t* soundDataHandle, uint32_t* voi
 	count = 0;
 	skipTimer = 0;
 
-	texhandle[0] = TextureManager::Load("tutorial/test.png");
-	texhandle[1] = TextureManager::Load("tutorial/next.png");
+	texhandle[0] = TextureManager::Load("skip.png");
+	texhandle[1] = TextureManager::Load("box.png");
 	texhandle[2] = TextureManager::Load("tutorial/box.png");
 
 	sprite[0] = Sprite::Create(texhandle[0], { 10,10 });
@@ -31,7 +31,7 @@ void Tutorial::Update()
 {
 	state->Update(input);
 
-	if (input->PushKey(DIK_Z))
+	if (input->PushKey(DIK_X))
 		skipTimer++;
 	else
 		skipTimer = 0;
@@ -50,11 +50,14 @@ void Tutorial::Draw()
 
 	count += 0.1f;
 	//チュートリアル中の表示
-	sprite[0]->SetSize({ 100,50 });
-	sprite[0]->SetPosition({ 920, (float)320 + sinf(count) * 3.0f });
+	sprite[0]->SetSize({ 192,63 });//384,125
+	sprite[0]->SetPosition({ 30, (float)30 + sinf(count) * 3.0f });
 
-	//sprite[0]->Draw();
-	//sprite[1]->Draw();
+	sprite[1]->SetSize({ 192.0f * ((float)skipTimer / (float)skipMaxTime),15 });
+	sprite[1]->SetPosition({ 30, (float)30 + sinf(count) * 3.0f });
+
+	sprite[0]->Draw();
+	sprite[1]->Draw();
 
 }
 
@@ -319,7 +322,7 @@ void UITutorial::Draw()
 		sprite[i]->SetPosition({ 650 , 450 + sinf(count) * 5.0f });
 	}
 
-	
+
 
 	if (num < numMax)
 	{
