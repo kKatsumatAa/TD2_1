@@ -19,7 +19,7 @@ private:
 	void CheckCollisionPair2(Collider* colliderA, Collider* colliderB);
 
 public:
-	bool isItemMode = false;
+	bool isItemMode = true;
 
 
 	void Initialize();

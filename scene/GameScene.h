@@ -113,6 +113,8 @@ private: // メンバ変数
 	Sprite* stageSprite_;
 	uint32_t stageTexture_;
 
+	Sprite* stopSprite_;
+
 	EffectManager* effectManager = nullptr;
 	SceneEffectManager* sceneEffectManager = nullptr;
 
