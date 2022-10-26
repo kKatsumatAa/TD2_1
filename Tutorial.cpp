@@ -58,17 +58,17 @@ RushTutorial::RushTutorial()
 	texhandle[1] = TextureManager::Load("tutorial_2.png");
 	sprite[0] = Sprite::Create(texhandle[0], { 10,100 });
 	sprite[0]->SetTextureRect({ 0,0 }, { width,height });
-	sprite[0]->SetSize({ 350, 300 });
+	sprite[0]->SetSize({ 315, 270 });
 	sprite[1] = Sprite::Create(texhandle[0], { 10,100 });
 	sprite[1]->SetTextureRect({ width,0 }, { width,height });
-	sprite[1]->SetSize({ 350, 300 });
+	sprite[1]->SetSize({ 315, 270 });
 	//
 	sprite[2] = Sprite::Create(texhandle[1], { 10,100 });
 	sprite[2]->SetTextureRect({ 0,0 }, { width,height });
-	sprite[2]->SetSize({ 350, 300 });
+	sprite[2]->SetSize({ 315, 270 });
 	sprite[3] = Sprite::Create(texhandle[1], { 10,100 });
 	sprite[3]->SetTextureRect({ width,0 }, { width,height });
-	sprite[3]->SetSize({ 350, 300 });
+	sprite[3]->SetSize({ 315, 270 });
 }
 
 void RushTutorial::Update(Input* input)
@@ -89,7 +89,7 @@ void RushTutorial::Draw()
 
 	for (int i = 0; i < 4; i++)
 	{
-		sprite[i]->SetPosition({ 800 , 400 + sinf(count) * 5.0f });
+		sprite[i]->SetPosition({ 650 , 450 + sinf(count) * 5.0f });
 	}
 
 	if (num == 0)
@@ -111,17 +111,17 @@ LongPushTutorial::LongPushTutorial()
 	texhandle[1] = TextureManager::Load("tutorial_4.png");
 	sprite[0] = Sprite::Create(texhandle[0], { 10,100 });
 	sprite[0]->SetTextureRect({ 0,0 }, { width,height });
-	sprite[0]->SetSize({ 350, 300 });
+	sprite[0]->SetSize({ 315, 270 });
 	sprite[1] = Sprite::Create(texhandle[0], { 10,100 });
 	sprite[1]->SetTextureRect({ width,0 }, { width,height });
-	sprite[1]->SetSize({ 350, 300 });
+	sprite[1]->SetSize({ 315, 270 });
 	//
 	sprite[2] = Sprite::Create(texhandle[1], { 10,100 });
 	sprite[2]->SetTextureRect({ 0,0 }, { width,height });
-	sprite[2]->SetSize({ 350, 300 });
+	sprite[2]->SetSize({ 315, 270 });
 	sprite[3] = Sprite::Create(texhandle[1], { 10,100 });
 	sprite[3]->SetTextureRect({ width,0 }, { width,height });
-	sprite[3]->SetSize({ 350, 300 });
+	sprite[3]->SetSize({ 315, 270 });
 }
 
 void LongPushTutorial::Update(Input* input)
@@ -145,7 +145,7 @@ void LongPushTutorial::Draw()
 
 	for (int i = 0; i < 4; i++)
 	{
-		sprite[i]->SetPosition({ 800 , 400 + sinf(count) * 5.0f });
+		sprite[i]->SetPosition({ 650 , 450 + sinf(count) * 5.0f });
 	}
 
 	if (num == 0)
@@ -167,17 +167,17 @@ GravityObjTutorial::GravityObjTutorial()
 	texhandle[1] = TextureManager::Load("tutorial_6.png");
 	sprite[0] = Sprite::Create(texhandle[0], { 10,100 });
 	sprite[0]->SetTextureRect({ 0,0 }, { width,height });
-	sprite[0]->SetSize({ 350, 300 });
+	sprite[0]->SetSize({ 315, 270 });
 	sprite[1] = Sprite::Create(texhandle[0], { 10,100 });
 	sprite[1]->SetTextureRect({ width,0 }, { width,height });
-	sprite[1]->SetSize({ 350, 300 });
+	sprite[1]->SetSize({ 315, 270 });
 	//
 	sprite[2] = Sprite::Create(texhandle[1], { 10,100 });
 	sprite[2]->SetTextureRect({ 0,0 }, { width,height });
-	sprite[2]->SetSize({ 350, 300 });
+	sprite[2]->SetSize({ 315, 270 });
 	sprite[3] = Sprite::Create(texhandle[1], { 10,100 });
 	sprite[3]->SetTextureRect({ width,0 }, { width,height });
-	sprite[3]->SetSize({ 350, 300 });
+	sprite[3]->SetSize({ 315, 270 });
 }
 
 void GravityObjTutorial::Update(Input* input)
@@ -201,7 +201,7 @@ void GravityObjTutorial::Draw()
 
 	for (int i = 0; i < 4; i++)
 	{
-		sprite[i]->SetPosition({ 800 , 400 + sinf(count) * 5.0f });
+		sprite[i]->SetPosition({ 650 , 450 + sinf(count) * 5.0f });
 	}
 
 	if (num == 0)
@@ -223,14 +223,14 @@ ItemTutorial::ItemTutorial()
 	texhandle[1] = TextureManager::Load("tutorial_8.png");
 	sprite[0] = Sprite::Create(texhandle[0], { 10,100 });
 	sprite[0]->SetTextureRect({ 0,0 }, { width,height });
-	sprite[0]->SetSize({ 350, 300 });
+	sprite[0]->SetSize({ 315, 270 });
 	sprite[1] = Sprite::Create(texhandle[0], { 10,100 });
 	sprite[1]->SetTextureRect({ width,0 }, { width,height });
-	sprite[1]->SetSize({ 350, 300 });
+	sprite[1]->SetSize({ 315, 270 });
 	//
 	sprite[2] = Sprite::Create(texhandle[1], { 10,100 });
 	sprite[2]->SetTextureRect({ 0,0 }, { width,height });
-	sprite[2]->SetSize({ 350, 300 });
+	sprite[2]->SetSize({ 315, 270 });
 }
 
 void ItemTutorial::Update(Input* input)
@@ -254,7 +254,7 @@ void ItemTutorial::Draw()
 
 	for (int i = 0; i < 3; i++)
 	{
-		sprite[i]->SetPosition({ 800 , 400 + sinf(count) * 5.0f });
+		sprite[i]->SetPosition({ 650 , 450 + sinf(count) * 5.0f });
 	}
 
 	if (num == 0)
@@ -272,14 +272,21 @@ void ItemTutorial::Draw()
 //-------------------------------------------------------------------------
 UITutorial::UITutorial()
 {
-	texhandle[0] = TextureManager::Load("tutorial/5-1.png");
-	texhandle[1] = TextureManager::Load("tutorial/5-2.png");
-	texhandle[2] = TextureManager::Load("tutorial/5-3.png");
-	texhandle[3] = TextureManager::Load("tutorial/5-4.png");
+	texhandle[0] = TextureManager::Load("tutorial_10.png");
+	texhandle[1] = TextureManager::Load("tutorial_11.png");
 	sprite[0] = Sprite::Create(texhandle[0], { 10,100 });
-	sprite[1] = Sprite::Create(texhandle[1], { 10,100 });
-	sprite[2] = Sprite::Create(texhandle[2], { 10,100 });
-	sprite[3] = Sprite::Create(texhandle[3], { 10,100 });
+	sprite[0]->SetTextureRect({ 0,0 }, { width,height });
+	sprite[0]->SetSize({ 315, 270 });
+	sprite[1] = Sprite::Create(texhandle[0], { 10,100 });
+	sprite[1]->SetTextureRect({ width,0 }, { width,height });
+	sprite[1]->SetSize({ 315, 270 });
+	//
+	sprite[2] = Sprite::Create(texhandle[1], { 10,100 });
+	sprite[2]->SetTextureRect({ 0,0 }, { width,height });
+	sprite[2]->SetSize({ 315, 270 });
+	sprite[3] = Sprite::Create(texhandle[1], { 10,100 });
+	sprite[3]->SetTextureRect({ width,0 }, { width,height });
+	sprite[3]->SetSize({ 315, 270 });
 }
 
 void UITutorial::Update(Input* input)
@@ -298,35 +305,40 @@ void UITutorial::Draw()
 {
 	count += 0.1f;
 
+	for (int i = 0; i < 4; i++)
+	{
+		sprite[i]->SetPosition({ 650 , 450 + sinf(count) * 5.0f });
+	}
+
+	
+
 	if (num < numMax)
 	{
 		switch (num)
 		{
 		case 0:
-			tutorial->sprite[2]->SetSize({ 500 ,120 });
-			tutorial->sprite[2]->SetPosition({ 770 + sinf(count) * 5.0f , 5 });
-			tutorial->sprite[2]->Draw();
-			break;
-		case 1:
 			tutorial->sprite[2]->SetSize({ 500 ,140 });
 			tutorial->sprite[2]->SetPosition({ 770 + sinf(count) * 5.0f , 100 });
 			tutorial->sprite[2]->Draw();
 			break;
-		case 2:
-			tutorial->sprite[2]->SetSize({ 500 ,330 });
-			tutorial->sprite[2]->SetPosition({ 770 + sinf(count) * 5.0f , 220 });
-			tutorial->sprite[2]->Draw();
-			break;
-		case 3:
-			tutorial->sprite[2]->SetSize({ 500 ,150 });
-			tutorial->sprite[2]->SetPosition({ 800 + sinf(count) * 5.0f , 100 });
+		case 1:
+			tutorial->sprite[2]->SetSize({ 500 ,350 });
+			tutorial->sprite[2]->SetPosition({ 770 + sinf(count) * 5.0f , 230 });
 			tutorial->sprite[2]->Draw();
 			break;
 		}
 
 
-		sprite[num]->SetPosition({ 800 , 400 + sinf(count) * 5.0f });
-		sprite[num]->Draw();
+		if (num == 0)
+		{
+			if ((int)count % 10 >= 5) sprite[0]->Draw();
+			else                      sprite[1]->Draw();
+		}
+		if (num == 1)
+		{
+			if ((int)count % 10 >= 5) sprite[2]->Draw();
+			else                      sprite[3]->Draw();
+		}
 	}
 }
 
@@ -372,10 +384,10 @@ LastTutorial::LastTutorial()
 	texhandle[0] = TextureManager::Load("tutorial_9.png");
 	sprite[0] = Sprite::Create(texhandle[0], { 10,100 });
 	sprite[0]->SetTextureRect({ 0,0 }, { width,height });
-	sprite[0]->SetSize({ 350, 300 });
+	sprite[0]->SetSize({ 315, 270 });
 	sprite[1] = Sprite::Create(texhandle[0], { 10,100 });
 	sprite[1]->SetTextureRect({ width,0 }, { width,height });
-	sprite[1]->SetSize({ 350, 300 });
+	sprite[1]->SetSize({ 315, 270 });
 }
 
 void LastTutorial::Update(Input* input)
@@ -396,7 +408,7 @@ void LastTutorial::Draw()
 
 	for (int i = 0; i < 2; i++)
 	{
-		sprite[i]->SetPosition({ 800 , 400 + sinf(count) * 5.0f });
+		sprite[i]->SetPosition({ 650 , 450 + sinf(count) * 5.0f });
 	}
 
 	if (num == 0)
