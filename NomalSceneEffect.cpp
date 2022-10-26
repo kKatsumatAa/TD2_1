@@ -13,10 +13,10 @@ void NomalSceneEffect::Update()
 {
 	bool oldTime = timer_;
 
-	if (pos_.x != 0 && back_ == false) {
+	if (pos_.x < 0 && back_ == false) {
 		pos_.x += speed_;
 	}
-	if (pos_.x == 0) {
+	if (pos_.x >= 0) {
 		back_ = true;
 		timer_--;
 	}
